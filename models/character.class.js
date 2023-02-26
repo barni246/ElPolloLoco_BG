@@ -13,10 +13,8 @@ class Character extends MovableObject {
   ];
   //world;
 
-
-
   constructor() {
-    super().loadImage('../img/2_character_pepe/2_walk/W-21.png');
+    super().loadImage('img/2_character_pepe/2_walk/W-21.png');
     this.loadImages(this.IMAGES_WALKING);
 
     this.animate();
@@ -26,13 +24,13 @@ class Character extends MovableObject {
 
     setInterval(() => {
       //if (this.world.keyboard.RIGHT) {
-      if (keyboard.RIGHT) {
+      if (keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.x += this.speed;
         this.otherDirection = false;
       }
 
-     // if (this.world.keyboard.LEFT) {
-      if (keyboard.LEFT) {
+      // if (this.world.keyboard.LEFT) {
+      if (keyboard.LEFT && this.x > 0 ) {
         this.x -= this.speed;
         this.otherDirection = true;
       }
@@ -45,7 +43,7 @@ class Character extends MovableObject {
       if (this.world.keyboard.DOWN) {
         this.y += this.speed;
       }
-      this.world.camera_x = -this.x;
+      this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
     setInterval(() => {
