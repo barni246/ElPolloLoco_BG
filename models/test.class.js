@@ -11,6 +11,7 @@ class Test {
         console.log('World Object:', world);
         console.log('Canvas:', canvas);
         console.log('world.character:', world.character);
+        console.log('world.clouds:', world.clouds);
         console.log('world.enemies[0]:', world.enemies[0]);
     }
 }
