@@ -27,10 +27,10 @@ window.addEventListener('keydown', (e) => {
         keyboard.DOWN = true;
     }
 
-    if (e.code == ' ') {
+    if (e.code == 'Space') {
         keyboard.SPACE = true;
     }
-    //console.log(e);
+     console.log(e);
 });
 
 window.addEventListener('keyup', (e) => {
@@ -50,7 +50,7 @@ window.addEventListener('keyup', (e) => {
         keyboard.DOWN = false;
     }
 
-    if (e.code == ' ') {
+    if (e.code == 'Space') {
         keyboard.SPACE = false;
     }
 });
