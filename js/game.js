@@ -30,7 +30,7 @@ window.addEventListener('keydown', (e) => {
     if (e.code == 'Space') {
         keyboard.SPACE = true;
     }
-     console.log(e);
+     //console.log(e);
 });
 
 window.addEventListener('keyup', (e) => {
