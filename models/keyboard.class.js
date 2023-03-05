@@ -6,6 +6,6 @@ class Keyboard  {
     SPACE = false;
    
     constructor() {
-        console.log('Klasse Keyboard ist hier.');
+       
     }
 }

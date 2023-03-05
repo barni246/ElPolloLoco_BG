@@ -10,6 +10,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    statusBar = new StatusBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -27,13 +28,14 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-          this.level.enemies.forEach( (enemy)=>  {
-                  if(this.character.isColliding(enemy))  {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
                     //console.log('Collosion with Character ', enemy);
-                   this.character.hit();
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
                     console.log('Collosion with Character, energy ', this.character.energy);
-                  } 
-          }); 
+                }
+            });
         }, 200);
     }
 
@@ -44,6 +46,11 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
+         //(space for fixed objects)
+        this.ctx.translate(-this.camera_x, 0); // Back 
+        this.addToMap(this.statusBar);
+        this.ctx.translate(this.camera_x, 0); // Forwards
+
         this.addToMap(this.character);
         //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
         // this.enemies.forEach(enemy => {
@@ -81,15 +88,15 @@ class World {
 
     addToMap(mo) {
         if (mo.otherDirection) {
-          this.flipImage(mo);
+            this.flipImage(mo);
         }
         mo.draw(this.ctx);
-       mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx);
 
 
         if (mo.otherDirection) {
-           
-             this.flipImageBack(mo);
+
+            this.flipImageBack(mo);
         }
     }
 
@@ -101,7 +108,7 @@ class World {
     }
 
     flipImageBack(mo) {
-         this.ctx.restore();
-            mo.x = mo.x * -1;
+        this.ctx.restore();
+        mo.x = mo.x * -1;
     }
 }
