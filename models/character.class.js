@@ -3,6 +3,9 @@ class Character extends MovableObject {
   height = 210;
   width = 80;
   speed = 5;
+  interval = 50;
+  
+
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
     'img/2_character_pepe/2_walk/W-22.png',
@@ -41,6 +44,8 @@ class Character extends MovableObject {
     'img/2_character_pepe/4_hurt/H-43.png'
   ];
 
+ 
+
 
   world;
   walking_sound = new Audio('audio/running-grass.mp3');
@@ -48,16 +53,21 @@ class Character extends MovableObject {
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+ 
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
+  
     this.applayGravity();
     this.animate();
   }
 
-  animate() {
+ 
 
+ 
+  animate() {
+    
     setInterval(() => {
       this.walking_sound.pause();
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -65,28 +75,40 @@ class Character extends MovableObject {
         this.otherDirection = false;
         this.walking_sound.play();
       }
-
+  
       if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
         this.walking_sound.play();
       }
-
+  
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-
+  
         this.jump();
       }
-
+  
       if (this.world.keyboard.DOWN) {
         // this.y += this.speed;
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
-
+    
     setInterval(() => {
-
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        this.playAnimation(this.IMAGES_DEAD); 
+
+        this.currentImage = 5;
+        this.walking_sound.pause();
+        //this.world.keyboard.RIGHT = false;
+        //this.world.keyboard.LEFT = false;
+        //this.world.keyboard.SPACE = false;
+        this.speed = 0;
+        this.speedY = 0;
+        this.interval = 0;
+        this.jump();      // Himmelfahrt!!!
+        this.speedY = 5;
+       
+     
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       }
@@ -98,13 +120,20 @@ class Character extends MovableObject {
           this.playAnimation(this.IMAGES_WALKING);
         }
       }
+  
+    }, this.interval);
 
-
-    }, 50);
+   
+    
   }
+
+
 
   jump() {
     this.speedY = 30;
   }
 
+  
+
 }
+

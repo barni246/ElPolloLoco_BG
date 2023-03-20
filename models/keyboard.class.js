@@ -4,7 +4,9 @@ class Keyboard  {
     UP = false;
     DOWN = false;
     SPACE = false;
-   
+    KEYB = false;
+    KEYD = false;
+    
     constructor() {
        
     }
