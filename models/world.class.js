@@ -74,7 +74,7 @@ class World {
                 this.character.isAboveGround() && enemy.x < this.character.x) {
                 console.log(' Hurra', enemy);
                setInterval(() => {
-                 enemy.y -= 10;
+                 enemy.y -= 15;
                  enemy.x += 10;
             
                }, 50);
