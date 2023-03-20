@@ -1,8 +1,11 @@
 class Character extends MovableObject {
-  y = 220;
+  y = 80;
   height = 210;
   width = 80;
   speed = 5;
+  interval = 50;
+  
+
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
     'img/2_character_pepe/2_walk/W-22.png',
@@ -11,55 +14,126 @@ class Character extends MovableObject {
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-26.png'
   ];
-  //world;
+
+
+  IMAGES_JUMPING = [
+    'img/2_character_pepe/3_jump/J-31.png',
+    'img/2_character_pepe/3_jump/J-32.png',
+    'img/2_character_pepe/3_jump/J-33.png',
+    'img/2_character_pepe/3_jump/J-34.png',
+    'img/2_character_pepe/3_jump/J-35.png',
+    'img/2_character_pepe/3_jump/J-36.png',
+    'img/2_character_pepe/3_jump/J-37.png',
+    'img/2_character_pepe/3_jump/J-38.png',
+    'img/2_character_pepe/3_jump/J-39.png'
+  ];
+
+  IMAGES_DEAD = [
+    'img/2_character_pepe/5_dead/D-51.png',
+    'img/2_character_pepe/5_dead/D-52.png',
+    'img/2_character_pepe/5_dead/D-53.png',
+    'img/2_character_pepe/5_dead/D-54.png',
+    'img/2_character_pepe/5_dead/D-55.png',
+    'img/2_character_pepe/5_dead/D-56.png',
+    'img/2_character_pepe/5_dead/D-57.png'
+  ];
+
+  IMAGES_HURT = [
+    'img/2_character_pepe/4_hurt/H-41.png',
+    'img/2_character_pepe/4_hurt/H-42.png',
+    'img/2_character_pepe/4_hurt/H-43.png'
+  ];
+
+ 
+
+
+  world;
+  walking_sound = new Audio('audio/running-grass.mp3');
+
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+ 
     this.loadImages(this.IMAGES_WALKING);
-
+    this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_HURT);
+  
+    this.applayGravity();
     this.animate();
   }
 
+ 
+
+ 
   animate() {
-
+    
     setInterval(() => {
-      //if (this.world.keyboard.RIGHT) {
-      if (keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.x += this.speed;
+      this.walking_sound.pause();
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.moveRight();
         this.otherDirection = false;
+        this.walking_sound.play();
       }
-
-      // if (this.world.keyboard.LEFT) {
-      if (keyboard.LEFT && this.x > 0 ) {
-        this.x -= this.speed;
+  
+      if (this.world.keyboard.LEFT && this.x > 0) {
+        this.moveLeft();
         this.otherDirection = true;
+        this.walking_sound.play();
       }
-
-      if (this.world.keyboard.UP) {
-        this.y -= this.speed;
-        this.x += this.speed;
+  
+      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+  
+        this.jump();
       }
-
+  
       if (this.world.keyboard.DOWN) {
-        this.y += this.speed;
+        // this.y += this.speed;
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
-
+    
     setInterval(() => {
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DEAD); 
 
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        let i = this.currentImage % this.IMAGES_WALKING.length;  // let i = 0 % 6; Rest 0
-        // i = 0,1,2,3,4,5,0,1,2,3,4,5,0...∞
-        let path = this.IMAGES_WALKING[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.currentImage = 5;
+        this.walking_sound.pause();
+        //this.world.keyboard.RIGHT = false;
+        //this.world.keyboard.LEFT = false;
+        //this.world.keyboard.SPACE = false;
+        this.speed = 0;
+        this.speedY = 0;
+        this.interval = 0;
+        this.jump();      // Himmelfahrt!!!
+        this.speedY = 5;
+       
+     
+      } else if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
       }
-    }, 50);
+      else if (this.isAboveGround()) {
+        this.playAnimation(this.IMAGES_JUMPING);
+      } else {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+          // walk animation
+          this.playAnimation(this.IMAGES_WALKING);
+        }
+      }
+  
+    }, this.interval);
+
+   
+    
   }
+
+
 
   jump() {
-
+    this.speedY = 30;
   }
 
+  
+
 }
+

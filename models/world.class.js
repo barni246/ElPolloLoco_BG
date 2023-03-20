@@ -1,15 +1,17 @@
 class World {
-
     character = new Character();
     level = level1;
+    throwableObjects = [];
+  
     // enemies = level1.enemies ;
     // clouds = level1.clouds ;
     // backgroundObjects = level1.backgroundObjects ;
-   
+    
     canvas; // in dem Variable wird das Parameter "canvas" gespeichert, bzw hinzugefügt
     ctx;
     keyboard;
-    camera_x = 0;
+    camera_x = 0; 
+    statusBar = new StatusBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -17,11 +19,70 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.run();
+        this.setClouds()
     }
+
+
+
+    setClouds() {
+        setInterval(() => {
+            for (let index = 0; index < this.level.clouds.length; index++) {
+                const cloud = this.level.clouds[index];
+                cloud.x -= 1;
+
+                if (cloud.x < this.character.x - 550) {
+                    cloud.x = this.character.x + 600;
+                }
+
+            }
+        }, 25);
+    }
+
+   
 
 
     setWorld() {
         this.character.world = this;
+    }
+
+    run() {
+        setInterval(() => {
+           this.checkCollisions();
+           this.checkThrowObjects();
+        }, 200);
+    }
+
+
+    checkThrowObjects() {
+        if(this.keyboard.KEYD) {
+            let bottle = new ThrowableObject(this.character.x+50, this.character.y+50);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                //console.log('Collosion with Character ', enemy);
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+               // console.log('Collosion with Character, energy ', this.character.energy);
+            }
+            else if(this.character.y + this.character.height > enemy.y && 
+                this.character.isAboveGround() && enemy.x < this.character.x) {
+                console.log(' Hurra', enemy);
+               setInterval(() => {
+                 enemy.y -= 15;
+                 enemy.x += 10;
+            
+               }, 50);
+               
+                
+                
+            }
+        });
     }
 
 
@@ -31,7 +92,16 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.character);
+
+         //(space for fixed objects)
+        this.ctx.translate(-this.camera_x, 0); // Back 
+        this.addToMap(this.statusBar);
+      
+        this.ctx.translate(this.camera_x, 0); // Forwards
+       
+         this.addToMap(this.character);
+       
+      
         //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
         // this.enemies.forEach(enemy => {
         //     this.addToMap(enemy);
@@ -44,9 +114,11 @@ class World {
         // });
 
 
-        
+
         this.addObjectsToMap(this.level.clouds);
+        //this.addToMap(this.statusBar);
         this.addObjectsToMap(this.level.enemies);
+         this.addObjectsToMap(this.throwableObjects);
         // this.backgroundObjects.forEach((bgo) => {
         //      this.addToMap(bgo);
         // });
@@ -57,6 +129,7 @@ class World {
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
+
         });
     }
 
@@ -67,18 +140,28 @@ class World {
     }
 
     addToMap(mo) {
-        if(mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0);
-            this.ctx.scale(-1, 1);
-            mo.x = mo.x * -1;
+        if (mo.otherDirection) {
+            this.flipImage(mo);
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
 
-        if(mo.otherDirection) {
-            this.ctx.restore();
-            mo.x = mo.x * -1;
-            
+
+        if (mo.otherDirection) {
+
+            this.flipImageBack(mo);
         }
+    }
+
+    flipImage(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+
+    flipImageBack(mo) {
+        this.ctx.restore();
+        mo.x = mo.x * -1;
     }
 }
