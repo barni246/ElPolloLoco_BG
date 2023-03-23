@@ -2,15 +2,15 @@ class World {
     character = new Character();
     level = level1;
     throwableObjects = [];
-  
+
     // enemies = level1.enemies ;
     // clouds = level1.clouds ;
     // backgroundObjects = level1.backgroundObjects ;
-    
+
     canvas; // in dem Variable wird das Parameter "canvas" gespeichert, bzw hinzugefügt
     ctx;
     keyboard;
-    camera_x = 0; 
+    camera_x = 0;
     statusBar = new StatusBar();
 
     constructor(canvas, keyboard) {
@@ -39,7 +39,7 @@ class World {
         }, 25);
     }
 
-   
+
 
 
     setWorld() {
@@ -48,42 +48,49 @@ class World {
 
     run() {
         setInterval(() => {
-           this.checkCollisions();
-           this.checkThrowObjects();
+            this.checkCollisions();
+            this.checkThrowObjects();
+            this.checkEnemyDead();
         }, 200);
     }
 
 
     checkThrowObjects() {
-        if(this.keyboard.KEYD) {
-            let bottle = new ThrowableObject(this.character.x+50, this.character.y+50);
+        if (this.keyboard.KEYD) {
+            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 50);
             this.throwableObjects.push(bottle);
         }
     }
 
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                //console.log('Collosion with Character ', enemy);
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
-               // console.log('Collosion with Character, energy ', this.character.energy);
-            }
-            else if(this.character.y + this.character.height > enemy.y && 
-                this.character.isAboveGround() && enemy.x < this.character.x) {
-                console.log(' Hurra', enemy);
-               setInterval(() => {
-                 enemy.y -= 15;
-                 enemy.x += 10;
+        if ((keyboard.SPACE == false && keyboard.RIGHT == true ) || 
+        (keyboard.SPACE == false && keyboard.LEFT == true))
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
+                    // console.log('Collosion with Character, energy ', this.character.energy);
+                }
+
+            });
             
-               }, 50);
-               
-                
-                
-            }
-        });
     }
+
+     checkEnemyDead() {
+             this.level.enemies.forEach((enemy) => {
+                 if (this.character.x + this.character.width  > enemy.x &&
+                     (this.character.y + this.character.height) > enemy.y &&
+                     this.character.x  < enemy.x  &&
+                     this.character.y < enemy.y) {
+                     this.barni = setInterval(() => {
+                         enemy.y += 20;
+                     }, 50);
+                 }
+             });
+
+     }
+
 
 
     draw() {
@@ -93,15 +100,15 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects);
 
-         //(space for fixed objects)
+        //(space for fixed objects)
         this.ctx.translate(-this.camera_x, 0); // Back 
         this.addToMap(this.statusBar);
-      
+
         this.ctx.translate(this.camera_x, 0); // Forwards
-       
-         this.addToMap(this.character);
-       
-      
+
+        this.addToMap(this.character);
+
+
         //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
         // this.enemies.forEach(enemy => {
         //     this.addToMap(enemy);
@@ -118,7 +125,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         //this.addToMap(this.statusBar);
         this.addObjectsToMap(this.level.enemies);
-         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.throwableObjects);
         // this.backgroundObjects.forEach((bgo) => {
         //      this.addToMap(bgo);
         // });
