@@ -37,7 +37,7 @@ class DrawableObject {
 
     drawFrame(ctx) {
 
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) { // nur diese Objekte werden in Rahmen angezeigt
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Bottle) { // nur diese Objekte werden in Rahmen angezeigt
 
             ctx.beginPath();
             ctx.lineWidth = '5';

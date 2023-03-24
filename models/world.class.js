@@ -2,6 +2,7 @@ class World {
     character = new Character();
     level = level1;
     throwableObjects = [];
+    bottles = [new Bottle(), new Bottle(),new Bottle];
 
     // enemies = level1.enemies ;
     // clouds = level1.clouds ;
@@ -20,7 +21,11 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        this.setClouds()
+        this.setClouds();
+        console.log('this.character.y:',this.character.y);
+        console.log('this.character.height:',this.character.height);
+        console.log('canvas:',this.canvas);
+        console.log('this.character.y:',this.x);
     }
 
 
@@ -64,9 +69,9 @@ class World {
 
 
     checkCollisions() {
-        if ((keyboard.SPACE == false && keyboard.RIGHT == true ) || 
-        (keyboard.SPACE == false && keyboard.LEFT == true))
-            this.level.enemies.forEach((enemy) => {
+   
+        if(this.character.y + this.character.height >= 420) {
+         this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
@@ -74,22 +79,41 @@ class World {
                 }
 
             });
+       }
+           
             
     }
 
-     checkEnemyDead() {
-             this.level.enemies.forEach((enemy) => {
+    checkEnemyDead() {
+        if(this.character.y + this.character.height < 420) {
+           this.level.enemies.forEach((enemy) => {
                  if (this.character.x + this.character.width  > enemy.x &&
                      (this.character.y + this.character.height) > enemy.y &&
                      this.character.x  < enemy.x  &&
-                     this.character.y < enemy.y) {
-                     this.barni = setInterval(() => {
-                         enemy.y += 20;
-                     }, 50);
+                     this.character.y + this.character.height / 2 < enemy.y) {
+                     setInterval(() => {
+                         enemy.y += 10;
+                 }, 10);
                  }
              });
+        }
+             
 
      }
+
+
+//      checkEnemyDead() {
+//         this.level.enemies.forEach((enemy) => {
+//             if (this.character.x + this.character.width  > enemy.x &&
+//                 (this.character.y + this.character.height) < enemy.y + (enemy.height / 3) &&
+//                 this.character.y + this.character.height > enemy.x ) {
+//                 this.barni = setInterval(() => {
+//                     enemy.y += 20;
+//                 }, 50);
+//             }
+//         });
+
+// }
 
 
 
@@ -97,6 +121,7 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
+
 
         this.addObjectsToMap(this.level.backgroundObjects);
 
@@ -124,8 +149,10 @@ class World {
 
         this.addObjectsToMap(this.level.clouds);
         //this.addToMap(this.statusBar);
+        this.addObjectsToMap(this.bottles);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
+        
         // this.backgroundObjects.forEach((bgo) => {
         //      this.addToMap(bgo);
         // });
