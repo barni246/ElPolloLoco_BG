@@ -2,8 +2,9 @@ class World {
     character = new Character();
     level = level1;
     throwableObjects = [];
-    bottles = [new Bottle(), new Bottle(),new Bottle];
-
+    bottles = [new Bottle(), new Bottle(), new Bottle()];
+    ground = 420;
+    //enemyDead = new Chicken();
     // enemies = level1.enemies ;
     // clouds = level1.clouds ;
     // backgroundObjects = level1.backgroundObjects ;
@@ -13,6 +14,12 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
+    img;
+    imageCache = {};
+    path = [
+        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
+        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+    ];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -22,10 +29,16 @@ class World {
         this.setWorld();
         this.run();
         this.setClouds();
-        console.log('this.character.y:',this.character.y);
-        console.log('this.character.height:',this.character.height);
-        console.log('canvas:',this.canvas);
-        console.log('this.character.y:',this.x);
+        this.sortBottle();
+    }
+
+
+    sortBottle() {
+        for (let index = 0; index < this.bottles.length; index++) {
+            const bottle = this.bottles[index];
+            bottle.x = bottle.x + (index * 500) + ((Math.random() * 500));
+
+        }
     }
 
 
@@ -69,9 +82,9 @@ class World {
 
 
     checkCollisions() {
-   
-        if(this.character.y + this.character.height >= 420) {
-         this.level.enemies.forEach((enemy) => {
+
+        if (this.character.y + this.character.height >= this.ground) {
+            this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
@@ -79,41 +92,28 @@ class World {
                 }
 
             });
-       }
-           
-            
+        }
+
+
     }
 
+    pepe3;
     checkEnemyDead() {
-        if(this.character.y + this.character.height < 420) {
-           this.level.enemies.forEach((enemy) => {
-                 if (this.character.x + this.character.width  > enemy.x &&
-                     (this.character.y + this.character.height) > enemy.y &&
-                     this.character.x  < enemy.x  &&
-                     this.character.y + this.character.height / 2 < enemy.y) {
-                     setInterval(() => {
-                         enemy.y += 10;
-                 }, 10);
-                 }
-             });
+        if (this.character.y + this.character.height < this.ground) {
+            this.level.enemies.forEach((enemy) => {
+                 if (this.character.isEnemyDead(enemy)) {
+                    this.path.forEach((p) => {
+                        enemy.img.src = p;
+                        enemy.speed = 0;
+                        clearInterval(enemy.pepe1);
+                        clearInterval(enemy.pepe2);
+                        this.pepe3 = setInterval(() => { enemy.y += 10; }, 50);
+                    });
+                }
+                clearInterval(this.pepe3);
+            });
         }
-             
-
-     }
-
-
-//      checkEnemyDead() {
-//         this.level.enemies.forEach((enemy) => {
-//             if (this.character.x + this.character.width  > enemy.x &&
-//                 (this.character.y + this.character.height) < enemy.y + (enemy.height / 3) &&
-//                 this.character.y + this.character.height > enemy.x ) {
-//                 this.barni = setInterval(() => {
-//                     enemy.y += 20;
-//                 }, 50);
-//             }
-//         });
-
-// }
+    }
 
 
 
@@ -130,7 +130,7 @@ class World {
         this.addToMap(this.statusBar);
 
         this.ctx.translate(this.camera_x, 0); // Forwards
-
+        this.addObjectsToMap(this.bottles);
         this.addToMap(this.character);
 
 
@@ -149,10 +149,12 @@ class World {
 
         this.addObjectsToMap(this.level.clouds);
         //this.addToMap(this.statusBar);
-        this.addObjectsToMap(this.bottles);
+
         this.addObjectsToMap(this.level.enemies);
+        //this.addObjectsToMap(this.path);
+        //this.addToMap(this.enemyDead);
         this.addObjectsToMap(this.throwableObjects);
-        
+
         // this.backgroundObjects.forEach((bgo) => {
         //      this.addToMap(bgo);
         // });
