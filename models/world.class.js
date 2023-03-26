@@ -16,10 +16,13 @@ class World {
     statusBar = new StatusBar();
     img;
     imageCache = {};
-    path = [
+    chickenDeadItv;
+
+    IMAGES_DEAD_CHICKEN = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -58,11 +61,10 @@ class World {
     }
 
 
-
-
     setWorld() {
         this.character.world = this;
     }
+
 
     run() {
         setInterval(() => {
@@ -97,23 +99,34 @@ class World {
 
     }
 
-    pepe3;
+
     checkEnemyDead() {
         if (this.character.y + this.character.height < this.ground) {
             this.level.enemies.forEach((enemy) => {
-                 if (this.character.isEnemyDead(enemy)) {
-                    this.path.forEach((p) => {
-                        enemy.img.src = p;
+                if (this.character.isEnemyDead(enemy)) {
+                    this.IMAGES_DEAD_CHICKEN.forEach((path) => {
+                        enemy.img.src = path;
                         enemy.speed = 0;
-                        clearInterval(enemy.pepe1);
-                        clearInterval(enemy.pepe2);
-                        this.pepe3 = setInterval(() => { enemy.y += 10; }, 50);
+                        this.stopEnemiesMovingInterval(enemy);
+                        this.chickenDeadItv = setInterval(() => { enemy.y += 10; }, 50);
                     });
                 }
-                clearInterval(this.pepe3);
+                clearInterval(this.chickenDeadItv);
+
             });
         }
     }
+
+
+    stopEnemiesMovingInterval(enemy) {
+        clearInterval(enemy.chickenMoveLeftItv);
+        clearInterval(enemy.chickenWalkingItv);
+    }
+
+
+
+
+
 
 
 
