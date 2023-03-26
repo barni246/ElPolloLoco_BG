@@ -1,10 +1,10 @@
 class Character extends MovableObject {
-  y = 80;
+  y = 80; 
   height = 210;
-  width = 80;
+  width = 110 ;
   speed = 5;
   interval = 50;
-  
+  world;
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
@@ -47,7 +47,7 @@ class Character extends MovableObject {
  
 
 
-  world;
+ 
   walking_sound = new Audio('audio/running-grass.mp3');
 
 
