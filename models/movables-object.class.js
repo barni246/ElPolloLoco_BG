@@ -9,6 +9,8 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
+    percentageOfBottle = 0;
+    percentageOfCoins = 0;
     lastHit = 0;
 
 
@@ -41,12 +43,14 @@ class MovableObject extends DrawableObject {
     }
 
 
-    isEnemyDead(mo) {
-        return this.x + this.width  > mo.x &&
-        (this.y + this.height) > mo.y &&
-        this.x  < mo.x  &&
-        this.y + this.height / 2 < mo.y ;
-    }
+    // isEnemyDead(mo) {
+    //     return this.x + this.width  > mo.x &&
+    //     (this.y + this.height) > mo.y &&
+    //     this.x  < mo.x  &&
+    //     this.y + this.height / 2 < mo.y ;
+    // }
+
+
 
     hit() {
         this.energy -= 5;
