@@ -12,6 +12,8 @@ class MovableObject extends DrawableObject {
     percentageOfBottle = 0;
     percentageOfCoins = 0;
     lastHit = 0;
+    headHit = 0;
+   
 
 
     applayGravity() {
