@@ -98,7 +98,7 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_DEAD); 
 
         this.currentImage = 5;
-        this.walking_sound.pause();
+       // this.walking_sound.pause();
         //this.world.keyboard.RIGHT = false;
         //this.world.keyboard.LEFT = false;
         //this.world.keyboard.SPACE = false;

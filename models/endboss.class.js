@@ -24,9 +24,11 @@ constructor () {
     this.animate();
 
 }
+
+endbossWalkingItv;
   animate() {
 
-    setInterval(() => {
+   this.endbossWalkingItv = setInterval(() => {
         this.playAnimation(this.IMAGES_WALKING);
 
         },200);
