@@ -22,8 +22,10 @@ class World {
     arrayBottle = [100, 350, 980, 1550, 1800];
     arrayCoins = [150, 250, 780, 1250, 1700];
     GAME_OVER = false;
-    
-
+    imageCache = {};
+    currentImage;
+    stop = true;
+   
     IMAGES_DEAD_CHICKEN = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
@@ -38,11 +40,9 @@ class World {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    IMAGES_BOSS_DEAD = [
-        'img/4_enemie_boss_chicken/5_dead/G24.png',
-        'img/4_enemie_boss_chicken/5_dead/G25.png',
-        'img/4_enemie_boss_chicken/5_dead/G26.png'
-    ];
+   
+
+   
 
 
     constructor(canvas, keyboard) {
@@ -56,6 +56,7 @@ class World {
         this.setClouds();
         this.sortBottles();
         this.sortCoins();
+       this. gehenNichtGehen();
         
     }
 
@@ -82,7 +83,7 @@ class World {
 
 
     setClouds() {
-
+      
         this.level.clouds.forEach((cloud, i) => {
             cloud.x = i * 900;
             if (i >= 2) {
@@ -125,7 +126,7 @@ class World {
 
     checkThrowObjects() {
         
-        if (this.keyboard.KEYD && this.throwableObjects.length != 0) {
+        if (this.keyboard.KEYD && this.throwableObjects.length >= 1) {
             this.throwableObjects[0].x = this.character.x + 50;
             this.throwableObjects[0].y = this.character.y + 50;
             this.throwableObjects[0].throw();
@@ -136,23 +137,26 @@ class World {
                 this.throwableObjects.splice(0, 1);
             }, 1000);
 
-        }else  if(this.keyboard.KEYD && 
-            this.throwableObjects.length < 2 && 
-            this.level.bottles.length < 2
+        }else  if(
+            this.throwableObjects.length == 0 && 
+            this.level.bottles.length == 0
             ){
+
+               
+        console.log('else if')
+        this.stop = false;
+        this.endBoss.animateBossWalking();
+       
         
-        // (this.endBoss.headHit < 3  && 
-        //     this.throwableObjects.length == 0 && 
-        //     this.keyboard.KEYD)  {
-            this.GAME_OVER = true;
         }
 
-        // else if(this.endBoss.headHit < 3 && 
-        //     this.throwableObjects.length == 0 && 
-        //     this.keyboard.KEYD &&
-        //     this.level.bottles.length == 0) {
-        //     this.GAME_OVER = true;
-        // }
+
+    }
+
+    gehenNichtGehen() {
+        if(this.stop) {
+            this.endBoss.animate();
+        }
     }
 
 
@@ -244,14 +248,9 @@ class World {
                     this.character.energy = 100;
                     this.statusBar.setPercentage(this.character.energy);
                     clearInterval(this.headHitItv);
-                    clearInterval(this.endBoss.endbossWalkingItv);
-                    
-                    this.endBossDead = setInterval(() => {
-                        this.IMAGES_BOSS_DEAD.forEach((path) => { this.endBoss.img.src = path; });
-                        this.endBoss.y += 5;
-                    }, 50);
-
-                }
+                   clearInterval(this.endBoss.endbossWalkingItv);
+                    this.endBoss.animateBoss();
+                  }
             }
 
         }
