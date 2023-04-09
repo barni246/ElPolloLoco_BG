@@ -21,6 +21,8 @@ class World {
     endBoss = this.level.enemies[3];
     arrayBottle = [100, 350, 980, 1550, 1800];
     arrayCoins = [150, 250, 780, 1250, 1700];
+    GAME_OVER = false;
+    
 
     IMAGES_DEAD_CHICKEN = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
@@ -80,7 +82,15 @@ class World {
 
 
     setClouds() {
+
+        this.level.clouds.forEach((cloud, i) => {
+            cloud.x = i * 900;
+            if (i >= 2) {
+                i = 0;
+            }
+        });
         setInterval(() => {
+          
             for (let index = 0; index < this.level.clouds.length; index++) {
                 const cloud = this.level.clouds[index];
                 cloud.x -= 1;
@@ -92,6 +102,8 @@ class World {
         }, 25);
     }
 
+   
+
 
     setWorld() {
         this.character.world = this;
@@ -101,18 +113,19 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkEnemyDead();
-            this.checkBottleCollisions();
+            
             this.checkCoinCollisions();
             this.checkThrowObjectCollision();
         }, 200);
     }
-
+    
 
     checkThrowObjects() {
+        
         if (this.keyboard.KEYD && this.throwableObjects.length != 0) {
-
             this.throwableObjects[0].x = this.character.x + 50;
             this.throwableObjects[0].y = this.character.y + 50;
             this.throwableObjects[0].throw();
@@ -123,7 +136,23 @@ class World {
                 this.throwableObjects.splice(0, 1);
             }, 1000);
 
+        }else  if(this.keyboard.KEYD && 
+            this.throwableObjects.length < 2 && 
+            this.level.bottles.length < 2
+            ){
+        
+        // (this.endBoss.headHit < 3  && 
+        //     this.throwableObjects.length == 0 && 
+        //     this.keyboard.KEYD)  {
+            this.GAME_OVER = true;
         }
+
+        // else if(this.endBoss.headHit < 3 && 
+        //     this.throwableObjects.length == 0 && 
+        //     this.keyboard.KEYD &&
+        //     this.level.bottles.length == 0) {
+        //     this.GAME_OVER = true;
+        // }
     }
 
 
@@ -168,13 +197,14 @@ class World {
 
 
     checkBottleCollisions() {
-        this.level.bottles.forEach(bottle => {
-            if (this.character.isColliding(bottle, this.index)) {
+        this.level.bottles.forEach((bottle,index) => {
+            if (this.character.isColliding(bottle)) {
                 bottle.y = 1000;
                 this.character.percentageOfBottle += 20;
                 this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
                 let bottleThrow = new ThrowableObject(this.character.x, this.character.y + 1000);
                 this.throwableObjects.push(bottleThrow);
+                this.level.bottles.splice(index,1);
 
             }
         });
@@ -201,15 +231,21 @@ class World {
                 throwBottle.x + throwBottle.width > this.endBoss.x + 20) {
                 this.endBoss.headHit++;
                 console.log('Kopf', this.endBoss.headHit);
+
+                
                 if (this.endBoss.headHit < 3) {
                     this.headHitItv = setInterval(() => {
                         this.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
                     }, 50);
-                } else {
+                }
+                
+                
+                else {
                     this.character.energy = 100;
                     this.statusBar.setPercentage(this.character.energy);
                     clearInterval(this.headHitItv);
                     clearInterval(this.endBoss.endbossWalkingItv);
+                    
                     this.endBossDead = setInterval(() => {
                         this.IMAGES_BOSS_DEAD.forEach((path) => { this.endBoss.img.src = path; });
                         this.endBoss.y += 5;
@@ -239,7 +275,11 @@ class World {
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
         this.ctx.font = "30px Arial";
-        this.ctx.fillText("Hello World", 300, 50);
+        this.ctx.fillText("Hello World", 250, 50);
+        this.ctx.fillText("Hello World", 450, 50);
+        this.ctx.fillText("Hello World", 250, 100);
+        this.ctx.fillText("Hello World", 450, 100);
+       
 
 
         this.ctx.translate(this.camera_x, 0); // Forwards
@@ -265,6 +305,10 @@ class World {
         //this.addToMap(this.statusBar);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
+        if(this.GAME_OVER) {
+            this.ctx.font = "60px Arial";
+        this.ctx.fillText("GAME OVER", this.character.x + 80, this.character.y + 30);            
+    }
         //this.addObjectsToMap(this.path);
         //this.addToMap(this.enemyDead);
         this.addObjectsToMap(this.throwableObjects);

@@ -14,6 +14,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     headHit = 0;
    
+   
 
 
     applayGravity() {

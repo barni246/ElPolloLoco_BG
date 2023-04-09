@@ -59,12 +59,7 @@ const level1 = new Level(
 );
 
 
-level1.clouds.forEach((cloud, i) => {
-    cloud.x = i * 800;
-    if (i >= 2) {
-        i = 0;
-    }
-});
+
 
 
 
