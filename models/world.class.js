@@ -24,8 +24,7 @@ class World {
     GAME_OVER = false;
     imageCache = {};
     currentImage;
-    stop = true;
-   
+    stop = true   
     IMAGES_DEAD_CHICKEN = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
@@ -273,19 +272,19 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
-        this.ctx.font = "30px Arial";
-        this.ctx.fillText("Hello World", 250, 50);
-        this.ctx.fillText("Hello World", 450, 50);
-        this.ctx.fillText("Hello World", 250, 100);
-        this.ctx.fillText("Hello World", 450, 100);
-       
+         this.ctx.font = "22px Arial";
+         this.ctx.fillText("left", 300, 50);
+         this.ctx.fillText("right", 400, 50);
+         this.ctx.fillText("jump", 500, 50);
+         this.ctx.fillText("throw", 600, 50);
+        
 
 
         this.ctx.translate(this.camera_x, 0); // Forwards
         this.addObjectsToMap(this.level.bottles);
 
         this.addToMap(this.character);
-
+        
 
         //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
         // this.enemies.forEach(enemy => {
@@ -311,6 +310,7 @@ class World {
         //this.addObjectsToMap(this.path);
         //this.addToMap(this.enemyDead);
         this.addObjectsToMap(this.throwableObjects);
+                                                           //this.addToMap(this.buttonFullScreen);
 
         // this.backgroundObjects.forEach((bgo) => {
         //      this.addToMap(bgo);
