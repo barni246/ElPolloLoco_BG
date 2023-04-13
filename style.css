@@ -1,10 +1,24 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: url(img/desert-3598089_1920.jpg);
+  background-position: bottom;
+}
+
+#fullScreen {
+  display: flex;
+  background-colo: blueviolet;
+  position: relative;
+  border-radius: 22px;
+  border: 6px solid #467b46;
 }
 
 canvas {
+<<<<<<< HEAD
     background-color: black;
     position: relative !important;
 }
@@ -13,4 +27,33 @@ canvas {
     position: absolute !important;
     top: 100px;
     right: 100px;
+=======
+  background-colo: black;
+  border-radius: 13px;
+
+
+}
+
+
+#button {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 1000;
+
+}
+
+#exit {
+  display: none;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 50px;
+  bottom: 50px;
+  cursor: pointer;
+>>>>>>> refs/remotes/origin/sub-elp
 }
