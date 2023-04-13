@@ -6,4 +6,11 @@ body {
 
 canvas {
     background-color: black;
+    position: relative !important;
+}
+
+#button {
+    position: absolute !important;
+    top: 100px;
+    right: 100px;
 }
