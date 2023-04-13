@@ -16,7 +16,9 @@ function init() {
 
 
 function fullScreenToggle() {
-    let fullscreen = document.getElementById('fullScreen');
+    //let fullscreen = document.getElementById('fullScreen');
+    let fullscreen = document.getElementById('startContainer');
+   // enterFullscreen(fullscreen);
     enterFullscreen(fullscreen);
 
     document.getElementById('h1').style.display = "none";
@@ -80,9 +82,7 @@ window.addEventListener('keydown', (e) => {
     if (e.code == 'Space') {
         keyboard.SPACE = true;
     }
-    // if (e.code == 'KeyB') {
-    //     keyboard.KEYB = true;
-    // }
+   
     if (e.code == 'KeyD') {
         keyboard.KEYD = true;
     }
@@ -110,14 +110,10 @@ window.addEventListener('keyup', (e) => {
         keyboard.SPACE = false;
     }
 
-    // if (e.code == 'KeyB') {
-    //     keyboard.KEYB = false;
-    // }
 
     if (e.code == 'KeyD') {
         keyboard.KEYD = false;
     }
 });
 
-//console.log('game.js: ',level1.clouds);
 

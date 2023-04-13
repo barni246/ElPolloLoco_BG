@@ -3,10 +3,6 @@ class World {
     level = level1;
     throwableObjects = [];
     ground = 420;
-    //enemyDead = new Chicken();
-    // enemies = level1.enemies ;
-    // clouds = level1.clouds ;
-    // backgroundObjects = level1.backgroundObjects ;
     canvas; // in dem Variable wird das Parameter "canvas" gespeichert, bzw hinzugefügt
     ctx;
     keyboard;
@@ -24,7 +20,8 @@ class World {
     GAME_OVER = false;
     imageCache = {};
     currentImage;
-    stop = true   
+    stop = true
+
     IMAGES_DEAD_CHICKEN = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
@@ -39,24 +36,18 @@ class World {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-   
-
-   
-
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        
         this.draw();
         this.setWorld();
         this.run();
         this.setClouds();
         this.sortBottles();
         this.sortCoins();
-       this. gehenNichtGehen();
-        
+        this.gehenNichtGehen();
     }
 
 
@@ -82,7 +73,7 @@ class World {
 
 
     setClouds() {
-      
+
         this.level.clouds.forEach((cloud, i) => {
             cloud.x = i * 900;
             if (i >= 2) {
@@ -90,7 +81,7 @@ class World {
             }
         });
         setInterval(() => {
-          
+
             for (let index = 0; index < this.level.clouds.length; index++) {
                 const cloud = this.level.clouds[index];
                 cloud.x -= 1;
@@ -101,8 +92,6 @@ class World {
             }
         }, 25);
     }
-
-   
 
 
     setWorld() {
@@ -116,16 +105,17 @@ class World {
             this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkEnemyDead();
-            
+
             this.checkCoinCollisions();
             this.checkThrowObjectCollision();
         }, 200);
     }
-    
+
 
     checkThrowObjects() {
-        
+
         if (this.keyboard.KEYD && this.throwableObjects.length >= 1) {
+
             this.throwableObjects[0].x = this.character.x + 50;
             this.throwableObjects[0].y = this.character.y + 50;
             this.throwableObjects[0].throw();
@@ -136,24 +126,19 @@ class World {
                 this.throwableObjects.splice(0, 1);
             }, 1000);
 
-        }else  if(
-            this.throwableObjects.length == 0 && 
-            this.level.bottles.length == 0
-            ){
-
-               
-        console.log('else if')
-        this.stop = false;
-        this.endBoss.animateBossWalking();
-       
-        
+        } else if (
+            this.throwableObjects.length == 0 &&
+            this.level.bottles.length == 0 &&
+            this.endBoss.headHit < 3
+        ) {
+            this.stop = false;
+            this.endBoss.animateBossWalking();
         }
-
-
     }
 
+
     gehenNichtGehen() {
-        if(this.stop) {
+        if (this.stop) {
             this.endBoss.animate();
         }
     }
@@ -200,14 +185,14 @@ class World {
 
 
     checkBottleCollisions() {
-        this.level.bottles.forEach((bottle,index) => {
+        this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 bottle.y = 1000;
                 this.character.percentageOfBottle += 20;
                 this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
                 let bottleThrow = new ThrowableObject(this.character.x, this.character.y + 1000);
                 this.throwableObjects.push(bottleThrow);
-                this.level.bottles.splice(index,1);
+                this.level.bottles.splice(index, 1);
 
             }
         });
@@ -220,7 +205,7 @@ class World {
                 this.character.percentageOfCoins += 20;
                 this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 coin.y = 1000;
-                //this.coins.splice(index, 1);
+                this.coins.splice(index, 1);
 
             }
         });
@@ -235,21 +220,21 @@ class World {
                 this.endBoss.headHit++;
                 console.log('Kopf', this.endBoss.headHit);
 
-                
+
                 if (this.endBoss.headHit < 3) {
                     this.headHitItv = setInterval(() => {
                         this.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
                     }, 50);
                 }
-                
-                
+
+
                 else {
                     this.character.energy = 100;
                     this.statusBar.setPercentage(this.character.energy);
                     clearInterval(this.headHitItv);
-                   clearInterval(this.endBoss.endbossWalkingItv);
+                    clearInterval(this.endBoss.endbossWalkingItv);
                     this.endBoss.animateBoss();
-                  }
+                }
             }
 
         }
@@ -259,32 +244,32 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-       
+
         this.ctx.translate(this.camera_x, 0);
 
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        
+
         //(space for fixed objects)
         this.ctx.translate(-this.camera_x, 0); // Back 
 
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
-         this.ctx.font = "22px Arial";
-         this.ctx.fillText("left", 300, 50);
-         this.ctx.fillText("right", 400, 50);
-         this.ctx.fillText("jump", 500, 50);
-         this.ctx.fillText("throw", 600, 50);
-        
+        this.ctx.font = "22px Arial";
+        this.ctx.fillText("left", 300, 50);
+        this.ctx.fillText("right", 400, 50);
+        this.ctx.fillText("jump", 500, 50);
+        this.ctx.fillText("throw", 600, 50);
+
 
 
         this.ctx.translate(this.camera_x, 0); // Forwards
         this.addObjectsToMap(this.level.bottles);
 
         this.addToMap(this.character);
-        
+
 
         //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
         // this.enemies.forEach(enemy => {
@@ -303,14 +288,14 @@ class World {
         //this.addToMap(this.statusBar);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
-        if(this.GAME_OVER) {
+        if (this.GAME_OVER) {
             this.ctx.font = "60px Arial";
-        this.ctx.fillText("GAME OVER", this.character.x + 80, this.character.y + 30);            
-    }
+            this.ctx.fillText("GAME OVER", this.character.x + 80, this.character.y + 30);
+        }
         //this.addObjectsToMap(this.path);
         //this.addToMap(this.enemyDead);
         this.addObjectsToMap(this.throwableObjects);
-                                                           //this.addToMap(this.buttonFullScreen);
+        //this.addToMap(this.buttonFullScreen);
 
         // this.backgroundObjects.forEach((bgo) => {
         //      this.addToMap(bgo);
