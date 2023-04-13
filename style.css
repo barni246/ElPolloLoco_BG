@@ -1,3 +1,7 @@
+
+  
+
+
 body {
   margin: 0;
   display: flex;
@@ -11,17 +15,30 @@ body {
 
 #fullScreen {
   display: flex;
-  background-colo: blueviolet;
+  background-color: blueviolet;
   position: relative;
   border-radius: 22px;
   border: 6px solid #467b46;
+
 }
 
-canvas {
+#canvas {
   background-colo: black;
   border-radius: 13px;
 
 
+}
+
+.start-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 720px;
+  height: 480px;
+  background-color: chartreuse;
+  border-radius: 15px;
 }
 
 
@@ -46,3 +63,4 @@ canvas {
   bottom: 50px;
   cursor: pointer;
 }
+
