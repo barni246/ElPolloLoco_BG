@@ -36,7 +36,8 @@ constructor () {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_BOSS_DEAD);
     this.loadImages(this.IMAGES_ENDBOSS_WALKING);
-    this.x = 2500;
+    //this.x = 2500;
+    this.x = 3500;
     //this.animate();
 
 }

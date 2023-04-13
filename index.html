@@ -27,22 +27,26 @@
     <script src="js/game.js"></script>
     
 </head>
-<body onload="init()">
+<body >
 
 
   <h1 id="h1">El Pollo Loco</h1>
-     <div id="fullScreen"> 
+     <div id="fullScreen" > 
        
         
-   <canvas  id="canvas" width="720px" height="480px"> </canvas>
+   <canvas width="790px" height="480px" id="canvas"> </canvas>
+   <img src="img/exit-to-app_119178.svg" id="exitGame" onclick="exitFullScreenGame()">
+   <img src="img/fullscreen_116838.svg" id="buttonGame" onclick="fullScreenGame()">
+
 <div id="startContainer" class="start-container">
-  <button>Start</button>
-  <img style="width: 160px; height: 290px;" src="img/2_character_pepe/2_walk/W-21.png" alt="">
+  <button onclick="startGame()" id="startButton">Start Game</button>
+   <img src="img/exit-to-app_119178.svg" id="exitStart" onclick="exitFullScreenStart()">
+    <img src="img/fullscreen_116838.svg" id="buttonStart" onclick="fullScreenStart()">
 </div>     
         <!-- <button id="button" onclick="fullScreenToggle()">Full Screen</button> -->
-        <img src="img/fullscreen_116838.svg" id="button" onclick="fullScreenToggle()">
+       
         <!-- <button id="exit" onclick="exit()">Exit</button> -->
-        <img src="img/exit-to-app_119178.svg" id="exit" onclick="exit()">
+       
         
         
      </div> 

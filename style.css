@@ -11,10 +11,10 @@ body {
   height: 100vh;
   background: url(img/desert-3598089_1920.jpg);
   background-position: bottom;
+  background-size: cover;
 }
 
 #fullScreen {
-  display: flex;
   background-color: blueviolet;
   position: relative;
   border-radius: 22px;
@@ -23,26 +23,32 @@ body {
 }
 
 canvas {
-  background-colo: black;
+  background-color: black;
   border-radius: 13px;
+ width: 100%;
+ height: 100%;
+ 
 
 
 }
 
 .start-container {
+  background: url(img/9_intro_outro_screens/start/startscreen_1.png);
+  background-size: cover;
+  background-position: center;
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-  width: 720px;
-  height: 480px;
-  background-color: chartreuse;
-  border-radius: 15px;
+  border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
-#button {
+#buttonStart, #buttonGame {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -54,14 +60,34 @@ canvas {
 
 }
 
-#exit {
+#buttonGame {
+  z-index: 10001;
+}
+
+#exitStart, #exitGame {
   display: none;
   position: absolute;
   width: 50px;
   height: 50px;
   right: 50px;
-  bottom: 50px;
+  top: 50px;
   cursor: pointer;
->>>>>>> refs/remotes/origin/sub-elp
+  z-index: 1000;
+
+}
+
+#startButton {
+  background-color: transparent;
+  font-size: 35px;
+  border: 5px solid black;
+  width: 250px;
+ margin-top: 5%;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+#startButton:hover {
+  color: white;
+  border: 5px solid white;
 }
 

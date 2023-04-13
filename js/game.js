@@ -13,30 +13,60 @@ function init() {
 
 }
 
+function startGame() {
+    init();
+    document.getElementById('startContainer').style.display ="none";
+}
 
 
-function fullScreenToggle() {
+
+function fullScreenStart() {
     //let fullscreen = document.getElementById('fullScreen');
     let fullscreen = document.getElementById('startContainer');
    // enterFullscreen(fullscreen);
     enterFullscreen(fullscreen);
 
     document.getElementById('h1').style.display = "none";
-    document.getElementById('button').style.display = "none";
-    document.getElementById('exit').style.display = "flex";
+    document.getElementById('buttonStart').style.display = "none";
+    document.getElementById('exitStart').style.display = "block";
     document.getElementById('canvas').style.width = "100%";
     document.getElementById('fullScreen').style.border = "unset";
     console.log('Fullscreen')
 }
 
-function exit() {
+function exitFullScreenStart() {
     exitFullscreen();
-    document.getElementById('exit').style.display = "none";
+    document.getElementById('exitStart').style.display = "none";
     document.getElementById('h1').style.display = "block";
-    document.getElementById('button').style.display = "flex";
+    document.getElementById('buttonStart').style.display = "flex";
     document.getElementById('fullScreen').style.border = " 6px solid #467b46";
 
 }
+
+function fullScreenGame() {
+    //let fullscreen = document.getElementById('fullScreen');
+    let fullscreen = document.getElementById('fullScreen');
+   // enterFullscreen(fullscreen);
+    enterFullscreen(fullscreen);
+
+    document.getElementById('h1').style.display = "none";
+    document.getElementById('buttonGame').style.display = "none";
+    document.getElementById('exitGame').style.display = "block";
+    document.getElementById('canvas').style.width = "100%";
+    document.getElementById('fullScreen').style.border = "unset";
+}
+
+function exitFullScreenGame() {
+    exitFullscreen();
+    document.getElementById('exitGame').style.display = "none";
+    document.getElementById('h1').style.display = "block";
+    document.getElementById('buttonGame').style.display = "block";
+    document.getElementById('fullScreen').style.border = " 6px solid #467b46";
+
+}
+
+
+
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
