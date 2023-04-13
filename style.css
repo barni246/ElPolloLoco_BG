@@ -48,7 +48,7 @@ canvas {
 }
 
 
-#buttonStart, #buttonGame {
+#buttonStart {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -60,9 +60,21 @@ canvas {
 
 }
 
-#buttonGame {
-  z-index: 10001;
+ #buttonGame {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 1001;
+
 }
+
+
+
+
 
 #exitStart, #exitGame {
   display: none;

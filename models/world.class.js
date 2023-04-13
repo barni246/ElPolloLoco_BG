@@ -205,7 +205,7 @@ class World {
                 this.character.percentageOfCoins += 20;
                 this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 coin.y = 1000;
-                this.coins.splice(index, 1);
+                //this.coins.splice(index, 1);
 
             }
         });
