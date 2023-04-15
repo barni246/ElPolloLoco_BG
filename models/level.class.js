@@ -7,12 +7,20 @@ class Level {
     //level_end_x = 2165;
     level_end_x = 3615;
 
-    constructor(enemies, clouds, backgroundObjects,bottles,coins) {
+    // constructor(enemies, clouds, backgroundObjects,bottles,coins) {
+    //     this.enemies = enemies;
+    //     this.clouds = clouds;
+    //     this.bottles = bottles;
+    //     this.coins = coins;
+    //     this.backgroundObjects = backgroundObjects;
+    // }
+
+
+    constructor( clouds, backgroundObjects,bottles,coins,enemies) {
         this.enemies = enemies;
         this.clouds = clouds;
         this.bottles = bottles;
         this.coins = coins;
         this.backgroundObjects = backgroundObjects;
     }
-
 }

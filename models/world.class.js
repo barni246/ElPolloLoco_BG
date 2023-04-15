@@ -85,8 +85,8 @@ class World {
             for (let index = 0; index < this.level.clouds.length; index++) {
                 const cloud = this.level.clouds[index];
                 cloud.x -= 1;
-                if (cloud.x < this.character.x - 550) {
-                    cloud.x = this.character.x + 600;
+                if (cloud.x < this.character.x - 650) {
+                    cloud.x = this.character.x + 650;
                 }
 
             }
