@@ -2,14 +2,7 @@ class World {
     character = new Character();
     level = level1;
     throwableObjects = [];
-    bottles = [new Bottle(), new Bottle(), new Bottle(), new Bottle(), new Bottle()];
-    coins = [new Coin(), new Coin(), new Coin(), new Coin(),new Coin()];
-   
     ground = 420;
-    //enemyDead = new Chicken();
-    // enemies = level1.enemies ;
-    // clouds = level1.clouds ;
-    // backgroundObjects = level1.backgroundObjects ;
     canvas; // in dem Variable wird das Parameter "canvas" gespeichert, bzw hinzugefügt
     ctx;
     keyboard;
@@ -18,11 +11,16 @@ class World {
     statusBarBottles = new StatusBarBottles();
     statusBarCoins = new StatusBarCoins();
     img;
-    imageCache = {};
     chickenDeadItv;
-    headHit = 0;
     headHitItv;
     endBossDead;
+    endBoss = this.level.enemies[3];
+    arrayBottle = [100, 350, 980, 1550, 1800];
+    arrayCoins = [150, 250, 780, 1250, 1700];
+    GAME_OVER = false;
+    imageCache = {};
+    currentImage;
+    stop = true
 
     IMAGES_DEAD_CHICKEN = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
@@ -38,13 +36,6 @@ class World {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    IMAGES_BOSS_DEAD = [
-        'img/4_enemie_boss_chicken/5_dead/G24.png',
-        'img/4_enemie_boss_chicken/5_dead/G25.png',
-        'img/4_enemie_boss_chicken/5_dead/G26.png'
-
-    ];
-
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -56,22 +47,25 @@ class World {
         this.setClouds();
         this.sortBottles();
         this.sortCoins();
+        this.endBossAttack();
     }
 
 
     sortBottles() {
-        for (let index = 0; index < this.bottles.length; index++) {
-            const bottle = this.bottles[index];
-            bottle.x = bottle.x + (Math.random() * 500);
+        for (let index = 0; index < this.level.bottles.length; index++) {
+            const bottle = this.level.bottles[index];
+            // bottle.x = bottle.x + (Math.random() * 500);
+            bottle.x = bottle.x + this.arrayBottle[index];
 
         }
     }
 
 
     sortCoins() {
-        for (let index = 0; index < this.coins.length; index++) {
-            const coin = this.coins[index];
-            coin.x = coin.x +  ((Math.random() * 500));
+        for (let index = 0; index < this.level.coins.length; index++) {
+            const coin = this.level.coins[index];
+            //coin.x = coin.x + ((Math.random() * 500));
+            coin.x = coin.x + this.arrayBottle[index];
 
         }
     }
@@ -79,13 +73,20 @@ class World {
 
 
     setClouds() {
+
+        this.level.clouds.forEach((cloud, i) => {
+            cloud.x = i * 900;
+            if (i >= 2) {
+                i = 0;
+            }
+        });
         setInterval(() => {
+
             for (let index = 0; index < this.level.clouds.length; index++) {
                 const cloud = this.level.clouds[index];
                 cloud.x -= 1;
-
-                if (cloud.x < this.character.x - 550) {
-                    cloud.x = this.character.x + 600;
+                if (cloud.x < this.character.x - 650) {
+                    cloud.x = this.character.x + 650;
                 }
 
             }
@@ -99,18 +100,21 @@ class World {
 
 
     run() {
+
         setInterval(() => {
             this.checkCollisions();
+            this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkEnemyDead();
-            this.checkBottleCollisions();
             this.checkCoinCollisions();
             this.checkThrowObjectCollision();
         }, 200);
     }
 
+
     checkThrowObjects() {
-        if (this.keyboard.KEYD && this.throwableObjects.length != 0) {
+
+        if (this.keyboard.KEYD && this.throwableObjects.length >= 1) {
 
             this.throwableObjects[0].x = this.character.x + 50;
             this.throwableObjects[0].y = this.character.y + 50;
@@ -122,6 +126,20 @@ class World {
                 this.throwableObjects.splice(0, 1);
             }, 1000);
 
+        } else if (
+            this.throwableObjects.length == 0 &&
+            this.level.bottles.length == 0 &&
+            this.endBoss.headHit < 3
+        ) {
+            this.stop = false;
+            this.endBoss.animateBossWalking();
+        }
+    }
+
+
+    endBossAttack() {
+        if (this.stop) {
+            this.endBoss.animate();
         }
     }
 
@@ -139,8 +157,6 @@ class World {
 
             });
         }
-
-
     }
 
 
@@ -169,13 +185,14 @@ class World {
 
 
     checkBottleCollisions() {
-        this.bottles.forEach(bottle => {
-            if (this.character.isColliding(bottle, this.index)) {
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
                 bottle.y = 1000;
                 this.character.percentageOfBottle += 20;
                 this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
                 let bottleThrow = new ThrowableObject(this.character.x, this.character.y + 1000);
                 this.throwableObjects.push(bottleThrow);
+                this.level.bottles.splice(index, 1);
 
             }
         });
@@ -183,42 +200,40 @@ class World {
 
 
     checkCoinCollisions() {
-        this.coins.forEach((coin, index) => {
+        this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 this.character.percentageOfCoins += 20;
-                console.log('hurra hhh');
-               this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
+                this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 coin.y = 1000;
-               //this.coins.splice(index, 1);
-               
+                //this.coins.splice(index, 1);
+
             }
         });
     }
 
-   
 
     checkThrowObjectCollision() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const throwBottle = this.throwableObjects[index];
-            if (throwBottle.isColliding(this.level.enemies[3]) &&
-                throwBottle.x + throwBottle.width > this.level.enemies[3].x + 20) {
-                this.headHit++;
-                console.log('Kopf', this.headHit);
-                if (this.headHit < 3) {
+            if (throwBottle.isColliding(this.endBoss) &&
+                throwBottle.x + throwBottle.width > this.endBoss.x + 20) {
+                this.endBoss.headHit++;
+                console.log('Kopf', this.endBoss.headHit);
+
+
+                if (this.endBoss.headHit < 3) {
                     this.headHitItv = setInterval(() => {
                         this.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
                     }, 50);
+                }
 
-                } else {
+
+                else {
                     this.character.energy = 100;
                     this.statusBar.setPercentage(this.character.energy);
                     clearInterval(this.headHitItv);
-                    clearInterval(this.level.enemies[3].endbossWalkingItv);
-                    this.endBossDead = setInterval(() => {
-                        this.level.enemies[3].y += 5;
-                        this.level.enemies[3].img.src = 'img/4_enemie_boss_chicken/5_dead/G26.png';
-                 }, 20);
-
+                    clearInterval(this.endBoss.endbossWalkingItv);
+                    this.endBoss.animateBoss();
                 }
             }
 
@@ -228,60 +243,50 @@ class World {
 
 
     draw() {
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
 
-
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+
         //(space for fixed objects)
         this.ctx.translate(-this.camera_x, 0); // Back 
 
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
-
+        this.ctx.font = "22px Arial";
+        this.ctx.fillText("left", 300, 50);
+        this.ctx.fillText("right", 400, 50);
+        this.ctx.fillText("jump", 500, 50);
+        this.ctx.fillText("throw", 600, 50);
 
         this.ctx.translate(this.camera_x, 0); // Forwards
-        this.addObjectsToMap(this.bottles);
 
+        this.addObjectsToMap(this.level.bottles);
         this.addToMap(this.character);
-
-
-        //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        // this.enemies.forEach(enemy => {
-        //     this.addToMap(enemy);
-        //     //this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-        // });
-
-        // this.clouds.forEach(cloud => {
-        //     this.addToMap(cloud);
-        //     //this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
-        // });
-
-
-
-
-        //this.addToMap(this.statusBar);
-        this.addObjectsToMap(this.coins);
+        this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
-        //this.addObjectsToMap(this.path);
-        //this.addToMap(this.enemyDead);
+        if (this.GAME_OVER) {
+            this.ctx.font = "60px Arial";
+            this.ctx.fillText("GAME OVER", this.character.x + 80, this.character.y + 30);
+        }
         this.addObjectsToMap(this.throwableObjects);
-
-        // this.backgroundObjects.forEach((bgo) => {
-        //      this.addToMap(bgo);
-        // });
 
         this.ctx.translate(-this.camera_x, 0);
 
         // draw() wird immer wieder aufgerufen, und this ist unbekannt für function von requestAnimationFrame(), deshalb ist self da
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
+            let self = this;
+            requestAnimationFrame(function () {
+              
+                      self.draw();              
 
-        });
+            });
+
+
+
     }
 
     addObjectsToMap(objects) {

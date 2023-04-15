@@ -1,9 +1,181 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: url(img/desert-3598089_1920.jpg);
+ 
+  background-siz: cover;
+   background-position: 50% 90% ;
+  background-repeat: no-repeat;
+  font-family: 'Holtwood One SC', serif;
+ 
+}
+
+* {
+   font-family: 'Rye', cursive;
+}
+
+#h1 {
+  display: none;
+  font-size: 65px;
+  color: rgb(143, 59, 59);
+}
+
+#wrapper {
+  position: relative;
+  width: 790px;
+  height: 480px;
+  border-radius: 22px;
+  border: 6px solid #467b46;
 }
 
 canvas {
-    background-color: black;
+  background-color: black;
+  border-radius: 13px;
+  height: 100%;
+  width: 100%;
+ }
+
+.start-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  border-radius: 13px;
+  background: url(img/9_intro_outro_screens/start/startscreen_1.png);
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+
+#fullScreenStart {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+
+}
+
+#exitFullScreenStart {
+  display: none;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 50px;
+  bottom: 50px;
+  cursor: pointer;
+}
+
+
+#fullScreenGame {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+#exitFullScreenGame {
+  display: none;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 50px;
+  bottom: 50px;
+  cursor: pointer;
+
+}
+
+#startButton {
+  position: absolute;
+  background-color: transparent;
+  font-size: 35px;
+  width: 250px;
+  top: 10%;
+  left: calc( 50% - 120px);
+  cursor: pointer;
+  border: unset;
+  background-color: rgb(233, 207, 74);
+  border-radius: 10px;
+  border: 2px solid;
+  
+}
+
+#startButton:hover {
+  color: rgb(186, 48, 48);
+  color:  rgb(139, 38, 38);
+}
+
+.startOpacity {
+  opacity: 0;
+  transition: all 1500ms ease-in-out;
+}
+
+
+
+/* .game-over-contaimer {
+  display: none;
+  background-color: rgb(226, 43, 110);
+  background: url(img/9_intro_outro_screens/start/startscreen_1.png);
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  border-radius: 13px;
+} */
+
+
+#landscapeAlert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  background: url(img/desert-3598089_1920.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+
+}
+  .image {
+
+   width: 250px;
+   height: 250px;
+    -webkit-animation:spin 1s linear forwards;
+    -moz-animation:spin 1s linear forwards;
+    animation:spin 1s linear forwards;
+}
+@-moz-keyframes spin { 
+   
+    100% { -moz-transform: rotate(-90deg); } 
+}
+@-webkit-keyframes spin { 
+  
+    100% { -webkit-transform: rotate(-90deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(-90deg); 
+        transform:rotate(-90deg); 
+    } 
 }
