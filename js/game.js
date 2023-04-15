@@ -1,24 +1,24 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let checkFullscreen = false;
+let checkFullscreenStart = false;
+let checkFullscreenGame = false;
+let portrait;
+//const portrait = window.matchMedia("(orientation: portrait)").matches;
+
 
 
 
 function init() {
     canvas = document.getElementById('canvas');
-
     world = new World(canvas, keyboard);
-
 
 }
 
 function startGame() {
-
-
     initLevel();
     setTimeout(() => {
-        if (checkFullscreen) {
+        if (checkFullscreenStart) {
             fullScreenGame();
             init();
 
@@ -29,52 +29,60 @@ function startGame() {
             init();
             //document.getElementById('startContainer').classList.add('startOpacity');
             document.getElementById('startContainer').style.display = "none";
+            //document.getElementById('fullScreenGame').style.display = "flex";
         }
     }, 100);
 
 }
 
 
+// Start-Seite
 function fullScreenStart() {
-    checkFullscreen = true;
-    let fullscreen = document.getElementById('startContainer');
-    enterFullscreen(fullscreen);
+    checkFullscreenStart = true;
+    let startContainer = document.getElementById('wrapper');
+    enterFullscreen(startContainer);
 
-    document.getElementById('h1').style.display = "none";
+    //document.getElementById('h1').style.display = "none";
     document.getElementById('fullScreenStart').style.display = "none";
+    document.getElementById('startContainer').style.borderRadius = "0px";
     document.getElementById('exitFullScreenStart').style.display = "flex";
     document.getElementById('canvas').style.width = "100%";
-    document.getElementById('fullScreen').style.border = "unset";
-    console.log('Fullscreen')
+    document.getElementById('wrapper').style.border = "unset";
 }
 
 function exitFullScreenStart() {
-    checkFullscreen = false;
+    checkFullscreenStart = false;
     exitFullscreen();
     document.getElementById('exitFullScreenStart').style.display = "none";
-    document.getElementById('h1').style.display = "block";
+    //document.getElementById('h1').style.display = "block";
     document.getElementById('fullScreenStart').style.display = "flex";
-    document.getElementById('fullScreen').style.border = " 6px solid #467b46";
+    document.getElementById('wrapper').style.border = " 6px solid #467b46";
+    document.getElementById('startContainer').style.borderRadius = "13px";
 
 }
 
-function fullScreenGame() {
-    let fullscreen = document.getElementById('fullScreen');
-    enterFullscreen(fullscreen);
 
-    document.getElementById('h1').style.display = "none";
+// Das Spiel
+function fullScreenGame() {
+    let wrapper = document.getElementById('wrapper');
+    enterFullscreen(wrapper);
+    checkFullscreenGame = true;
+    //document.getElementById('h1').style.display = "none";
     document.getElementById('fullScreenGame').style.display = "none";
     document.getElementById('exitFullScreenGame').style.display = "block";
     document.getElementById('canvas').style.width = "100%";
-    document.getElementById('fullScreen').style.border = "unset";
+    document.getElementById('canvas').style.borderRadius = "0px";
+    document.getElementById('wrapper').style.border = "unset";
 }
 
 function exitFullScreenGame() {
     exitFullscreen();
+    checkFullscreenGame = false;
     document.getElementById('exitFullScreenGame').style.display = "none";
-    document.getElementById('h1').style.display = "block";
+    //document.getElementById('h1').style.display = "block";
     document.getElementById('fullScreenGame').style.display = "flex";
-    document.getElementById('fullScreen').style.border = " 6px solid #467b46";
+    document.getElementById('wrapper').style.border = " 6px solid #467b46";
+    document.getElementById('canvas').style.borderRadius = "13px";
 
 }
 
@@ -158,5 +166,36 @@ window.addEventListener('keyup', (e) => {
         keyboard.KEYD = false;
     }
 });
+
+
+// window.addEventListener("fullscreenchange", function() {
+//   console.log('width',window.innerWidth);
+//   console.log('height',window.innerHeight);
+
+//     if (window.innerWidth <  window.innerHeight) {
+// console.log('igen');
+// exitFullScreenStart();
+// exitFullScreenGame()
+//     } else {
+//         document.getElementById('landscapeAlert').style.display = "none";
+//     }
+//   });
+
+//;
+window.matchMedia("(orientation: portrait)").addEventListener("change", screen => {
+    const landscapeAlert = document.getElementById('landscapeAlert')
+    portrait = screen.matches;
+    if (portrait) {
+        if (checkFullscreenStart) {
+            exitFullScreenStart();
+            landscapeAlert.style.display = "flex";
+        } else if (checkFullscreenGame) {
+            exitFullScreenGame();
+        }
+        landscapeAlert.style.display = "flex";
+    } else {
+        landscapeAlert.style.display = "none";
+    }
+})
 
 

@@ -29,7 +29,7 @@ class Chicken extends MovableObject {
 
 
     animate() {
-        this.chickenMoveLeftItv = setInterval(() => {
+             this.chickenMoveLeftItv = setInterval(() => {
             this.moveLeft();
         }, 1000 / 60);  // 50
 
@@ -37,6 +37,7 @@ class Chicken extends MovableObject {
             this.playAnimation(this.IMAGES_WALKING);
 
         }, 200);
+       
     }
 
 

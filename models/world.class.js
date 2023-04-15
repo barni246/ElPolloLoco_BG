@@ -47,7 +47,7 @@ class World {
         this.setClouds();
         this.sortBottles();
         this.sortCoins();
-        this.gehenNichtGehen();
+        this.endBossAttack();
     }
 
 
@@ -100,12 +100,12 @@ class World {
 
 
     run() {
+
         setInterval(() => {
             this.checkCollisions();
             this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkEnemyDead();
-
             this.checkCoinCollisions();
             this.checkThrowObjectCollision();
         }, 200);
@@ -137,7 +137,7 @@ class World {
     }
 
 
-    gehenNichtGehen() {
+    endBossAttack() {
         if (this.stop) {
             this.endBoss.animate();
         }
@@ -243,10 +243,10 @@ class World {
 
 
     draw() {
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
-
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
@@ -263,52 +263,30 @@ class World {
         this.ctx.fillText("jump", 500, 50);
         this.ctx.fillText("throw", 600, 50);
 
-
-
         this.ctx.translate(this.camera_x, 0); // Forwards
+
         this.addObjectsToMap(this.level.bottles);
-
         this.addToMap(this.character);
-
-
-        //this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        // this.enemies.forEach(enemy => {
-        //     this.addToMap(enemy);
-        //     //this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-        // });
-
-        // this.clouds.forEach(cloud => {
-        //     this.addToMap(cloud);
-        //     //this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
-        // });
-
-
-
-
-        //this.addToMap(this.statusBar);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         if (this.GAME_OVER) {
             this.ctx.font = "60px Arial";
             this.ctx.fillText("GAME OVER", this.character.x + 80, this.character.y + 30);
         }
-        //this.addObjectsToMap(this.path);
-        //this.addToMap(this.enemyDead);
         this.addObjectsToMap(this.throwableObjects);
-        //this.addToMap(this.buttonFullScreen);
-
-        // this.backgroundObjects.forEach((bgo) => {
-        //      this.addToMap(bgo);
-        // });
 
         this.ctx.translate(-this.camera_x, 0);
 
         // draw() wird immer wieder aufgerufen, und this ist unbekannt für function von requestAnimationFrame(), deshalb ist self da
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
+            let self = this;
+            requestAnimationFrame(function () {
+              
+                      self.draw();              
 
-        });
+            });
+
+
+
     }
 
     addObjectsToMap(objects) {
