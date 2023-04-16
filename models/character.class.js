@@ -49,7 +49,7 @@ class Character extends MovableObject {
 
 
   walking_sound = new Audio('audio/running-grass.mp3');
-
+  deadItv;
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -95,9 +95,14 @@ class Character extends MovableObject {
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-    setInterval(() => {
+  this.deadItv =  setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+                    //exitFullScreenGame();
+                    // document.getElementById('endContainer').style.display = "flex";
+                    clearInterval(this.deadItv);
+        document.getElementById('gameOverContainer').style.display = "flex";
+        
         //this.y += 5;
          // this.currentImage = 5;
          // this.jump();      // Himmelfahrt!!!

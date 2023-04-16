@@ -15,26 +15,13 @@ class World {
     headHitItv;
     endBossDead;
     endBoss = this.level.enemies[3];
-    arrayBottle = [100, 350, 980, 1550, 1800];
-    arrayCoins = [150, 250, 780, 1250, 1700];
+   
+   
     GAME_OVER = false;
     imageCache = {};
     currentImage;
     stop = true
-
-    IMAGES_DEAD_CHICKEN = [
-        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
-        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
-    ];
-
-    IMAGES_THROW_BOTTLES = [
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
-    ];
+    indexOfThrowObject = 0;
 
 
     constructor(canvas, keyboard) {
@@ -51,8 +38,9 @@ class World {
     }
 
 
+    arrayBottle = [100, 350, 980, 1550, 1800];
     sortBottles() {
-        for (let index = 0; index < this.level.bottles.length; index++) {
+         for (let index = 0; index < this.level.bottles.length; index++) {
             const bottle = this.level.bottles[index];
             // bottle.x = bottle.x + (Math.random() * 500);
             bottle.x = bottle.x + this.arrayBottle[index];
@@ -61,6 +49,7 @@ class World {
     }
 
 
+    arrayCoins = [150, 250, 780, 1250, 1700];
     sortCoins() {
         for (let index = 0; index < this.level.coins.length; index++) {
             const coin = this.level.coins[index];
@@ -69,7 +58,6 @@ class World {
 
         }
     }
-
 
 
     setClouds() {
@@ -113,26 +101,22 @@ class World {
 
 
     checkThrowObjects() {
-
-        if (this.keyboard.KEYD && this.throwableObjects.length >= 1) {
-
-            this.throwableObjects[0].x = this.character.x + 50;
-            this.throwableObjects[0].y = this.character.y + 50;
-            this.throwableObjects[0].throw();
-            setTimeout(() => {
-                this.character.percentageOfBottle -= 20;
-                this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
-
-                this.throwableObjects.splice(0, 1);
-            }, 1000);
-
+        if (this.keyboard.KEYD &&
+            this.throwableObjects.length >= 1 &&
+            this.indexOfThrowObject < this.throwableObjects.length) {
+            this.throwableObjects[this.indexOfThrowObject].x = this.character.x + 50;
+            this.throwableObjects[this.indexOfThrowObject].y = this.character.y + 50;
+            this.throwableObjects[this.indexOfThrowObject].throw();
+            this.character.percentageOfBottle -= 20;
+            this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
+            this.indexOfThrowObject++;
         } else if (
-            this.throwableObjects.length == 0 &&
+            this.indexOfThrowObject == this.throwableObjects.length &&
             this.level.bottles.length == 0 &&
-            this.endBoss.headHit < 3
-        ) {
+            this.endBoss.headHit < 3) {
             this.stop = false;
             this.endBoss.animateBossWalking();
+            setTimeout(() => { this.throwableObjects = []; }, 5000);
         }
     }
 
@@ -145,7 +129,6 @@ class World {
 
 
     checkCollisions() {
-
         if (this.character.y + this.character.height >= this.ground) {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
@@ -154,7 +137,6 @@ class World {
                     this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
                     this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 }
-
             });
         }
     }
@@ -164,7 +146,7 @@ class World {
         if (this.character.y + this.character.height < this.ground) {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    this.IMAGES_DEAD_CHICKEN.forEach((path) => {
+                    enemy.IMAGES_DEAD_CHICKEN.forEach((path) => {
                         enemy.img.src = path;
                         enemy.speed = 0;
                         this.stopEnemiesMovingInterval(enemy);
@@ -205,8 +187,6 @@ class World {
                 this.character.percentageOfCoins += 20;
                 this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 coin.y = 1000;
-                //this.coins.splice(index, 1);
-
             }
         });
     }
@@ -218,16 +198,12 @@ class World {
             if (throwBottle.isColliding(this.endBoss) &&
                 throwBottle.x + throwBottle.width > this.endBoss.x + 20) {
                 this.endBoss.headHit++;
-                console.log('Kopf', this.endBoss.headHit);
-
-
+                //console.log('Kopf', this.endBoss.headHit);
                 if (this.endBoss.headHit < 3) {
                     this.headHitItv = setInterval(() => {
-                        this.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
+                        throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
                     }, 50);
                 }
-
-
                 else {
                     this.character.energy = 100;
                     this.statusBar.setPercentage(this.character.energy);
@@ -278,12 +254,12 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
         // draw() wird immer wieder aufgerufen, und this ist unbekannt für function von requestAnimationFrame(), deshalb ist self da
-            let self = this;
-            requestAnimationFrame(function () {
-              
-                      self.draw();              
+        let self = this;
+        requestAnimationFrame(function () {
 
-            });
+            self.draw();
+
+        });
 
 
 
