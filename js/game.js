@@ -16,12 +16,28 @@ function init() {
 
 }
 
-async function startAgain() {
-    if(checkFullscreenGameOver)  {
-     fullScreenGame();
-    }
+ function startAgain() {
+    // checkFullscreenStart = false;
+    // checkFullscreenGame = false;
+    // checkFullscreenGameOver = false;
+
+
+    // if( window.innerHeight == document.getElementById('gameOverContainer').height) {
+    //     fullScreenGame();
+    // }
+
+      if(checkFullscreenGameOver)  {     // ezzel müködik, csak hibat jelez
+          fullScreenGame();
+         } else if(!checkFullscreenGameOver) {
+             exitFullScreenGame();}
+
+   
+    // else if (!checkFullscreenGameOver) {
+    //     exitFullScreenGameOver();
+    // }
    //window.location.href ="index.html";
-   await  startGame();
+   //window.location.reload();
+    startGame();
    //document.getElementById('endContainer').style.display = "none";
    document.getElementById('gameOverContainer').style.display = "none";
 }
@@ -86,6 +102,7 @@ function exitFullScreenStart() {
 
 // Das Spiel
 function fullScreenGame() {
+  
     let wrapper = document.getElementById('wrapper');
     enterFullscreen(wrapper);
     checkFullscreenGame = true;
@@ -118,15 +135,15 @@ function exitFullScreenGame() {
 
 function fullScreenGameOver() {
 
-    let gameOverContainer = document.getElementById('gameOverContainer');
+    let gameOverContainer = document.getElementById('wrapper');
     enterFullscreen(gameOverContainer);
     checkFullscreenGameOver = true;
     document.getElementById('h1').style.display = "none";
     document.getElementById('fullScreenGameOver').classList.add('d-none');
     document.getElementById('exitFullScreenGameOver').style.display = "block";
-    document.getElementById('canvas').style.width = "100%";
+    //document.getElementById('canvas').style.width = "100%";
     document.getElementById('gameOverContainer').style.borderRadius = "0px";
-    document.getElementById('wrapper').style.border = "unset";
+    document.getElementById('gameOverContainer').style.border = "unset";
     //fullScreenGameOver();
    // fullScreenGame();
     //fullScreenStart();
@@ -135,7 +152,7 @@ function fullScreenGameOver() {
 
 
 function exitFullScreenGameOver() {
-    exitFullscreen();
+    window.exitFullscreen();
     checkFullscreenGameOver = false;
     document.getElementById('exitFullScreenGameOver').style.display = "none";
     document.getElementById('h1').style.display = "block";

@@ -102,6 +102,12 @@ class Character extends MovableObject {
                     // document.getElementById('endContainer').style.display = "flex";
                     clearInterval(this.deadItv);
         document.getElementById('gameOverContainer').style.display = "flex";
+        if(checkFullscreenGame) {
+           fullScreenGameOver();
+        }
+
+       
+       
         
         //this.y += 5;
          // this.currentImage = 5;
