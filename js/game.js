@@ -3,7 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let checkFullscreenStart = false;
 let checkFullscreenGame = false;
-let portrait;
+let portrait = false;
 //const portrait = window.matchMedia("(orientation: portrait)").matches;
 
 

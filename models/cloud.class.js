@@ -17,6 +17,7 @@ class Cloud extends MovableObject {
         this.x = 200 + Math.random() * 500;
         this.loadImages(this.IMAGES_CLOUDS);
         //this.animate();
+       // this.setClouds();
        }
 
 
@@ -31,5 +32,7 @@ class Cloud extends MovableObject {
     //     }, 200);
     // }
     
+
+   
 }
 

@@ -7,7 +7,7 @@ body {
   height: 100vh;
   background: url(img/desert-3598089_1920.jpg);
  
-  background-siz: cover;
+  background-size: cover;
    background-position: 50% 90% ;
   background-repeat: no-repeat;
   font-family: 'Holtwood One SC', serif;
