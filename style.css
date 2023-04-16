@@ -10,7 +10,10 @@ body {
   background-size: cover;
    background-position: 50% 90% ;
   background-repeat: no-repeat;
-  font-family: 'Holtwood One SC', serif;
+  font-family: 'Lato', sans-serif;
+font-family: 'Londrina Solid', cursive;
+font-family: 'Rye', cursive;
+ 
  
 }
 
@@ -19,9 +22,9 @@ body {
 }
 
 #h1 {
-  display: none;
   font-size: 65px;
-  color: rgb(143, 59, 59);
+  color: rgb(168, 43, 43);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 #wrapper {
@@ -52,6 +55,24 @@ canvas {
   z-index: 1;
 }
 
+/* .game-over-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  border-radius: 13px;
+  background: url("img/9_intro_outro_screens/game_over/game over!.png");
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+} */
+
+.d-none {
+  display: none !important;
+}
+
 
 #fullScreenStart {
   position: absolute;
@@ -75,7 +96,7 @@ canvas {
 }
 
 
-#fullScreenGame {
+#fullScreenGame , #fullScreenGameOver {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -86,7 +107,7 @@ canvas {
 }
 
 
-#exitFullScreenGame {
+#exitFullScreenGame, #exitFullScreenGameOver {
   display: none;
   position: absolute;
   width: 50px;
@@ -106,7 +127,7 @@ canvas {
   left: calc( 50% - 120px);
   cursor: pointer;
   border: unset;
-  background-color: rgb(233, 207, 74);
+  background-color: #ffd000;
   border-radius: 10px;
   border: 2px solid;
   
@@ -122,12 +143,45 @@ canvas {
   transition: all 1500ms ease-in-out;
 }
 
+/* #endContainer {
+ display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+ 
+  background-color: blueviolet;
+  background-color: transparent;
+  z-index: 999;
+  
+} */
+
+ /* #gameOver {
+  width: 790px;
+  height: 480px;
+   background-color: #ffd000; 
+  background-color: rgba(0, 0, 0, 1);
+  background-image: url("img/9_intro_outro_screens/game_over/game over!.png");
+  background-size: cover;
+  background-position: 50% 90% ;
+ background-repeat: no-repeat;
+  border: 6px solid #467b46;
+  border-radius: 13px;
+
+}  */
 
 
-/* .game-over-contaimer {
+  .game-over-container {
+  
   display: none;
   background-color: rgb(226, 43, 110);
-  background: url(img/9_intro_outro_screens/start/startscreen_1.png);
+  background-image: url("img/9_intro_outro_screens/game_over/game over!.png");
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -136,7 +190,16 @@ canvas {
   left: 0;
   bottom: 0;
   border-radius: 13px;
-} */
+}  
+
+
+#startAgainButton {
+  position: absolute;
+  top: 10%;
+  left: calc( 50% - 120px);
+  cursor: pointer;
+  border: unset;
+}
 
 
 #landscapeAlert {
