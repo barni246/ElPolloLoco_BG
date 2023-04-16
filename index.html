@@ -7,8 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El Pollo Loco 1</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;1,100&family=Londrina+Solid:wght@100;300;400;900&family=Rye&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;1,100&family=Londrina+Solid:wght@100;300;400;900&family=Rye&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <!-- drawable-object muss vor movables-object stehen-->
   <script src="models/drawable-object.class.js"></script>
@@ -40,35 +42,27 @@
   <div class="wrapper" id="wrapper">
 
     <div id="startContainer" class="start-container">
-        <button onclick="startGame()" id="startButton">Start Game</button>
-        <img src="img/fullscreen-start.svg" id="fullScreenStart" onclick="fullScreenStart()">
-        <img src="img/exit-fullscreen-start.svg" id="exitFullScreenStart" onclick="exitFullScreenStart()">
+      <button onclick="startGame()" id="startButton">Start Game</button>
+      <img src="img/fullscreen-start.svg" id="fullScreenStart" onclick="fullScreenStart()">
+      <img src="img/exit-fullscreen-start.svg" id="exitFullScreenStart" onclick="exitFullScreenStart()">
     </div>
 
-     <canvas id="canvas"  width="790px" height="480px"> </canvas>
-     <img  src="img/red-fullscreen-GAME.svg" id="fullScreenGame" onclick="fullScreenGame()">
-     <img src="img/red-exit-fullscreen-GAME.svg" id="exitFullScreenGame" onclick="exitFullScreenGame()">
+    <canvas id="canvas" width="790px" height="480px"> </canvas>
+    <img src="img/red-fullscreen-GAME.svg" id="fullScreenGame" onclick="fullScreenGame()">
+    <img src="img/red-exit-fullscreen-GAME.svg" id="exitFullScreenGame" onclick="exitFullScreenGame()">
 
-       <div id="gameOverContainer" class="game-over-container">
-        <button onclick="startAgain()" id="startAgainButton">Start Again</button>
-        <img src="img/yellow-fullscreen-game-over.svg" id="fullScreenGameOver" onclick="fullScreenGameOver()">
-        <img src="img/yellov-exit-fullscreen-game-over.svg" id="exitFullScreenGameOver" onclick="exitFullScreenGameOver()">
-    </div>  
+    <div id="gameOverContainer" class="game-over-container">
+      <button onclick="startAgain()" id="startAgainButton">Start Again</button>
+      <img src="img/yellow-fullscreen-game-over.svg" id="fullScreenGameOver" onclick="fullScreenGameOver()">
+      <img src="img/yellov-exit-fullscreen-game-over.svg" id="exitFullScreenGameOver"
+        onclick="exitFullScreenGameOver()">
+    </div>
 
-</div>
-
-<div id="landscapeAlert">
-  <img class="image" src="img/Horizontalturn_turn_4762.png" alt="">
-</div>
-
- <!-- <div id="endContainer">
-  <h1 id="h1">El Pollo Loco</h1>
-  <div id="gameOver">
-    <button onclick="startAgain()">Start Again</button>
   </div>
-</div>  -->
 
-
+  <div id="landscapeAlert">
+    <img class="image" src="img/Horizontalturn_turn_4762.png" alt="">
+  </div>
 
 </body>
 
