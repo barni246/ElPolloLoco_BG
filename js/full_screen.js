@@ -117,6 +117,7 @@ function exitFullScreenGameOver() {
     checkFullscreenGameOver = false;
     headlineGameVisible();
     wrapperBorderVisible();
+    document.getElementById('canvas').style.borderRadius = "7px";
     document.getElementById('wrapper').style.borderRadius = "13px";
     document.getElementById('gameOverContainer').style.borderRadius = "7px";
     exitFullScrenIconHide();
