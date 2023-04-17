@@ -30,6 +30,7 @@
   <script src="models/bottle.class.js"></script>
   <script src="models/coin.class.js"></script>
   <script src="levels/level1.js"></script>
+  <script src="js/full_screen.js"></script>
   <script src="js/game.js"></script>
 
 </head>
@@ -44,17 +45,17 @@
     <div id="startContainer" class="start-container">
       <button onclick="startGame()" id="startButton">Start Game</button>
       <img src="img/fullscreen-start.svg" id="fullScreenStart" onclick="fullScreenStart()">
-      <img src="img/exit-fullscreen-start.svg" id="exitFullScreenStart" onclick="exitFullScreenStart()">
+      <img src="img/exit-start-full-screen.svg" id="exitFullScreenStart" onclick="exitFullScreenStart()">
     </div>
 
     <canvas id="canvas" width="790px" height="480px"> </canvas>
     <img src="img/red-fullscreen-GAME.svg" id="fullScreenGame" onclick="fullScreenGame()">
-    <img src="img/red-exit-fullscreen-GAME.svg" id="exitFullScreenGame" onclick="exitFullScreenGame()">
+    <img src="img/exit-game-full-screen.svg" id="exitFullScreenGame" onclick="exitFullScreenGame()">
 
     <div id="gameOverContainer" class="game-over-container">
       <button onclick="startAgain()" id="startAgainButton">Start Again</button>
       <img src="img/yellow-fullscreen-game-over.svg" id="fullScreenGameOver" onclick="fullScreenGameOver()">
-      <img src="img/yellov-exit-fullscreen-game-over.svg" id="exitFullScreenGameOver"
+      <img src="img/exit-game-over-full-screen.svg" id="exitFullScreenGameOver"
         onclick="exitFullScreenGameOver()">
     </div>
 
