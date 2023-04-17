@@ -19,7 +19,7 @@ body {
 }
 
 #h1 {
-  font-size: 65px;
+  font-size: 70px;
   color: rgb(168, 43, 43);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -28,13 +28,13 @@ body {
   position: relative;
   width: 790px;
   height: 480px;
-  border-radius: 22px;
+  border-radius: 13px;
   border: 6px solid #467b46;
 }
 
 canvas {
   background-color: black;
-  border-radius: 13px;
+  border-radius: 7px;
   height: 100%;
   width: 100%;
 }
@@ -45,7 +45,7 @@ canvas {
   right: 0;
   left: 0;
   bottom: 0;
-  border-radius: 13px;
+  border-radius: 7px;
   background: url(img/9_intro_outro_screens/start/startscreen_1.png);
   background-size: cover;
   background-position: center;
@@ -65,7 +65,12 @@ canvas {
   height: 30px;
   cursor: pointer;
   border-radius: 5px;
+  transition: all 125ms ease-in-out;
+}
 
+#fullScreenStart:hover {
+  scale: 1.2;
+  transition: all 125ms ease-in-out;
 }
 
 #exitFullScreenStart {
@@ -76,10 +81,16 @@ canvas {
   right: 50px;
   bottom: 50px;
   cursor: pointer;
+  transition: all 125ms ease-in-out;
+}
+
+#exitFullScreenStart:hover {
+  scale: 0.8;
+  transition: all 125ms ease-in-out;
 }
 
 
-#fullScreenGame, #fullScreenGameOver {
+#fullScreenGame {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -87,6 +98,12 @@ canvas {
   height: 30px;
   cursor: pointer;
   border-radius: 5px;
+  transition: all 125ms ease-in-out;
+}
+
+#fullScreenGame:hover {
+  scale: 1.2;
+  transition: all 125ms ease-in-out;
 }
 
 
@@ -98,27 +115,32 @@ canvas {
   right: 50px;
   bottom: 50px;
   cursor: pointer;
+  transition: all 125ms ease-in-out;
+}
 
+#exitFullScreenGame:hover {
+  scale: 0.8;
+  transition: all 125ms ease-in-out;
 }
 
 #startButton {
   position: absolute;
   background-color: transparent;
   font-size: 35px;
-  width: 250px;
   top: 10%;
+  padding: 5px 20px;
   left: calc(50% - 120px);
   cursor: pointer;
   border: unset;
   background-color: #ffd000;
   border-radius: 10px;
-  border: 2px solid;
-
+  border: 3px solid;
+  font-family: 'Londrina Solid', cursive;
+   color: rgb(139, 38, 38);
 }
 
 #startButton:hover {
-  color: rgb(186, 48, 48);
-  color: rgb(139, 38, 38);
+ color: black;
 }
 
 .startOpacity {
@@ -140,7 +162,7 @@ canvas {
   right: 0;
   left: 0;
   bottom: 0;
-  border-radius: 13px;
+  border-radius: 7px;
   z-index: 2;
 }
 
@@ -152,6 +174,12 @@ canvas {
   right: 50px;
   bottom: 50px;
   cursor: pointer;
+  transition: all 125ms ease-in-out;
+}
+
+#exitFullScreenGameOver:hover {
+  scale: 0.8;
+  transition: all 125ms ease-in-out;
 }
 
 
@@ -163,6 +191,12 @@ canvas {
   height: 30px;
   cursor: pointer;
   border-radius: 5px;
+  transition: all 125ms ease-in-out;
+}
+
+#fullScreenGameOver:hover {
+  scale: 1.2;
+  transition: all 125ms ease-in-out;
 }
 
 
@@ -172,6 +206,17 @@ canvas {
   left: calc(50% - 120px);
   cursor: pointer;
   border: unset;
+  font-size: 40px;
+  font-family: 'Londrina Solid', cursive;
+  background-color: #ffd000;
+  border-radius: 8px;
+  padding: 5px 15px;
+  border: 3px solid;
+}
+
+#startAgainButton:hover {
+ color:#ffd000 ;
+ background-color: black;
 }
 
 
