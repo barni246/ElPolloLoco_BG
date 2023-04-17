@@ -6,19 +6,16 @@ body {
   justify-content: center;
   height: 100vh;
   background: url(img/desert-3598089_1920.jpg);
- 
   background-size: cover;
-   background-position: 50% 90% ;
+  background-position: 50% 90%;
   background-repeat: no-repeat;
   font-family: 'Lato', sans-serif;
-font-family: 'Londrina Solid', cursive;
-font-family: 'Rye', cursive;
- 
- 
+  font-family: 'Londrina Solid', cursive;
+  font-family: 'Rye', cursive;
 }
 
 * {
-   font-family: 'Rye', cursive;
+  font-family: 'Rye', cursive;
 }
 
 #h1 {
@@ -40,7 +37,7 @@ canvas {
   border-radius: 13px;
   height: 100%;
   width: 100%;
- }
+}
 
 .start-container {
   position: absolute;
@@ -54,20 +51,6 @@ canvas {
   background-position: center;
   z-index: 1;
 }
-
-/* .game-over-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  border-radius: 13px;
-  background: url("img/9_intro_outro_screens/game_over/game over!.png");
-  background-size: cover;
-  background-position: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 10;
-} */
 
 .d-none {
   display: none !important;
@@ -96,7 +79,7 @@ canvas {
 }
 
 
-#fullScreenGame , #fullScreenGameOver {
+#fullScreenGame, #fullScreenGameOver {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -107,7 +90,7 @@ canvas {
 }
 
 
-#exitFullScreenGame, #exitFullScreenGameOver {
+#exitFullScreenGame {
   display: none;
   position: absolute;
   width: 50px;
@@ -124,64 +107,32 @@ canvas {
   font-size: 35px;
   width: 250px;
   top: 10%;
-  left: calc( 50% - 120px);
+  left: calc(50% - 120px);
   cursor: pointer;
   border: unset;
   background-color: #ffd000;
   border-radius: 10px;
   border: 2px solid;
-  
+
 }
 
 #startButton:hover {
   color: rgb(186, 48, 48);
-  color:  rgb(139, 38, 38);
+  color: rgb(139, 38, 38);
 }
 
 .startOpacity {
   opacity: 0;
-  transition: all 1500ms ease-in-out;
+  transition: all 1000ms ease-in-out;
 }
 
-/* #endContainer {
- display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
- 
-  background-color: blueviolet;
-  background-color: transparent;
-  z-index: 999;
-  
-} */
 
- /* #gameOver {
-  width: 790px;
-  height: 480px;
-   background-color: #ffd000; 
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url("img/9_intro_outro_screens/game_over/game over!.png");
-  background-size: cover;
-  background-position: 50% 90% ;
- background-repeat: no-repeat;
-  border: 6px solid #467b46;
-  border-radius: 13px;
+.game-over-container {
 
-}  */
-
-
-  .game-over-container {
-  
   display: none;
   background-color: rgb(226, 43, 110);
-  background-image: url("img/9_intro_outro_screens/game_over/game over!.png");
+  /* background-image: url("img/9_intro_outro_screens/game_over/game over!.png"); */
+  background-image: url("img/9_intro_outro_screens/game_over/oh no you lost!.png");
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -190,13 +141,35 @@ canvas {
   left: 0;
   bottom: 0;
   border-radius: 13px;
-}  
+  z-index: 2;
+}
+
+#exitFullScreenGameOver {
+  display: none;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 50px;
+  bottom: 50px;
+  cursor: pointer;
+}
+
+
+#fullScreenGameOver {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
 
 #startAgainButton {
   position: absolute;
   top: 10%;
-  left: calc( 50% - 120px);
+  left: calc(50% - 120px);
   cursor: pointer;
   border: unset;
 }
@@ -220,25 +193,33 @@ canvas {
 
 
 }
-  .image {
 
-   width: 250px;
-   height: 250px;
-    -webkit-animation:spin 1s linear forwards;
-    -moz-animation:spin 1s linear forwards;
-    animation:spin 1s linear forwards;
+.image {
+
+  width: 250px;
+  height: 250px;
+  -webkit-animation: spin 1s linear forwards;
+  -moz-animation: spin 1s linear forwards;
+  animation: spin 1s linear forwards;
 }
-@-moz-keyframes spin { 
-   
-    100% { -moz-transform: rotate(-90deg); } 
+
+@-moz-keyframes spin {
+
+  100% {
+    -moz-transform: rotate(-90deg);
+  }
 }
-@-webkit-keyframes spin { 
-  
-    100% { -webkit-transform: rotate(-90deg); } 
+
+@-webkit-keyframes spin {
+
+  100% {
+    -webkit-transform: rotate(-90deg);
+  }
 }
-@keyframes spin { 
-    100% { 
-        -webkit-transform: rotate(-90deg); 
-        transform:rotate(-90deg); 
-    } 
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
 }

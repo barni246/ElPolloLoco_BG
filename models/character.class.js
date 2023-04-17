@@ -44,10 +44,6 @@ class Character extends MovableObject {
     'img/2_character_pepe/4_hurt/H-43.png'
   ];
 
-
-
-
-
   walking_sound = new Audio('audio/running-grass.mp3');
   deadItv;
 
@@ -62,8 +58,6 @@ class Character extends MovableObject {
     this.applayGravity();
     this.animate();
   }
-
-
 
 
   animate() {
@@ -95,21 +89,16 @@ class Character extends MovableObject {
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-  this.deadItv =  setInterval(() => {
+    this.deadItv = setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-                    //exitFullScreenGame();
-                    // document.getElementById('endContainer').style.display = "flex";
-                    clearInterval(this.deadItv);
+
+        clearInterval(this.deadItv);
         document.getElementById('gameOverContainer').style.display = "flex";
-        
         //this.y += 5;
-         // this.currentImage = 5;
-         // this.jump();      // Himmelfahrt!!!
-         // this.speedY = 5;
-
-
-
+        // this.currentImage = 5;
+        // this.jump();      // Himmelfahrt!!!
+        // this.speedY = 5;
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       }
@@ -123,9 +112,6 @@ class Character extends MovableObject {
       }
 
     }, this.interval);
-
-
-
   }
 
 
@@ -133,8 +119,6 @@ class Character extends MovableObject {
   jump() {
     this.speedY = 30;
   }
-
-
 
 }
 
