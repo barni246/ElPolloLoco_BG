@@ -69,18 +69,20 @@ class Character extends MovableObject {
         !this.isDead()) {
         this.moveRight();
         this.otherDirection = false;
-        this.walking_sound.play();
+       // this.walking_sound.play();
       }
 
       if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead()) {
         this.moveLeft();
         this.otherDirection = true;
-        this.walking_sound.play();
+        //this.walking_sound.play();
       }
 
-      if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
-
-        this.jump();
+      if (this.world.keyboard.SPACE && 
+        !this.isAboveGround() && 
+        !this.isDead() && 
+        this.world.endBossStands) {
+          this.jump();
       }
 
       if (this.world.keyboard.DOWN) {
@@ -94,7 +96,11 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_DEAD);
 
         clearInterval(this.deadItv);
-        document.getElementById('gameOverContainer').style.display = "flex";
+         setTimeout(() => {
+           document.getElementById('gameOverContainer').style.display = "flex";
+        }, 2000);
+       // document.getElementById('gameOverContainer').style.display = "flex";
+      
         //this.y += 5;
         // this.currentImage = 5;
         // this.jump();      // Himmelfahrt!!!

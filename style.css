@@ -153,6 +153,7 @@ canvas {
 
   display: none;
   background-color: rgb(226, 43, 110);
+  background-color: rgb(168, 43, 43);
   /* background-image: url("img/9_intro_outro_screens/game_over/game over!.png"); */
   background-image: url("img/9_intro_outro_screens/game_over/oh no you lost!.png");
   background-size: cover;
@@ -164,7 +165,13 @@ canvas {
   bottom: 0;
   border-radius: 7px;
   z-index: 2;
+ 
 }
+
+.game-over {
+  background-image: url("img/9_intro_outro_screens/game_over/game over!.png");
+}
+
 
 #exitFullScreenGameOver {
   display: none;

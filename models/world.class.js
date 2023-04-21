@@ -1,5 +1,9 @@
 class World {
     character = new Character();
+    statusBar = new StatusBar();
+    statusBarBottles = new StatusBarBottles();
+    statusBarCoins = new StatusBarCoins();
+
     level = level1;
     throwableObjects = [];
     ground = 420;
@@ -7,17 +11,12 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
-    statusBarBottles = new StatusBarBottles();
-    statusBarCoins = new StatusBarCoins();
     img;
     chickenDeadItv;
     headHitItv;
     endBossDead;
-    endBoss = this.level.enemies[3];
-   
-   
-    GAME_OVER = false;
+    endBoss = this.level.enemies[5];
+    endBossStands = true;
     imageCache = {};
     currentImage;
     stop = true
@@ -34,13 +33,28 @@ class World {
         this.setClouds();
         this.sortBottles();
         this.sortCoins();
-        this.endBossAttack();
+        this.sortSmallEnemies();
+
     }
 
 
-    arrayBottle = [100, 350, 980, 1550, 1800];
+    sortSmallEnemies() {
+        this.level.smallEnemies.forEach((element, i) => {
+            if (i == 1 || i == 3 || i == 5) {
+                element.y = 300;
+            }
+            element.x = 1800 + (Math.random() * 500) + (Math.random() * 500) +
+                ((Math.random() * 500)) + ((Math.random() * 500)) + (Math.random() * 1500);
+
+        });
+
+    }
+
+
+
+    arrayBottle = [220, 790, 1390, 1890, 2900];
     sortBottles() {
-         for (let index = 0; index < this.level.bottles.length; index++) {
+        for (let index = 0; index < this.level.bottles.length; index++) {
             const bottle = this.level.bottles[index];
             // bottle.x = bottle.x + (Math.random() * 500);
             bottle.x = bottle.x + this.arrayBottle[index];
@@ -49,7 +63,7 @@ class World {
     }
 
 
-    arrayCoins = [150, 250, 780, 1250, 1700];
+    arrayCoins = [450, 950, 780, 1700, 2500];
     sortCoins() {
         for (let index = 0; index < this.level.coins.length; index++) {
             const coin = this.level.coins[index];
@@ -91,12 +105,39 @@ class World {
 
         setInterval(() => {
             this.checkCollisions();
+            this.checkCoinCollisionsSmallChicken();
+            this.checkSmallEnemyDead();
+            this.checkCollisionEndBoss();
+            //this.checkEndBossDead();
             this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkEnemyDead();
             this.checkCoinCollisions();
             this.checkThrowObjectCollision();
+
         }, 200);
+    }
+
+
+    throwableBottlesThrow() {
+        this.throwableObjects[this.indexOfThrowObject].x = this.character.x + 50;
+        this.throwableObjects[this.indexOfThrowObject].y = this.character.y + 50;
+        this.throwableObjects[this.indexOfThrowObject].throw();
+    }
+
+
+    percentageOfBottles() {
+        this.character.percentageOfBottle -= 20;
+        this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
+    }
+
+
+    endBossNoHit() {
+        this.stop = false;
+        clearInterval(this.endBoss.endbossWalkingItv);
+        this.endBoss.animateBossWalking();
+        this.endBossStands = false;
+        setTimeout(() => { this.throwableObjects = []; }, 5000);
     }
 
 
@@ -104,19 +145,38 @@ class World {
         if (this.keyboard.KEYD &&
             this.throwableObjects.length >= 1 &&
             this.indexOfThrowObject < this.throwableObjects.length) {
-            this.throwableObjects[this.indexOfThrowObject].x = this.character.x + 50;
-            this.throwableObjects[this.indexOfThrowObject].y = this.character.y + 50;
-            this.throwableObjects[this.indexOfThrowObject].throw();
-            this.character.percentageOfBottle -= 20;
-            this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
+            this.throwableBottlesThrow()
+            this.percentageOfBottles();
             this.indexOfThrowObject++;
         } else if (
             this.indexOfThrowObject == this.throwableObjects.length &&
             this.level.bottles.length == 0 &&
-            this.endBoss.headHit < 3) {
-            this.stop = false;
-            this.endBoss.animateBossWalking();
-            setTimeout(() => { this.throwableObjects = []; }, 5000);
+            headHit < 3) {
+            this.endBossNoHit();
+        }
+    }
+
+
+    checkCollisionEndBoss() {
+        if (this.character.isColliding(this.endBoss)) {
+            clearInterval(this.endBoss.endbossWalkingItv);
+            clearInterval(this.endBoss.endBossComesItv);
+            setTimeout(() => {
+                document.getElementById('gameOverContainer').style.display = "flex";
+            }, 2000);
+
+        }
+    }
+
+
+
+    // If EndBoss dead
+    checkEndBossDead() {
+        if (headHit >= 3) {
+            setTimeout(() => {
+                document.getElementById('gameOverContainer').style.display = "flex";
+                document.getElementById('gameOverContainer').classList.add('game-over');
+            }, 2000);
         }
     }
 
@@ -139,6 +199,41 @@ class World {
                 }
             });
         }
+    }
+
+
+    checkCoinCollisionsSmallChicken() {
+        if (this.character.y + this.character.height >= this.ground) {
+            this.level.smallEnemies.forEach((smallEnemy) => {
+                if (this.character.isColliding(smallEnemy)) {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
+                }
+            });
+        }
+    }
+
+
+    checkSmallEnemyDead() {
+        if (this.character.y + this.character.height < this.ground) {
+            this.level.smallEnemies.forEach((smallEnemy) => {
+                if (this.character.isColliding(smallEnemy) && smallEnemy.y + smallEnemy.height < this.ground) {
+                    console.log(smallEnemy.y + smallEnemy.height);
+                    smallEnemy.IMAGES_DEAD_SMALL_CHICKEN.forEach((path) => {
+                        smallEnemy.img.src = path;
+                        smallEnemy.speed = 0;
+                        this.stopSmallEnemiesMovingInterval(smallEnemy);
+                        setInterval(() => { smallEnemy.y += 10; }, 50);
+                    });
+                }
+
+            });
+        }
+    }
+
+    stopSmallEnemiesMovingInterval(smallEnemy) {
+        clearInterval(smallEnemy.jumpLeftItv);
+        clearInterval(smallEnemy.walkingSmallChickenItv);
     }
 
 
@@ -192,24 +287,29 @@ class World {
     }
 
 
+    characterKillsEndboss() {
+        this.character.energy = 100;
+        this.statusBar.setPercentage(this.character.energy);
+        clearInterval(this.headHitItv);
+        clearInterval(this.endBoss.endbossWalkingItv);
+        this.endBoss.animateBoss();
+        this.checkEndBossDead();
+    }
+
+
     checkThrowObjectCollision() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const throwBottle = this.throwableObjects[index];
             if (throwBottle.isColliding(this.endBoss) &&
                 throwBottle.x + throwBottle.width > this.endBoss.x + 20) {
-                this.endBoss.headHit++;
-                //console.log('Kopf', this.endBoss.headHit);
-                if (this.endBoss.headHit < 3) {
+                headHit++;
+                if (headHit < 3) {
                     this.headHitItv = setInterval(() => {
                         throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
                     }, 50);
                 }
                 else {
-                    this.character.energy = 100;
-                    this.statusBar.setPercentage(this.character.energy);
-                    clearInterval(this.headHitItv);
-                    clearInterval(this.endBoss.endbossWalkingItv);
-                    this.endBoss.animateBoss();
+                    this.characterKillsEndboss();
                 }
             }
 
@@ -244,10 +344,14 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.smallEnemies);
         this.addObjectsToMap(this.level.enemies);
+
         if (this.GAME_OVER) {
-            this.ctx.font = "60px Arial";
-            this.ctx.fillText("GAME OVER", this.character.x + 80, this.character.y + 30);
+            this.ctx.font = "70px Arial";
+            this.ctx.fillText("Congratulation!", this.character.x + 80, this.character.y + 30);
+            this.ctx.fillStyle = "red";
+            //this.ctx.textAlign = "center";
         }
         this.addObjectsToMap(this.throwableObjects);
 

@@ -1,25 +1,29 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-
-//const portrait = window.matchMedia("(orientation: portrait)").matches;
+let headHit = 0;
+let endBossStands;
 
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
 
-
-function startAgain() {
+ function startAgain() {
+    headHit = 0;
     checkFullscreenStart = false;
     checkFullscreenGame = false;
     checkFullscreenGameOver = false;
     startGame();
     document.getElementById('gameOverContainer').style.display = "none";
+    document.getElementById('gameOverContainer').classList.remove('game-over');
+   
+  
 }
 
 
 function startGame() {
+    headHit = 0;
     let startContainer = document.getElementById('startContainer');
     initLevel();
     setTimeout(() => {

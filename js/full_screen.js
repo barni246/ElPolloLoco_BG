@@ -162,3 +162,5 @@ window.matchMedia("(orientation: portrait)").addEventListener("change", screen =
         landscapeAlert.style.display = "none";
     }
 });
+
+//const portrait = window.matchMedia("(orientation: portrait)").matches;

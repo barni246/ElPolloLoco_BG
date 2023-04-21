@@ -3,7 +3,7 @@ class Bottle extends MovableObject {
 
 height = 70;
 width = 55;
-x = 400;
+x = 200;
 y = 350;
 
 
