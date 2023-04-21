@@ -318,56 +318,53 @@ class World {
     }
 
 
-    draw() {
-
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.ctx.translate(this.camera_x, 0);
-
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
-
-        //(space for fixed objects)
-        this.ctx.translate(-this.camera_x, 0); // Back 
-
+    status() {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
         this.addToMap(this.statusBarCoins);
+    }
+
+    operations() {
         this.ctx.font = "22px Arial";
         this.ctx.fillText("left", 300, 50);
         this.ctx.fillText("right", 400, 50);
         this.ctx.fillText("jump", 500, 50);
         this.ctx.fillText("throw", 600, 50);
+        this.ctx.fillStyle = "red";
+        this.ctx.textAlign = "center";
+    }
 
-        this.ctx.translate(this.camera_x, 0); // Forwards
-
-        this.addObjectsToMap(this.level.bottles);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.coins);
+    enemies() {
         this.addObjectsToMap(this.level.smallEnemies);
         this.addObjectsToMap(this.level.enemies);
-
-        if (this.GAME_OVER) {
-            this.ctx.font = "70px Arial";
-            this.ctx.fillText("Congratulation!", this.character.x + 80, this.character.y + 30);
-            this.ctx.fillStyle = "red";
-            //this.ctx.textAlign = "center";
-        }
-        this.addObjectsToMap(this.throwableObjects);
-
-        this.ctx.translate(-this.camera_x, 0);
-
-        // draw() wird immer wieder aufgerufen, und this ist unbekannt für function von requestAnimationFrame(), deshalb ist self da
-        let self = this;
-        requestAnimationFrame(function () {
-
-            self.draw();
-
-        });
-
-
-
     }
+
+    bottles() {
+        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.bottles);
+    }
+
+
+    draw() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+        this.ctx.translate(-this.camera_x, 0); // Back 
+        this.status();
+        this.operations();
+        this.ctx.translate(this.camera_x, 0); // Forwards
+        this.bottles();
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.coins);
+        this.enemies();
+        this.ctx.translate(-this.camera_x, 0);
+        let self = this;// draw() wird immer wieder aufgerufen, und this ist unbekannt für function von requestAnimationFrame(), deshalb ist self da
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
@@ -375,6 +372,7 @@ class World {
         });
     }
 
+    
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
