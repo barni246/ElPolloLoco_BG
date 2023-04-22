@@ -50,6 +50,8 @@ function startGame() {
             mariachi.play(); 
         }
     }
+
+  
    
    
     let startContainer = document.getElementById('startContainer');
@@ -66,6 +68,11 @@ function startGame() {
             setTimeout(() => { startContainer.style.display = "none"; }, 500);
         }
     }, 100);
+}
+
+
+function finish() {
+    window.location.href="index.html"
 }
 
 
