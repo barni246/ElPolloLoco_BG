@@ -24,6 +24,9 @@ class SmallChicken extends MovableObject {
     ];
 
 
+    smallChickenDeadSound = new Audio('audio/small_chicken_3.mp3');
+
+
     smallChickenArrayX =[10,250,500,1600,2600];
 
     constructor() {

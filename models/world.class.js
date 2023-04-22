@@ -19,7 +19,7 @@ class World {
     endBossStands = true;
     imageCache = {};
     currentImage;
-    stop = true
+   // stop = true
     indexOfThrowObject = 0;
 
 
@@ -133,10 +133,18 @@ class World {
 
 
     endBossNoHit() {
-        this.stop = false;
+        //this.stop = false;
         clearInterval(this.endBoss.endbossWalkingItv);
         this.endBoss.animateBossWalking();
-        this.endBossStands = false;
+     this.endBossStands = false;
+        //    if(soundOn) {
+        //     if(this.endBoss.endBossBattleSound.paused) {
+        //       this.endBoss.endBossBattleSound.play();
+        //     } else {
+        //         this.endBoss.endBossBattleSound.play();
+        //     }
+
+        // }
         setTimeout(() => { this.throwableObjects = []; }, 5000);
     }
 
@@ -152,7 +160,8 @@ class World {
             this.indexOfThrowObject == this.throwableObjects.length &&
             this.level.bottles.length == 0 &&
             headHit < 3) {
-            this.endBossNoHit();
+                     this.endBossNoHit();
+           
         }
     }
 
@@ -163,7 +172,14 @@ class World {
             clearInterval(this.endBoss.endBossComesItv);
             setTimeout(() => {
                 document.getElementById('gameOverContainer').style.display = "flex";
+                
+                     mariachi.pause();
+                    
+                
+            
+             //this.endBoss.endBossBattleSound.pause();
             }, 2000);
+            gameStarted = false;
 
         }
     }
@@ -173,18 +189,14 @@ class World {
     // If EndBoss dead
     checkEndBossDead() {
         if (headHit >= 3) {
+
             setTimeout(() => {
                 document.getElementById('gameOverContainer').style.display = "flex";
                 document.getElementById('gameOverContainer').classList.add('game-over');
+                mariachi.pause();
             }, 2000);
         }
-    }
-
-
-    endBossAttack() {
-        if (this.stop) {
-            this.endBoss.animate();
-        }
+        gameStarted = false;
     }
 
 
@@ -218,7 +230,9 @@ class World {
         if (this.character.y + this.character.height < this.ground) {
             this.level.smallEnemies.forEach((smallEnemy) => {
                 if (this.character.isColliding(smallEnemy) && smallEnemy.y + smallEnemy.height < this.ground) {
-                    console.log(smallEnemy.y + smallEnemy.height);
+                    if(soundOn) {
+                        smallEnemy.smallChickenDeadSound.play();
+                    }
                     smallEnemy.IMAGES_DEAD_SMALL_CHICKEN.forEach((path) => {
                         smallEnemy.img.src = path;
                         smallEnemy.speed = 0;
@@ -241,6 +255,10 @@ class World {
         if (this.character.y + this.character.height < this.ground) {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
+                    if(soundOn) {
+                        enemy.chickenDeadSound.volume = 0.5;
+                        enemy.chickenDeadSound.play();
+                    }
                     enemy.IMAGES_DEAD_CHICKEN.forEach((path) => {
                         enemy.img.src = path;
                         enemy.speed = 0;
@@ -270,7 +288,9 @@ class World {
                 let bottleThrow = new ThrowableObject(this.character.x, this.character.y + 1000);
                 this.throwableObjects.push(bottleThrow);
                 this.level.bottles.splice(index, 1);
-
+                if(soundOn) {
+                    bottle.bottleSound.play();
+                }
             }
         });
     }
@@ -282,6 +302,11 @@ class World {
                 this.character.percentageOfCoins += 20;
                 this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 coin.y = 1000;
+                if(soundOn) {
+                    coin.coinSound.volume = 0.2;
+                    coin.coinSound.play();
+                }
+
             }
         });
     }
@@ -350,7 +375,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.ctx.translate(-this.camera_x, 0); // Back 
+        this.ctx.translate(-this.camera_x, 0); // Back
         this.status();
         this.operations();
         this.ctx.translate(this.camera_x, 0); // Forwards
@@ -372,7 +397,7 @@ class World {
         });
     }
 
-    
+
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);

@@ -3,6 +3,13 @@ let world;
 let keyboard = new Keyboard();
 let headHit = 0;
 let endBossStands;
+let soundOn = true;
+mariachi = new Audio('audio/mariachi.mp3');
+mariachi.volume = 0.1;
+mariachi.loop = true;
+mariachi.currentTime = 0;
+let gameStarted = false;
+
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -10,6 +17,16 @@ function init() {
 }
 
  function startAgain() {
+    gameStarted = true;
+    soundCheck();
+     if(soundOn) {
+        if(mariachi.paused) {
+            mariachi.play();
+             mariachi.currentTime = 0;
+        }else {
+            mariachi.play(); 
+        }
+    }
     headHit = 0;
     checkFullscreenStart = false;
     checkFullscreenGame = false;
@@ -17,13 +34,24 @@ function init() {
     startGame();
     document.getElementById('gameOverContainer').style.display = "none";
     document.getElementById('gameOverContainer').classList.remove('game-over');
-   
-  
-}
+   }
+
 
 
 function startGame() {
-    headHit = 0;
+    gameStarted = true;
+    soundCheck();
+    if(soundOn) {
+        if(mariachi.paused) {
+          
+             mariachi.play();
+             mariachi.currentTime = 0;
+        }else {
+            mariachi.play(); 
+        }
+    }
+   
+   
     let startContainer = document.getElementById('startContainer');
     initLevel();
     setTimeout(() => {
@@ -95,6 +123,35 @@ window.addEventListener('keyup', (e) => {
         keyboard.KEYD = false;
     }
 });
+ 
+function soundCheck() {
+    setInterval(() => {
+        soundOn;
+}, 50);
+}
+
+function setSoundMariachi(){
+    
+}
+
+
+function doSoundOff() {
+    soundOn = false;
+    document.getElementById('soundOnIcon').classList.add('d-none');
+    document.getElementById('soundOffIcon').classList.remove('d-none');
+    mariachi.pause();
+}
+
+function doSoundOn() {
+    soundOn = true;
+    document.getElementById('soundOnIcon').classList.remove('d-none');
+    document.getElementById('soundOffIcon').classList.add('d-none');
+    if( gameStarted ) {
+         mariachi.play();
+    }
+   
+    //mariachi.currentTime = 0;
+}
 
 
 

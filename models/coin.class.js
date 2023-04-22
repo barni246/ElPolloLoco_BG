@@ -10,6 +10,8 @@ IMAGES_COINS = [
 'img/8_coin/coin_2.png'
 ];
 
+coinSound = new Audio('audio/coins_2.mp3');
+
 constructor(){
     super().loadImage('img/8_coin/coin_1.png');
     this.loadImages(this.IMAGES_COINS);

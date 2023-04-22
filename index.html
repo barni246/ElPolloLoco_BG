@@ -6,11 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El Pollo Loco 1</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;1,100&family=Londrina+Solid:wght@100;300;400;900&family=Rye&display=swap"
-    rel="stylesheet">
+  <link rel="icon" type="image/URL-icon" href="img/4_enemie_boss_chicken/1_walk/G2.png">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="style.css">
   <!-- drawable-object muss vor movables-object stehen-->
   <script src="models/drawable-object.class.js"></script>
@@ -59,6 +56,9 @@
       <img src="img/exit-game-over-full-screen.svg" id="exitFullScreenGameOver"
         onclick="exitFullScreenGameOver()">
     </div>
+
+    <img id="soundOnIcon" class="sound-on" onclick="doSoundOff()" src="img/sound-ON.png" alt="">
+    <img id="soundOffIcon" class="sound-off sound-on d-none" onclick="doSoundOn()" src="img/sound-OFF.png" alt="">
 
   </div>
 
