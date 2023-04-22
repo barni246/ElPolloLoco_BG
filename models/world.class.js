@@ -350,13 +350,13 @@ class World {
     }
 
     operations() {
-        this.ctx.font = "22px Arial";
-        this.ctx.fillText("left", 300, 50);
+        this.ctx.font = "18px Londrina Solid";
+        this.ctx.fillText("Arrow Left:left", 300, 50);
         this.ctx.fillText("right", 400, 50);
         this.ctx.fillText("jump", 500, 50);
         this.ctx.fillText("throw", 600, 50);
-        this.ctx.fillStyle = "red";
-        this.ctx.textAlign = "center";
+        this.ctx.fillStyle = "black";
+        //this.ctx.textAlign = "center";
     }
 
     enemies() {

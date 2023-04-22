@@ -248,11 +248,14 @@ canvas {
 
 .sound-on {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
   z-index: 10000;
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 5px;
   cursor: pointer;
 }
 
