@@ -19,7 +19,7 @@ class World {
     endBossStands = true;
     imageCache = {};
     currentImage;
-   // stop = true
+    // stop = true
     indexOfThrowObject = 0;
 
 
@@ -119,6 +119,7 @@ class World {
     }
 
 
+    // Character throws a bottle
     throwableBottlesThrow() {
         this.throwableObjects[this.indexOfThrowObject].x = this.character.x + 50;
         this.throwableObjects[this.indexOfThrowObject].y = this.character.y + 50;
@@ -126,17 +127,19 @@ class World {
     }
 
 
+    // Statusbar reduces thrown bottle
     percentageOfBottles() {
         this.character.percentageOfBottle -= 20;
         this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
     }
 
 
+    // EndBoss starts to walk left
     endBossNoHit() {
         //this.stop = false;
         clearInterval(this.endBoss.endbossWalkingItv);
         this.endBoss.animateBossWalking();
-     this.endBossStands = false;
+        this.endBossStands = false;
         //    if(soundOn) {
         //     if(this.endBoss.endBossBattleSound.paused) {
         //       this.endBoss.endBossBattleSound.play();
@@ -148,7 +151,8 @@ class World {
         setTimeout(() => { this.throwableObjects = []; }, 5000);
     }
 
-
+    // Is there still a bottle available ? If so than to throw it, if not and
+    // not hit, endBoss starts to walk left
     checkThrowObjects() {
         if (this.keyboard.KEYD &&
             this.throwableObjects.length >= 1 &&
@@ -160,24 +164,24 @@ class World {
             this.indexOfThrowObject == this.throwableObjects.length &&
             this.level.bottles.length == 0 &&
             headHit < 3) {
-                     this.endBossNoHit();
-           
+            this.endBossNoHit();
+
         }
     }
 
-
+    // Checking collision between character end endBoss
     checkCollisionEndBoss() {
         if (this.character.isColliding(this.endBoss)) {
             clearInterval(this.endBoss.endbossWalkingItv);
             clearInterval(this.endBoss.endBossComesItv);
             setTimeout(() => {
                 document.getElementById('gameOverContainer').style.display = "flex";
-                
-                     mariachi.pause();
-                    
-                
-            
-             //this.endBoss.endBossBattleSound.pause();
+
+                mariachi.pause();
+
+
+
+                //this.endBoss.endBossBattleSound.pause();
             }, 2000);
             gameStarted = false;
 
@@ -185,8 +189,7 @@ class World {
     }
 
 
-
-    // If EndBoss dead
+    // If EndBoss dead, game over
     checkEndBossDead() {
         if (headHit >= 3) {
 
@@ -200,6 +203,7 @@ class World {
     }
 
 
+    // Checking collision between character and enemies (chicken)
     checkCollisions() {
         if (this.character.y + this.character.height >= this.ground) {
             this.level.enemies.forEach((enemy) => {
@@ -214,6 +218,7 @@ class World {
     }
 
 
+    // Checking collision between character and small enemies (small chicken)
     checkCoinCollisionsSmallChicken() {
         if (this.character.y + this.character.height >= this.ground) {
             this.level.smallEnemies.forEach((smallEnemy) => {
@@ -226,11 +231,12 @@ class World {
     }
 
 
+    // Character kills small chicken
     checkSmallEnemyDead() {
         if (this.character.y + this.character.height < this.ground) {
             this.level.smallEnemies.forEach((smallEnemy) => {
                 if (this.character.isColliding(smallEnemy) && smallEnemy.y + smallEnemy.height < this.ground) {
-                    if(soundOn) {
+                    if (soundOn) {
                         smallEnemy.smallChickenDeadSound.play();
                     }
                     smallEnemy.IMAGES_DEAD_SMALL_CHICKEN.forEach((path) => {
@@ -245,17 +251,20 @@ class World {
         }
     }
 
+
+    // Create Intervall from: small chicken
     stopSmallEnemiesMovingInterval(smallEnemy) {
         clearInterval(smallEnemy.jumpLeftItv);
         clearInterval(smallEnemy.walkingSmallChickenItv);
     }
 
 
+    // Checking dead from enemies (chicken), playing sound and dead images
     checkEnemyDead() {
         if (this.character.y + this.character.height < this.ground) {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    if(soundOn) {
+                    if (soundOn) {
                         enemy.chickenDeadSound.volume = 0.5;
                         enemy.chickenDeadSound.play();
                     }
@@ -273,12 +282,14 @@ class World {
     }
 
 
+    // Create Interval from: enemies (chicken)
     stopEnemiesMovingInterval(enemy) {
         clearInterval(enemy.chickenMoveLeftItv);
         clearInterval(enemy.chickenWalkingItv);
     }
 
 
+    // Checking collision between character and bottle to collect it
     checkBottleCollisions() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
@@ -288,7 +299,7 @@ class World {
                 let bottleThrow = new ThrowableObject(this.character.x, this.character.y + 1000);
                 this.throwableObjects.push(bottleThrow);
                 this.level.bottles.splice(index, 1);
-                if(soundOn) {
+                if (soundOn) {
                     bottle.bottleSound.play();
                 }
             }
@@ -296,13 +307,14 @@ class World {
     }
 
 
+    // Checking collision between character and coin to collect it
     checkCoinCollisions() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 this.character.percentageOfCoins += 20;
                 this.statusBarCoins.setPercentageCoins(this.character.percentageOfCoins);
                 coin.y = 1000;
-                if(soundOn) {
+                if (soundOn) {
                     coin.coinSound.volume = 0.2;
                     coin.coinSound.play();
                 }
@@ -312,6 +324,7 @@ class World {
     }
 
 
+    // EndBoss is dead, statusbar to 100%, intervals cleared
     characterKillsEndboss() {
         this.character.energy = 100;
         this.statusBar.setPercentage(this.character.energy);
@@ -322,6 +335,7 @@ class World {
     }
 
 
+    // Checking collision between endBoss and throwable bottle
     checkThrowObjectCollision() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const throwBottle = this.throwableObjects[index];
@@ -342,7 +356,7 @@ class World {
 
     }
 
-
+    // All statusbar add to canvas
     status() {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarBottles);
