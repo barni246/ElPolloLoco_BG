@@ -23,12 +23,13 @@ class Chicken extends MovableObject {
 
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-        for (let index = 0; index < this.arrayEnemies.length; index++) {
-            const element = this.arrayEnemies[index];
+        // for (let index = 0; index < this.arrayEnemies.length; index++) {
+        //     const element = this.arrayEnemies[index];
             
-             this.x = 500 + ((Math.random() * 500)) + ((Math.random() * 200))
-              + ((Math.random() * 200)) + ((Math.random() * 200)) + ((Math.random() * 200));
-        }
+            
+        // }
+        this.x = 500 + ((Math.random() * 500)) + ((Math.random() * 200))
+        + ((Math.random() * 200)) + ((Math.random() * 200)) + ((Math.random() * 200));
        
         this.animate();
         this.loadImages(this.IMAGES_WALKING);

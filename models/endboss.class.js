@@ -71,8 +71,6 @@ class Endboss extends MovableObject {
 
    this.endBossComesItv = setInterval(() => {
       this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
-      //  this.x -= 1;
-      //  console.log('x:', this.x);
     }, 200);
 
   }

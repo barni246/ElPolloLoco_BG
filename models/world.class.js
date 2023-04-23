@@ -351,10 +351,9 @@ class World {
                     this.characterKillsEndboss();
                 }
             }
-
         }
-
     }
+
 
     // All statusbar add to canvas
     status() {
@@ -364,13 +363,13 @@ class World {
     }
 
     operations() {
-        this.ctx.font = "22px Arial";
-        this.ctx.fillText("left", 300, 50);
-        this.ctx.fillText("right", 400, 50);
-        this.ctx.fillText("jump", 500, 50);
-        this.ctx.fillText("throw", 600, 50);
-        this.ctx.fillStyle = "red";
-        this.ctx.textAlign = "center";
+        this.ctx.font = "18px Londrina Solid";
+        this.ctx.fillText("Arrow Left : left", 300, 50);
+        this.ctx.fillText("Arrow Right : right", 300, 80);
+        this.ctx.fillText("Space : jump", 500, 50);
+        this.ctx.fillText("Key D : throw", 500, 80);
+        this.ctx.fillStyle = "rgb(168, 43, 43)";
+        //this.ctx.textAlign = "center";
     }
 
     enemies() {
@@ -398,7 +397,7 @@ class World {
         this.addObjectsToMap(this.level.coins);
         this.enemies();
         this.ctx.translate(-this.camera_x, 0);
-        let self = this;// draw() wird immer wieder aufgerufen, und this ist unbekannt für function von requestAnimationFrame(), deshalb ist self da
+        let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });

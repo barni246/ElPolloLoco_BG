@@ -38,23 +38,15 @@ class SmallChicken extends MovableObject {
     }
 
 
-   
-
-
-    
-   
-
-    animate() {
+   animate() {
       this.jumpLeftItv = setInterval(() => {
        
      if(this.y > 370 && this.y < 400) {
         this.y -= 50;
         this.x -= (Math.random() * 15);
-        //this.y += 10; 
      }
      
      else {
-      //this.y += 20; 
       this.y += 5;  
         this.x -=  (Math.random() * 20);
      }

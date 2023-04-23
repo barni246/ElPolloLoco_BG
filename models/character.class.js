@@ -5,6 +5,8 @@ class Character extends MovableObject {
   speed = 5;
   interval = 50;
   world;
+  deadItv;
+  characterWalking = new Audio('audio/character_walking.mp3');
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
@@ -44,26 +46,24 @@ class Character extends MovableObject {
     'img/2_character_pepe/4_hurt/H-43.png'
   ];
 
-  characterWalking = new Audio('audio/character_walking.mp3');
-
-  deadItv;
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
-
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
-
     this.applayGravity();
     this.animate();
   }
+
+
   setWalkingSound() {
     this.characterWalking.volume = 0.1;
     this.characterWalking.playbackRate = 6;
     this.characterWalking.play();
   }
+
 
   animate() {
 
@@ -103,14 +103,14 @@ class Character extends MovableObject {
         gameStarted = false;
         this.playAnimation(this.IMAGES_DEAD);
 
+
+        //  setTimeout(() => {
+
+        document.getElementById('gameOverContainer').style.display = "flex";
+        mariachi.pause();
+        // this.world.endBoss.endBossBattleSound.pause();
+        // }, 2000);
         clearInterval(this.deadItv);
-        setTimeout(() => {
-
-          document.getElementById('gameOverContainer').style.display = "flex";
-          mariachi.pause();
-          // this.world.endBoss.endBossBattleSound.pause();
-        }, 2000);
-
 
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
@@ -119,7 +119,6 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          // walk animation
           this.playAnimation(this.IMAGES_WALKING);
         }
       }
@@ -127,7 +126,6 @@ class Character extends MovableObject {
     }, this.interval);
 
   }
-
 
 
   jump() {

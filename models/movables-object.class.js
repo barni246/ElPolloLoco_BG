@@ -46,15 +46,6 @@ class MovableObject extends DrawableObject {
     }
 
 
-    // isEnemyDead(mo) {
-    //     return this.x + this.width  > mo.x &&
-    //     (this.y + this.height) > mo.y &&
-    //     this.x  < mo.x  &&
-    //     this.y + this.height / 2 < mo.y ;
-    // }
-
-
-
     hit() {
         this.energy -= 5;
         if(this.energy < 0) {

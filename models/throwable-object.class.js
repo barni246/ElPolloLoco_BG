@@ -31,15 +31,14 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 60;
         this.width = 50;
-        //this.throw();
     }
 
     throw() {
         if(soundOn) {
-            this.throwBottleSound.volume = 0.3;
+            this.throwBottleSound.volume = 0.2;
             this.throwBottleSound.play();
         }
-        this.speedY = 35; //30
+        this.speedY = 35; 
         this.applayGravity();
         this.throwItv = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE);
