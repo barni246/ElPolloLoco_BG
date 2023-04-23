@@ -40,7 +40,10 @@ canvas {
   width: 100%;
 }
 
+#mobileContainerButtons {}
+
 .start-container {
+
   position: absolute;
   top: 0;
   right: 0;
@@ -303,22 +306,28 @@ canvas {
 }
 
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1050px) {
 
- body {
-    overflow: hidden;
+  body {
+    overflo: hidden;
+   eight: 100%;
   }
 
   #h1 {
     display: none !important;
   }
 
-  #wrapper,
+  #wrapper {
+    width: 100%;
+    height: 100%; 
+    border: unset !important;
+    border-radius: 0 !important; 
+  }
+
   #canvas,
   #gameOverContainer,
   #startContainer {
-    width: 100%;
-    height: 100%;
+
     border: unset !important;
     border-radius: 0 !important;
   }
@@ -331,4 +340,88 @@ canvas {
   #exitFullScreenGameOver {
     display: none !important;
   }
+
+  #btnLeft {
+    display: block !important;
+    border: 2px solid #ffd000;
+    border-radius: 100%;
+    background-color: rgb(168, 43, 43);
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    left: 70px;
+    z-index: 0;
+    cursor: pointer;
+
+  }
+
+  #btnRight {
+    display: block !important;
+    border: 2px solid #ffd000;
+    border-radius: 100%;
+    background-color: rgb(168, 43, 43);
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    bottom: 20px;
+    right: 70px;
+    z-index: 0;
+    cursor: pointer;
+  }
+
+  #btnJump {
+    display: block !important;
+    border: 2px solid #ffd000;
+    border-radius: 100%;
+    background-color: rgb(168, 43, 43);
+    transform: rotate(270deg);
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    left: 150px;
+    z-index: 0;
+    cursor: pointer;
+  }
+
+  #btnThrow {
+    display: block !important;
+    border: 2px solid #ffd000;
+    border-radius: 100%;
+    background-color: rgb(168, 43, 43);
+    position: absolute;
+    right: 150px;
+    bottom: 20px;
+    z-index: 0;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    padding: 3px;
+  }
+
+
+
 }
+
+@media screen and (max-width: 667px), screen and (max-height: 375px) {
+  #wrapper {
+    width: 667px;
+    height: 375px;
+    border: unset !important;
+    border-radius: 0 !important;
+    
+  }
+ 
+}
+
+   /* @media screen and (max-width: 896px), screen and (max-height: 414px) {
+    #wrapper {
+      width: 896px;
+      height: 414px;
+      border: unset !important;
+      border-radius: 0 !important;
+    }
+
+
+  }  */

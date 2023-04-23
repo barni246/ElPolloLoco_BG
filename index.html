@@ -30,6 +30,10 @@
   <script src="levels/level1.js"></script>
   <script src="js/full_screen.js"></script>
   <script src="js/game.js"></script>
+  <script>
+
+
+  </script>
 
 </head>
 
@@ -49,6 +53,14 @@
     <canvas id="canvas" width="790px" height="480px"> </canvas>
     <img src="img/red-fullscreen-GAME.svg" id="fullScreenGame" onclick="fullScreenGame()">
     <img src="img/exit-game-full-screen.svg" id="exitFullScreenGame" onclick="exitFullScreenGame()">
+
+    <!-- <div id="mobileContainerButtons"> --> 
+      <img style="display: none" src="img/leftarrow.png" class="mobileBtn" id="btnLeft" >
+      <img style="display: none" src="img/rightarrow.png" class="mobileBtn" id="btnRight" >
+      <img style="display: none" src="img/rightarrow.png" clas="mobileBtn" id="btnJump">
+      <img style="display: none" src="img/bottle_mobile.png" clas="mobileBtn" id="btnThrow">
+     
+    <!-- </div> -->
 
     <div id="gameOverContainer" class="game-over-container">
       <button class="buttons-game-over" onclick="startAgain()" id="startAgainButton">Start Again</button>

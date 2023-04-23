@@ -153,6 +153,45 @@ window.addEventListener('keyup', (e) => {
 });
 
 
+document.addEventListener('touchstart', e => {
+    [...e.changedTouches].forEach(touch => {
+        const button = touch.target.id;
+        if(button == 'btnRight') {
+            keyboard.RIGHT = true;
+        }
+        if(button == 'btnLeft') {
+            keyboard.LEFT = true;
+        }
+        if(button == 'btnJump') {
+            keyboard.SPACE = true;
+        }
+        if(button == 'btnThrow') {
+            keyboard.KEYD = true;
+        }
+    } )
+});
+
+
+document.addEventListener('touchend', e => {
+    [...e.changedTouches].forEach(touch => {
+        const button = touch.target.id;
+        if(button == 'btnRight') {
+            keyboard.RIGHT = false;
+        }
+        if(button == 'btnLeft') {
+            keyboard.LEFT = false;
+        }
+        if(button == 'btnJump') {
+            keyboard.SPACE = false;
+        }
+        if(button == 'btnThrow') {
+            keyboard.KEYD = false;
+        }
+    } )
+});
+
+
+
 
 
 

@@ -114,6 +114,7 @@ class World {
             this.checkEnemyDead();
             this.checkCoinCollisions();
             this.checkThrowObjectCollision();
+            this. operations();
 
         }, 200);
     }
@@ -363,13 +364,16 @@ class World {
     }
 
     operations() {
-        this.ctx.font = "18px Londrina Solid";
+        if(innerWidth > 1050) {
+            this.ctx.font = "18px Londrina Solid";
         this.ctx.fillText("Arrow Left : left", 300, 50);
         this.ctx.fillText("Arrow Right : right", 300, 80);
         this.ctx.fillText("Space : jump", 500, 50);
         this.ctx.fillText("Key D : throw", 500, 80);
         this.ctx.fillStyle = "rgb(168, 43, 43)";
         //this.ctx.textAlign = "center";
+        }
+        
     }
 
     enemies() {
@@ -436,4 +440,6 @@ class World {
         this.ctx.restore();
         mo.x = mo.x * -1;
     }
+
+    
 }
