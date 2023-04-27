@@ -101,10 +101,10 @@ class World {
         this.character.world = this;
     }
 
-   runItv;
+
     run() {
 
-       this.runItv = setInterval(() => {
+        setInterval(() => {
             this.checkCollisions();
             this.checkCollisionsSmallChicken();
 
@@ -112,16 +112,16 @@ class World {
             //this.checkEndBossDead();
             this.checkBottleCollisions();
             this.checkThrowObjects();
-            this.checkCoinCollisions();
 
+            this.checkCoinCollisions();
+            this.checkEnemyDead();
             this.checkThrowObjectCollision();
+            
             this.operations();
-            this.character.energy;
-            console.log('this.character.energy',this.character.energy);
-            //console.log('character ', this.character.y + this.character.height);
-            //console.log('chicken', this.level.enemies[0].y + this.level.enemies[0].height);
-            //console.log('small chicken', this.level.smallEnemies[0].y + this.level.smallEnemies[0].height);
-            //console.log('endBoss', this.endBoss.y + this.endBoss.height);
+            console.log('character ', this.character.y + this.character.height);
+            console.log('chicken', this.level.enemies[0].y + this.level.enemies[0].height);
+            console.log('small chicken', this.level.smallEnemies[0].y + this.level.smallEnemies[0].height);
+            console.log('endBoss', this.endBoss.y + this.endBoss.height);
 
         }, 100);
     }
@@ -129,9 +129,8 @@ class World {
     run2() {
         setInterval(() => {
             this.checkSmallEnemyDead();
-            this.checkEnemyDead();
-
-        }, 25);
+          
+        }, 20);
     }
 
 
@@ -185,11 +184,11 @@ class World {
             this.level.bottles.length == 0 &&
             headHit < 3) {
             setTimeout(() => {
-                if (headHit < 3) {
+                if(headHit < 3) {
                     this.endBossNoHit();
                 }
             }, 1000);
-
+            
 
         }
     }
@@ -222,8 +221,6 @@ class World {
                 document.getElementById('gameOverContainer').style.display = "flex";
                 document.getElementById('gameOverContainer').classList.add('game-over');
                 mariachi.pause();
-                this.character.energy = 100;
-                clearInterval(this.runItv);
             }, 2000);
         }
         gameStarted = false;
@@ -257,11 +254,39 @@ class World {
     checkSmallEnemyDead() {
         this.level.smallEnemies.forEach((smallEnemy) => {
 
-            if (this.character.y + this.character.height > smallEnemy.y &&
-                this.character.y + this.character.height < smallEnemy.y + smallEnemy.height) {
-                if (this.character.x + this.character.width > smallEnemy.x && this.character.x < smallEnemy.x ||
-                    this.character.x + this.character.width > smallEnemy.x + smallEnemy.width && this.character.x < smallEnemy.x ||
-                    this.character.x + this.character.width > smallEnemy.x + smallEnemy.width && this.character.x > smallEnemy.x &&
+            if (this.character.y + this.character.height > smallEnemy.y) {
+                if (this.character.x + this.character.width > smallEnemy.x &&
+                    this.character.x < smallEnemy.x) {
+                    if (soundOn) {
+                        smallEnemy.smallChickenDeadSound.play();
+                    }
+                    smallEnemy.IMAGES_DEAD_SMALL_CHICKEN.forEach((path) => {
+                        smallEnemy.img.src = path;
+                        smallEnemy.speed = 0;
+                        this.stopSmallEnemiesMovingInterval(smallEnemy);
+                        setInterval(() => { smallEnemy.y += 10; }, 50);
+                    });
+
+                }
+
+                if (this.character.x + this.character.width > smallEnemy.x + smallEnemy.width &&
+
+                    this.character.x < smallEnemy.x) {
+                    if (soundOn) {
+                        smallEnemy.smallChickenDeadSound.play();
+                    }
+                    smallEnemy.IMAGES_DEAD_SMALL_CHICKEN.forEach((path) => {
+                        smallEnemy.img.src = path;
+                        smallEnemy.speed = 0;
+                        this.stopSmallEnemiesMovingInterval(smallEnemy);
+                        this.fallY =   setInterval(() => { smallEnemy.y += 10; }, 50);
+                    });
+
+                }
+
+                if (this.character.x + this.character.width > smallEnemy.x + smallEnemy.width &&
+
+                    this.character.x > smallEnemy.x && 
                     this.character.x < smallEnemy.x + smallEnemy.width) {
                     if (soundOn) {
                         smallEnemy.smallChickenDeadSound.play();
@@ -270,16 +295,20 @@ class World {
                         smallEnemy.img.src = path;
                         smallEnemy.speed = 0;
                         this.stopSmallEnemiesMovingInterval(smallEnemy);
-                        setInterval(() => { if (smallEnemy.y < 500) { smallEnemy.y += 10; } }, 50);
+                        this.fallY = setInterval(() => { smallEnemy.y += 10; }, 50);
                     });
+
                 }
             }
-        });
-    }
 
+        });
+
+    }
+fallY;
 
     // Clear Intervall from: small chicken
     stopSmallEnemiesMovingInterval(smallEnemy) {
+        //clearInterval(smallEnemy.jumpLeftItv);
         clearInterval(smallEnemy.walkingSmallChickenItv);
     }
 
@@ -303,42 +332,63 @@ class World {
         });
     }
 
-    IMAGES_DEAD_CHICKEN = [
-        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
-        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
-    ];
-
 
     // Checking dead from enemies (chicken), playing sound and dead images    ez a jo
     checkEnemyDead() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.y + this.character.height > enemy.y &&
+                this.character.y + this.character.height < enemy.y + enemy.height - 20) {
 
-          
-            this.level.enemies.forEach((enemy,i) => {
-                 
-                if (this.character.y + this.character.height > enemy.y &&
-                    this.character.y + this.character.height < enemy.y + enemy.height) {
-
-                    if (this.character.x + this.character.width > enemy.x && this.character.x < enemy.x ||
-                        this.character.x + this.character.width > enemy.x + enemy.width && this.character.x < enemy.x ||
-                        this.character.x + this.character.width > enemy.x + enemy.width && this.character.x > enemy.x &&
-                        this.character.x < enemy.x + enemy.width) {
-                       this.stopEnemiesMovingInterval(enemy);
-                        this.IMAGES_DEAD_CHICKEN.forEach((path) => {
-                            enemy.img.src = path;
-                            enemy.speed = 0;
-                           
-                            if (soundOn) {enemy.chickenDeadSound.play();}
-                            setInterval(() => {
-                                 if (enemy.y < 500) {
-                                     enemy.y += 10; 
-                                    } 
-                                 }, 50);
-                        });
+                if (this.character.x + this.character.width > enemy.x &&  // balrol
+                    this.character.x < enemy.x) {
+                    if (soundOn) {
+                        enemy.chickenDeadSound.volume = 0.5;
+                        enemy.chickenDeadSound.play();
                     }
+                    enemy.IMAGES_DEAD_CHICKEN.forEach((path) => {
+                        enemy.img.src = path;
+                        enemy.speed = 0;
+                        this.stopEnemiesMovingInterval(enemy);
+                        this.chickenDeadItv = setInterval(() => { enemy.y += 10; }, 50);
+                    });
                 }
-            });
-    }
 
+                if (this.character.x + this.character.width > enemy.x + enemy.width &&  // közepen
+
+                    this.character.x < enemy.x) {
+                    if (soundOn) {
+                        enemy.chickenDeadSound.volume = 0.5;
+                        enemy.chickenDeadSound.play();
+                    }
+                    enemy.IMAGES_DEAD_CHICKEN.forEach((path) => {
+                        enemy.img.src = path;
+                        enemy.speed = 0;
+                        this.stopEnemiesMovingInterval(enemy);
+                        this.chickenDeadItv = setInterval(() => { enemy.y += 10; }, 50);
+                    });
+                }
+
+                if (this.character.x + this.character.width > enemy.x + enemy.width &&  // jobbrol
+
+                    this.character.x > enemy.x && 
+                    this.character.x < enemy.x + enemy.width) {
+                    if (soundOn) {
+                        enemy.chickenDeadSound.volume = 0.5;
+                        enemy.chickenDeadSound.play();
+                    }
+                    enemy.IMAGES_DEAD_CHICKEN.forEach((path) => {
+                        enemy.img.src = path;
+                        enemy.speed = 0;
+                        this.stopEnemiesMovingInterval(enemy);
+                        this.chickenDeadItv = setInterval(() => { enemy.y += 10; }, 50);
+                    });
+                }
+                clearInterval(this.chickenDeadItv);
+
+
+            }
+        });
+    }
 
 
     // Create Interval from: enemies (chicken)
@@ -401,24 +451,11 @@ class World {
             if (throwBottle.isColliding(this.endBoss) &&
                 throwBottle.x + throwBottle.width > this.endBoss.x + 20) {
                 headHit++;
-                if (headHit < 4) {
+                if (headHit < 3) {
                     this.headHitItv = setInterval(() => {
-                        //if(throwBottle.y < 350) {
-                           clearInterval(throwBottle.throwItv);
-                            throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
-                        //}
-                        
-                    }, 200);
-                   if(headHit == 3) {
-                    setTimeout(() => {
-                         this.characterKillsEndboss();
-                    }, 500);
-                   
-                   }
-                  
-                } 
-                
-
+                        throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
+                    }, 50);
+                }
                 else {
                     this.characterKillsEndboss();
                 }
@@ -467,11 +504,10 @@ class World {
         this.status();
         this.operations();
         this.ctx.translate(this.camera_x, 0); // Forwards
-       
+        this.bottles();
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
         this.enemies();
-         this.bottles();
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function () {
