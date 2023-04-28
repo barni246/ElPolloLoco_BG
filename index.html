@@ -6,17 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El Pollo Loco 1</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;1,100&family=Londrina+Solid:wght@100;300;400;900&family=Rye&display=swap"
-    rel="stylesheet">
+  <link rel="icon" type="image/URL-icon" href="img/4_enemie_boss_chicken/1_walk/G2.png">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="style.css">
   <!-- drawable-object muss vor movables-object stehen-->
   <script src="models/drawable-object.class.js"></script>
   <script src="models/movables-object.class.js"></script>
   <script src="models/character.class.js"></script>
   <script src="models/chicken.class.js"></script>
+  <script src="models/small-chicken.class.js"></script>
   <script src="models/cloud.class.js"></script>
   <script src="models/status-bar.class.js"></script>
   <script src="models/status-bar-bottles.class.js"></script>
@@ -32,6 +30,10 @@
   <script src="levels/level1.js"></script>
   <script src="js/full_screen.js"></script>
   <script src="js/game.js"></script>
+  <script>
+
+
+  </script>
 
 </head>
 
@@ -46,18 +48,34 @@
       <button onclick="startGame()" id="startButton">Start Game</button>
       <img src="img/fullscreen-start.svg" id="fullScreenStart" onclick="fullScreenStart()">
       <img src="img/exit-start-full-screen.svg" id="exitFullScreenStart" onclick="exitFullScreenStart()">
+      <div class="game-information">
+        <span class="first-row">How you can win:</span>
+        <span class="text-rule"> to win the game, you have to kill Endboss with the collected bottles. There are five Salsa bottles. You have to hit it threetimes. To kill chicken and small chicke  you have to jump on them.</span>
+      </div>
     </div>
 
     <canvas id="canvas" width="790px" height="480px"> </canvas>
     <img src="img/red-fullscreen-GAME.svg" id="fullScreenGame" onclick="fullScreenGame()">
     <img src="img/exit-game-full-screen.svg" id="exitFullScreenGame" onclick="exitFullScreenGame()">
 
+    <!-- <div id="mobileContainerButtons"> --> 
+      <img style="display: none" src="img/leftarrow.png" class="mobileBtn" id="btnLeft" >
+      <img style="display: none" src="img/rightarrow.png" class="mobileBtn" id="btnRight" >
+      <img style="display: none" src="img/rightarrow.png" clas="mobileBtn" id="btnJump">
+      <img style="display: none" src="img/bottle_mobile.png" clas="mobileBtn" id="btnThrow">
+     
+    <!-- </div> -->
+
     <div id="gameOverContainer" class="game-over-container">
-      <button onclick="startAgain()" id="startAgainButton">Start Again</button>
+      <button class="buttons-game-over" onclick="startAgain()" id="startAgainButton">Start Again</button>
+      <button class="buttons-game-over"  onclick="finish()" id="finishButton">Finish</button>
       <img src="img/yellow-fullscreen-game-over.svg" id="fullScreenGameOver" onclick="fullScreenGameOver()">
       <img src="img/exit-game-over-full-screen.svg" id="exitFullScreenGameOver"
         onclick="exitFullScreenGameOver()">
     </div>
+
+    <img id="soundOnIcon" class="sound-on" onclick="doSoundOff()" src="img/sound-ON.png" alt="">
+    <img id="soundOffIcon" class="sound-off sound-on d-none" onclick="doSoundOn()" src="img/sound-OFF.png" alt="">
 
   </div>
 

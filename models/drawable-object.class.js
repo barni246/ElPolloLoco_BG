@@ -41,7 +41,8 @@ class DrawableObject {
 
          if (this instanceof Character ||
               this instanceof Endboss || 
-              this instanceof Chicken ) { // nur diese Objekte werden in Rahmen angezeigt
+              this instanceof Chicken || 
+              this instanceof SmallChicken) { // nur diese Objekte werden in Rahmen angezeigt
 
              ctx.beginPath();
              ctx.lineWidth = '5';

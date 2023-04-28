@@ -66,16 +66,26 @@ function initLevel() {
                 new Chicken(),
                 new Chicken(),
                 new Chicken(),
+                new Chicken(),
+                new Chicken(),
                 new Endboss()
-            ]
-        
-        
-        
-        );
-        
-    
-
-    }
+                
+               
+            ],
+            [
+                 new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken(),
+                new SmallChicken()
+            ], 
+            );
+        }
 
 
 

@@ -1,7 +1,7 @@
 class Coin extends MovableObject {
 
     y =  90;
-    x = 290;
+    x = 450;
 height = 100;
 width = 100;
 
@@ -9,6 +9,8 @@ IMAGES_COINS = [
 'img/8_coin/coin_1.png',
 'img/8_coin/coin_2.png'
 ];
+
+coinSound = new Audio('audio/coins_2.mp3');
 
 constructor(){
     super().loadImage('img/8_coin/coin_1.png');

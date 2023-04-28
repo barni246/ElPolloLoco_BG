@@ -146,19 +146,26 @@ function exitFullscreen() {
 
 
 window.matchMedia("(orientation: portrait)").addEventListener("change", screen => {
-    const landscapeAlert = document.getElementById('landscapeAlert')
-    portrait = screen.matches;
-    if (portrait) {
-        if (checkFullscreenStart) {
-            exitFullScreenStart();
+    //window.matchMedia("(min-width: 900px)").addEventListener("change", screen => {
+        const landscapeAlert = document.getElementById('landscapeAlert')
+        portrait = screen.matches;
+        if (portrait) {
+            if (checkFullscreenStart) {
+                exitFullScreenStart();
+                landscapeAlert.style.display = "flex";
+            } else if (checkFullscreenGame) {
+                exitFullScreenGame();
+            } else if (checkFullscreenGameOver) {
+                exitFullScreenGameOver();
+            }
             landscapeAlert.style.display = "flex";
-        } else if (checkFullscreenGame) {
-            exitFullScreenGame();
-        } else if (checkFullscreenGameOver) {
-            exitFullScreenGameOver();
+        } else {
+            landscapeAlert.style.display = "none";
         }
-        landscapeAlert.style.display = "flex";
-    } else {
-        landscapeAlert.style.display = "none";
-    }
-});
+    });  
+
+
+
+
+
+//const portrait = window.matchMedia("(orientation: portrait)").matches;

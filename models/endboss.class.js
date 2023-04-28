@@ -30,18 +30,20 @@ class Endboss extends MovableObject {
     'img/4_enemie_boss_chicken/1_walk/G4.png'
   ];
 
+
+  endBossBattleSound = new Audio('audio/endboss_1.mp3');
+
   constructor() {
 
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_BOSS_DEAD);
     this.loadImages(this.IMAGES_ENDBOSS_WALKING);
-    //this.x = 2500;
-    this.x = 3500;
-    //this.animate();
+    this.x = 3940;
+    this.animate();
 
   }
-
+  endBossComesItv;
   endbossWalkingItv;
   animate() {
 
@@ -62,15 +64,13 @@ class Endboss extends MovableObject {
 
 
   animateBossWalking() {
-
+   
     setInterval(() => {
       this.moveLeft();
     }, 1000 / 60);
 
-    setInterval(() => {
+   this.endBossComesItv = setInterval(() => {
       this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
-      //  this.x -= 1;
-      //  console.log('x:', this.x);
     }, 200);
 
   }

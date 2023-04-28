@@ -12,7 +12,7 @@ class MovableObject extends DrawableObject {
     percentageOfBottle = 0;
     percentageOfCoins = 0;
     lastHit = 0;
-    headHit = 0;
+   // headHit = 0;
    
    
 
@@ -37,22 +37,18 @@ class MovableObject extends DrawableObject {
         
     }
 
-  //character.isColliding(chicken);
+   //character.isColliding(chicken);
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x  &&
-           this.y < mo.y + mo.height;
-    }
+         return this.x + this.width > mo.x &&
+             this.y + this.height > mo.y &&
+             this.x < mo.x  &&
+            this.y < mo.y + mo.height;
+     }
 
-
-    // isEnemyDead(mo) {
-    //     return this.x + this.width  > mo.x &&
-    //     (this.y + this.height) > mo.y &&
-    //     this.x  < mo.x  &&
-    //     this.y + this.height / 2 < mo.y ;
+    // isColliding(mo) {
+    //     return ((this.x + this.width > mo.x && this.y + this.height == mo.y + mo.height) ||
+    //      ( this.x < mo.x + mo.width && this.y + this.height == mo.y + mo.height));
     // }
-
 
 
     hit() {
