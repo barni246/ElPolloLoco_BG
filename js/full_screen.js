@@ -165,7 +165,14 @@ window.matchMedia("(orientation: portrait)").addEventListener("change", screen =
     });  
 
 
-
+    function portraitChecker() {
+        const portrait = window.matchMedia("(orientation: portrait)").matches;
+        if(portrait) {
+            document.getElementById('landscapeAlert').style.display ="flex";
+        }else {
+            document.getElementById('landscapeAlert').style.display ="none";
+        }
+    }
 
 
 //const portrait = window.matchMedia("(orientation: portrait)").matches;

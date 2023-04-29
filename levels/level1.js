@@ -73,12 +73,7 @@ function initLevel() {
                
             ],
             [
-                 new SmallChicken(),
-                new SmallChicken(),
-                new SmallChicken(),
-                new SmallChicken(),
-                new SmallChicken(),
-                new SmallChicken(),
+                
                 new SmallChicken(),
                 new SmallChicken(),
                 new SmallChicken(),

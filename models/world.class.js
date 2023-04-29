@@ -7,7 +7,7 @@ class World {
     level = level1;
     throwableObjects = [];
     ground = 425;
-    canvas; // in dem Variable wird das Parameter "canvas" gespeichert, bzw hinzugefügt
+    canvas;
     ctx;
     keyboard;
     camera_x = 0;
@@ -19,8 +19,8 @@ class World {
     endBossStands = true;
     imageCache = {};
     currentImage;
-    // stop = true
     indexOfThrowObject = 0;
+    runItv;
 
 
     constructor(canvas, keyboard) {
@@ -39,17 +39,17 @@ class World {
     }
 
 
-    sortSmallEnemies() {
-        this.level.smallEnemies.forEach((element, i) => {
-            if (i == 1 || i == 3 || i == 5) {
-                element.y = 300;
-            }
-            element.x = 1800 + (Math.random() * 500) + (Math.random() * 500) +
-                ((Math.random() * 500)) + ((Math.random() * 500)) + (Math.random() * 1500);
+    // sortSmallEnemies() {
+    //     this.level.smallEnemies.forEach((element, i) => {
+    //         if (i == 1 || i == 3 || i == 5) {
+    //             element.y = 300;
+    //         }
+    //         element.x = 1800 + (Math.random() * 500) + (Math.random() * 500) +
+    //             ((Math.random() * 500)) + ((Math.random() * 500)) + (Math.random() * 1500);
 
-        });
+    //     });
 
-    }
+    // }
 
 
 
@@ -101,41 +101,30 @@ class World {
         this.character.world = this;
     }
 
-   runItv;
+   
     run() {
 
-       this.runItv = setInterval(() => {
+        this.runItv = setInterval(() => {
             this.checkCollisions();
             this.checkCollisionsSmallChicken();
-
             this.checkCollisionEndBoss();
             //this.checkEndBossDead();
             this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkCoinCollisions();
-
             this.checkThrowObjectCollision();
             this.operations();
-            this.character.energy;
-            console.log('this.character.energy',this.character.energy);
-            //console.log('character ', this.character.y + this.character.height);
-            //console.log('chicken', this.level.enemies[0].y + this.level.enemies[0].height);
-            //console.log('small chicken', this.level.smallEnemies[0].y + this.level.smallEnemies[0].height);
-            //console.log('endBoss', this.endBoss.y + this.endBoss.height);
-
         }, 100);
     }
+
 
     run2() {
         setInterval(() => {
             this.checkSmallEnemyDead();
             this.checkEnemyDead();
 
-        }, 25);
+        }, 40);
     }
-
-
-
 
 
     // Character throws a bottle
@@ -159,14 +148,14 @@ class World {
         clearInterval(this.endBoss.endbossWalkingItv);
         this.endBoss.animateBossWalking();
         this.endBossStands = false;
-        //    if(soundOn) {
-        //     if(this.endBoss.endBossBattleSound.paused) {
-        //       this.endBoss.endBossBattleSound.play();
-        //     } else {
-        //         this.endBoss.endBossBattleSound.play();
-        //     }
+            if(soundOn) {
+             if(this.endBoss.endBossBattleSound.paused) {
+               this.endBoss.endBossBattleSound.play();
+             } else {
+                 this.endBoss.endBossBattleSound.play();
+             }
 
-        // }
+         }
         setTimeout(() => { this.throwableObjects = []; }, 5000);
     }
 
@@ -312,31 +301,31 @@ class World {
     // Checking dead from enemies (chicken), playing sound and dead images    ez a jo
     checkEnemyDead() {
 
-          
-            this.level.enemies.forEach((enemy,i) => {
-                 
-                if (this.character.y + this.character.height > enemy.y &&
-                    this.character.y + this.character.height < enemy.y + enemy.height) {
 
-                    if (this.character.x + this.character.width > enemy.x && this.character.x < enemy.x ||
-                        this.character.x + this.character.width > enemy.x + enemy.width && this.character.x < enemy.x ||
-                        this.character.x + this.character.width > enemy.x + enemy.width && this.character.x > enemy.x &&
-                        this.character.x < enemy.x + enemy.width) {
-                       this.stopEnemiesMovingInterval(enemy);
-                        this.IMAGES_DEAD_CHICKEN.forEach((path) => {
-                            enemy.img.src = path;
-                            enemy.speed = 0;
-                           
-                            if (soundOn) {enemy.chickenDeadSound.play();}
-                            setInterval(() => {
-                                 if (enemy.y < 500) {
-                                     enemy.y += 10; 
-                                    } 
-                                 }, 50);
-                        });
-                    }
+        this.level.enemies.forEach((enemy, i) => {
+
+            if (this.character.y + this.character.height > enemy.y &&
+                this.character.y + this.character.height < enemy.y + enemy.height) {
+
+                if (this.character.x + this.character.width > enemy.x && this.character.x < enemy.x ||
+                    this.character.x + this.character.width > enemy.x + enemy.width && this.character.x < enemy.x ||
+                    this.character.x + this.character.width > enemy.x + enemy.width && this.character.x > enemy.x &&
+                    this.character.x < enemy.x + enemy.width) {
+                    this.stopEnemiesMovingInterval(enemy);
+                    this.IMAGES_DEAD_CHICKEN.forEach((path) => {
+                        enemy.img.src = path;
+                        enemy.speed = 0;
+
+                        if (soundOn) { enemy.chickenDeadSound.play(); }
+                        setInterval(() => {
+                            if (enemy.y < 500) {
+                                enemy.y += 10;
+                            }
+                        }, 50);
+                    });
                 }
-            });
+            }
+        });
     }
 
 
@@ -404,20 +393,20 @@ class World {
                 if (headHit < 4) {
                     this.headHitItv = setInterval(() => {
                         //if(throwBottle.y < 350) {
-                           clearInterval(throwBottle.throwItv);
-                            throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
+                        clearInterval(throwBottle.throwItv);
+                        throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
                         //}
-                        
+
                     }, 200);
-                   if(headHit == 3) {
-                    setTimeout(() => {
-                         this.characterKillsEndboss();
-                    }, 500);
-                   
-                   }
-                  
-                } 
-                
+                    if (headHit == 3) {
+                        setTimeout(() => {
+                            this.characterKillsEndboss();
+                        }, 500);
+
+                    }
+
+                }
+
 
                 else {
                     this.characterKillsEndboss();
@@ -467,11 +456,11 @@ class World {
         this.status();
         this.operations();
         this.ctx.translate(this.camera_x, 0); // Forwards
-       
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
         this.enemies();
-         this.bottles();
+        this.bottles();
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function () {
@@ -492,7 +481,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
 
         if (mo.otherDirection) {
