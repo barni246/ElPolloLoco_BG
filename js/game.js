@@ -73,6 +73,13 @@ function finish() {
 }
 
 
+function gameInformation() {
+    document.getElementById('popUpContainer').classList.toggle('d-none');
+    document.getElementById('gameInformation').classList.toggle('d-none');
+    document.getElementById('infoExit').classList.toggle('d-none');
+}
+
+
 function soundCheck() {
     setInterval(() => {
         soundOn;
