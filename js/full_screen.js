@@ -128,9 +128,9 @@ function exitFullScreenGameOver() {
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
-    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+    } else if (element.msRequestFullscreen) {      
         element.msRequestFullscreen();
-    } else if (element.webkitRequestFullscreen) {  // iOS Safari
+    } else if (element.webkitRequestFullscreen) {  
         element.webkitRequestFullscreen();
     }
 }
@@ -146,7 +146,6 @@ function exitFullscreen() {
 
 
 window.matchMedia("(orientation: portrait)").addEventListener("change", screen => {
-    //window.matchMedia("(min-width: 900px)").addEventListener("change", screen => {
         const landscapeAlert = document.getElementById('landscapeAlert')
         portrait = screen.matches;
         if (portrait) {
@@ -175,4 +174,3 @@ window.matchMedia("(orientation: portrait)").addEventListener("change", screen =
     }
 
 
-//const portrait = window.matchMedia("(orientation: portrait)").matches;

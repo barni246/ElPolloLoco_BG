@@ -27,7 +27,7 @@ body {
 
 #wrapper {
   position: relative;
-  width: 790px;
+  width: 720px;
   height: 480px;
   border-radius: 13px;
   border: 6px solid #467b46;
@@ -50,21 +50,10 @@ canvas {
   bottom: 0;
   border-radius: 7px;
   background: url("img/9_intro_outro_screens/start/startscreen_1.png");
-  background-size: cover;
+ background-size: 100% 100%;
+ background-repeat: no-repeat;
   background-position: center;
   z-index: 1;
-}
-
-.text-rule {
-  /* font-family: 'Lato', sans-serif !important; */
-  /* font-weight: bold; */
-}
-
-.first-row {
-  /* text-decoration: underline;
-  font-family: 'Lato', sans-serif !important;
-  font-weight: bold;
-  font-size: 13px; */
 }
 
 .d-none {
@@ -368,11 +357,10 @@ canvas {
 }
 
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 780px) , screen and  (max-height: 420px) {
 
   body {
-    overflo: hidden;
-   eight: 100%;
+    overflow: hidden;
   }
 
   #h1 {
@@ -461,45 +449,4 @@ canvas {
     height: 32px;
     padding: 3px;
   }
-
-
-
 }
-
-
-@media screen and (max-width: 900px) {
-  #wrapper{
-    min-width: 100%;
-    min-height: 100%;
-  }
-  #startContainer {
-    width: 100%;
-    height: 100%;
-  }
-  body {
-   overflow-y: hidden;
-   overflow-x: hidden;
-  }
-}
-
-/* @media screen and (max-width: 667px), screen and (max-height: 375px) {
-  #wrapper {
-    width: 667px;
-    height: 375px;
-    border: unset !important;
-    border-radius: 0 !important;
-    
-  }
- 
-} */
-
-   /* @media screen and (max-width: 896px), screen and (max-height: 414px) {
-    #wrapper {
-      width: 896px;
-      height: 414px;
-      border: unset !important;
-      border-radius: 0 !important;
-    }
-
-
-  }  */

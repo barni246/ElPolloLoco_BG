@@ -6,6 +6,7 @@ class Character extends MovableObject {
   interval = 40;
   world;
   deadItv;
+
   characterWalking = new Audio('audio/character_walking.mp3');
 
   IMAGES_WALKING = [
@@ -20,23 +21,31 @@ class Character extends MovableObject {
 
   IMAGES_JUMPING = [
     'img/2_character_pepe/3_jump/J-31.png',
-    'img/2_character_pepe/3_jump/J-32.png',
-    'img/2_character_pepe/3_jump/J-33.png',
-    'img/2_character_pepe/3_jump/J-34.png',
-    'img/2_character_pepe/3_jump/J-35.png',
-    'img/2_character_pepe/3_jump/J-36.png',
-    'img/2_character_pepe/3_jump/J-37.png',
-    'img/2_character_pepe/3_jump/J-38.png',
-    'img/2_character_pepe/3_jump/J-39.png',
+    'img/2_character_pepe/3_jump/J-31.png',
     'img/2_character_pepe/3_jump/J-31.png',
     'img/2_character_pepe/3_jump/J-32.png',
+    'img/2_character_pepe/3_jump/J-32.png',
+    'img/2_character_pepe/3_jump/J-32.png',
+    'img/2_character_pepe/3_jump/J-33.png',
+    'img/2_character_pepe/3_jump/J-33.png',
     'img/2_character_pepe/3_jump/J-33.png',
     'img/2_character_pepe/3_jump/J-34.png',
+    'img/2_character_pepe/3_jump/J-34.png',
+    'img/2_character_pepe/3_jump/J-34.png',
+    'img/2_character_pepe/3_jump/J-35.png',
+    'img/2_character_pepe/3_jump/J-35.png',
     'img/2_character_pepe/3_jump/J-35.png',
     'img/2_character_pepe/3_jump/J-36.png',
+    'img/2_character_pepe/3_jump/J-36.png',
+    'img/2_character_pepe/3_jump/J-36.png',
+    'img/2_character_pepe/3_jump/J-37.png',
+    'img/2_character_pepe/3_jump/J-37.png',
     'img/2_character_pepe/3_jump/J-37.png',
     'img/2_character_pepe/3_jump/J-38.png',
+    'img/2_character_pepe/3_jump/J-38.png',
+    'img/2_character_pepe/3_jump/J-38.png',
     'img/2_character_pepe/3_jump/J-39.png'
+
   ];
 
   IMAGES_DEAD = [
@@ -55,6 +64,18 @@ class Character extends MovableObject {
     'img/2_character_pepe/4_hurt/H-43.png'
   ];
 
+  IMAGES_IDLE = [
+    'img/2_character_pepe/1_idle/idle/I-1.png',
+    'img/2_character_pepe/1_idle/idle/I-2.png',
+    'img/2_character_pepe/1_idle/idle/I-3.png',
+    'img/2_character_pepe/1_idle/idle/I-4.png',
+    'img/2_character_pepe/1_idle/idle/I-5.png',
+    'img/2_character_pepe/1_idle/idle/I-6.png',
+    'img/2_character_pepe/1_idle/idle/I-7.png',
+    'img/2_character_pepe/1_idle/idle/I-8.png',
+    'img/2_character_pepe/1_idle/idle/I-9.png',
+  ];
+
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -62,6 +83,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_IDLE);
     this.applayGravity();
     this.animate();
   }
@@ -75,6 +97,10 @@ class Character extends MovableObject {
 
 
   animate() {
+    setInterval(() => {
+      this.playAnimation(this.IMAGES_IDLE);
+    }, 150);
+
 
     setInterval(() => {
       if (this.world.keyboard.RIGHT &&
@@ -94,13 +120,13 @@ class Character extends MovableObject {
           this.setWalkingSound();
         }
       }
-
       if (this.world.keyboard.SPACE &&
         !this.isAboveGround() &&
         !this.isDead() &&
         this.world.endBossStands) {
         this.jump();
       }
+
 
       if (this.world.keyboard.DOWN) {
       }
@@ -111,14 +137,8 @@ class Character extends MovableObject {
       if (this.isDead()) {
         gameStarted = false;
         this.playAnimation(this.IMAGES_DEAD);
-
-
-        //  setTimeout(() => {
-
         document.getElementById('gameOverContainer').style.display = "flex";
         mariachi.pause();
-        // this.world.endBoss.endBossBattleSound.pause();
-        // }, 2000);
         clearInterval(this.deadItv);
         this.energy = 100;
         clearInterval(this.world.runItv);
