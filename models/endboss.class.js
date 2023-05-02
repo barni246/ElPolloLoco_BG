@@ -66,12 +66,10 @@ class Endboss extends MovableObject {
 
     setInterval(() => {
       this.playAnimation(this.IMAGES_BOSS_DEAD);
-      //this.x += 10;
     }, 200);
   }
 
-
-  animateBossWalking() {
+animateBossWalking() {
 
     setInterval(() => {
       this.moveLeft();
@@ -80,9 +78,6 @@ class Endboss extends MovableObject {
     this.endBossComesItv = setInterval(() => {
       this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
     }, 1500);
-
-  }
-
-
+ }
 
 }
