@@ -2,7 +2,7 @@ class Character extends MovableObject {
   y = 77.5;
   height = 210;
   width = 110;
-  speed = 5;
+  speed = 4;
   interval = 40;
   world;
   deadItv;
@@ -96,25 +96,16 @@ class Character extends MovableObject {
   }
 
 
-  characterMovesRight() {
-    this.moveRight();
-    this.otherDirection = false;
-    if (soundOn) {
-      this.setWalkingSound();
-    }
-  }
-
-  isCharacterMovingRightAllowed() {
-    return this.world.keyboard.RIGHT &&
-      this.x < this.world.level.level_end_x &&
-      !this.isDead();
-  }
-
-
   characterMovingRight() {
     setInterval(() => {
-      if (this.isCharacterMovingRightAllowed()) {
-        this.characterMovesRight();
+      if (this.world.keyboard.RIGHT &&
+        this.x < this.world.level.level_end_x &&
+        !this.isDead()) {
+        this.moveRight();
+        this.otherDirection = false;
+        if (soundOn && !this.isDead && headHit >= 3) {
+          this.setWalkingSound();
+        }
       }
     }, 1000 / 60);
   }
@@ -122,8 +113,10 @@ class Character extends MovableObject {
 
   characterIdle() {
     setInterval(() => {
-      this.playAnimation(this.IMAGES_IDLE);
-    }, 150);
+      if (!this.world.keyboard.LEFT && !this.world.keyboard.RIGHT) {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
+    }, 200);
   }
 
 
@@ -132,7 +125,7 @@ class Character extends MovableObject {
       if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead()) {
         this.moveLeft();
         this.otherDirection = true;
-        if (soundOn) {
+        if (soundOn && !this.isDead && headHit >= 3) {
           this.setWalkingSound();
         }
       }
@@ -142,10 +135,8 @@ class Character extends MovableObject {
 
   characterJumping() {
     setInterval(() => {
-      if (this.world.keyboard.SPACE &&
-        !this.isAboveGround() &&
-        !this.isDead() &&
-        this.world.endBossStands) {
+      if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()
+      ) {
         this.jump();
       }
     }, 1000 / 60);
@@ -160,7 +151,7 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
-  
+
   characterDead() {
     gameStarted = false;
     this.playAnimation(this.IMAGES_DEAD);
@@ -178,7 +169,11 @@ class Character extends MovableObject {
     this.characterMovingLeft();
     this.characterJumping();
     this.keyboardDown();
+    this.animatePlus();
+  }
 
+
+  animatePlus() {
     this.deadItv = setInterval(() => {
       if (this.isDead()) {
         this.characterDead();

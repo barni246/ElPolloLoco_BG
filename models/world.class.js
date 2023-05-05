@@ -23,10 +23,7 @@ class World {
     indexOfThrowObject = 0;
     runItv;
 
-    IMAGES_DEAD_CHICKEN = [
-        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
-        'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
-    ];
+
 
 
     constructor(canvas, keyboard) {
@@ -37,6 +34,7 @@ class World {
         this.setWorld();
         this.run();
         this.run2();
+        this.run3();
         this.setClouds();
         this.sortBottles();
         this.sortCoins();
@@ -101,9 +99,10 @@ class World {
             this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkCoinCollisions();
-            this.checkThrowObjectCollision();
+
             this.operations();
-        }, 100);
+
+        }, 100);                                  // itt korabban 100 volt
     }
 
 
@@ -112,7 +111,16 @@ class World {
             this.checkSmallEnemyDead();
             this.checkEnemyDead();
 
-        }, 40);
+        }, 20);
+    }
+
+    run3Itv;
+
+    run3() {
+        this.run3Itv = setInterval(() => {
+            this.checkThrowObjectCollision();
+            console.log('headhit', headHit);
+        }, 300);
     }
 
 
@@ -121,6 +129,12 @@ class World {
         this.throwableObjects[this.indexOfThrowObject].x = this.character.x + 50;
         this.throwableObjects[this.indexOfThrowObject].y = this.character.y + 50;
         this.throwableObjects[this.indexOfThrowObject].throw();
+    }
+
+    throwableBottlesThrowLeft() {
+        this.throwableObjects[this.indexOfThrowObject].x = this.character.x + 10;
+        this.throwableObjects[this.indexOfThrowObject].y = this.character.y + 30;
+        this.throwableObjects[this.indexOfThrowObject].throwLeft();
     }
 
 
@@ -143,7 +157,7 @@ class World {
                 this.endBoss.endBossBattleSound.play();
             }
         }
-        setTimeout(() => { this.throwableObjects = []; }, 5000);
+        setTimeout(() => { this.throwableObjects = []; }, 2000);
     }
 
 
@@ -151,7 +165,14 @@ class World {
     // not hit, endBoss starts to walk left
     checkThrowObjects() {
         if (this.characterThrowingBottleAllowed()) {
-            this.throwableBottlesThrow()
+
+            if (this.character.otherDirection == false) {
+                this.throwableBottlesThrow();
+            } else if (this.character.otherDirection == true) {
+                this.throwableBottlesThrowLeft();
+            }
+
+
             this.percentageOfBottles();
             this.indexOfThrowObject++;
         } else if (this.noMoreThrowableBottles()) {
@@ -165,8 +186,8 @@ class World {
     characterThrowingBottleAllowed() {
         return this.keyboard.KEYD &&
             this.throwableObjects.length >= 1 &&
-            this.indexOfThrowObject < this.throwableObjects.length &&
-            this.character.otherDirection == false;
+            this.indexOfThrowObject < this.throwableObjects.length
+        //&& this.character.otherDirection == false;
     }
 
 
@@ -180,13 +201,15 @@ class World {
     // Checking collision between character end endBoss
     checkCollisionEndBoss() {
         if (this.character.isColliding(this.endBoss)) {
-            clearInterval(this.endBoss.endbossWalkingItv);
+
             clearInterval(this.endBoss.endBossComesItv);
-            setTimeout(() => {
-                document.getElementById('gameOverContainer').style.display = "flex";
-                mariachi.pause();
-                //this.endBoss.endBossBattleSound.pause();
-            }, 2000);
+            this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
+            // setTimeout(() => {
+            //     document.getElementById('gameOverContainer').style.display = "flex";
+            //     mariachi.pause();
+            //     //this.endBoss.endBossBattleSound.pause();
+            // }, 2000);
             gameStarted = false;
 
         }
@@ -195,15 +218,20 @@ class World {
 
     // If EndBoss dead, game over
     checkEndBossDead() {
-        if (headHit >= 3) {
 
+        if (headHit >= 3) {
+            clearInterval(this.headHitItv);
+            clearInterval(this.run3Itv);
             setTimeout(() => {
                 document.getElementById('gameOverContainer').style.display = "flex";
                 document.getElementById('gameOverContainer').classList.add('game-over');
+                headHit = 0;
+
                 mariachi.pause();
                 this.character.energy = 100;
                 clearInterval(this.runItv);
-            }, 2000);
+                clearInterval(this.endBoss.endbossWalkingItv);
+            }, 1000);
         }
         gameStarted = false;
     }
@@ -231,17 +259,13 @@ class World {
     // Checking dead from enemies (chicken), playing sound and dead images    ez a jo
     checkEnemyDead() {
         this.level.enemies.forEach((enemy, i) => {
-            if (this.isCharacterOverEnemy(enemy)) {
+            if (this.isCharacterOverEnemy(enemy) && this.character.speedY < 0 &&
+                i < this.level.enemies.length - 1) {
                 if (this.isEnemyDead(enemy)) {
                     this.stopEnemiesMovingInterval(enemy);
-                    this.IMAGES_DEAD_CHICKEN.forEach((path) => {
-                        enemy.img.src = path;
-                        enemy.speed = 0;
-                        if (soundOn) { enemy.chickenDeadSound.play(); }
-                        setInterval(() => {
-                            if (enemy.y < 500) { enemy.y += 10; }
-                        }, 50);
-                    });
+                    enemy.playAnimation(enemy.IMAGES_DEAD_CHICKEN);
+                    if (soundOn) { enemy.chickenDeadSound.play(); }
+                    setInterval(() => { if (enemy.y < 500) { enemy.y += 10; } });
                 }
             }
         });
@@ -255,7 +279,8 @@ class World {
 
 
     isEnemyDead(enemy) {
-        return (this.character.x + this.character.width > enemy.x && this.character.x < enemy.x) ||
+        return (this.character.x + this.character.width < enemy.x + enemy.width &&
+            this.character.x + this.character.width > enemy.x) ||
             (this.character.x + this.character.width > enemy.x + enemy.width && this.character.x < enemy.x) ||
             (this.character.x + this.character.width > enemy.x + enemy.width && this.character.x > enemy.x &&
                 this.character.x < enemy.x + enemy.width);
@@ -319,24 +344,29 @@ class World {
     checkThrowObjectCollision() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const throwBottle = this.throwableObjects[index];
-            if (throwBottle.isColliding(this.endBoss) &&
-                throwBottle.x + throwBottle.width > this.endBoss.x + 20) {
+            if (throwBottle.x > this.endBoss.x &&
+                throwBottle.x + throwBottle.width < this.endBoss.x + this.endBoss.width &&
+                throwBottle.y > this.endBoss.y &&
+                throwBottle.y < this.endBoss.y + this.endBoss.height) {
                 headHit++;
                 if (headHit < 4) {
-                    this.headHitItv = setInterval(() => {
-                        clearInterval(throwBottle.throwItv);
-                        throwBottle.IMAGES_THROW_BOTTLES.forEach((path) => { throwBottle.img.src = path; });
-                    }, 200);
-                    if (headHit == 3) {
-                        setTimeout(() => {
-                            this.characterKillsEndboss();
-                        }, 500);
-                    }
+                    this.endBossDeadSet(throwBottle);
                 }
                 else {
                     this.characterKillsEndboss();
                 }
             }
+        }
+    }
+
+
+    endBossDeadSet(throwBottle) {
+        this.headHitItv = setInterval(() => {
+            clearInterval(throwBottle.throwItv);
+            throwBottle.playAnimation(throwBottle.IMAGES_THROW_BOTTLES);
+        }, 15);
+        if (headHit == 3) {
+            setTimeout(() => { this.characterKillsEndboss(); }, 500);
         }
     }
 
@@ -365,7 +395,7 @@ class World {
     // Character kills small chicken     
     checkSmallEnemyDead() {
         this.level.smallEnemies.forEach((smallEnemy) => {
-            if (this.isCharacterOverSmallEnemy(smallEnemy)) {
+            if (this.isCharacterOverSmallEnemy(smallEnemy) && this.character.speedY < 0) {
                 if (this.isSmallEnemyDead(smallEnemy)) {
                     if (soundOn) {
                         smallEnemy.smallChickenDeadSound.play();
@@ -445,12 +475,16 @@ class World {
         this.status();
         this.operations();
         this.ctx.translate(this.camera_x, 0); // Forwards
-
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
         this.enemies();
         this.bottles();
         this.ctx.translate(-this.camera_x, 0);
+        this.requestAnimationFrameSet();
+    }
+
+
+    requestAnimationFrameSet() {
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -470,7 +504,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx);
 
 
         if (mo.otherDirection) {
