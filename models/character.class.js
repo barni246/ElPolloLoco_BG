@@ -16,6 +16,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/2_walk/W-24.png',
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-26.png'
+    
   ];
 
 
@@ -103,7 +104,7 @@ class Character extends MovableObject {
         !this.isDead()) {
         this.moveRight();
         this.otherDirection = false;
-        if (soundOn && !this.isDead && headHit >= 3) {
+        if (soundOn) {
           this.setWalkingSound();
         }
       }
@@ -125,7 +126,7 @@ class Character extends MovableObject {
       if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead()) {
         this.moveLeft();
         this.otherDirection = true;
-        if (soundOn && !this.isDead && headHit >= 3) {
+        if (soundOn) {
           this.setWalkingSound();
         }
       }
