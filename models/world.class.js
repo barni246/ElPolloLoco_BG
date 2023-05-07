@@ -21,6 +21,7 @@ class World {
     indexOfThrowObject = 0;
     runItv;
     run3Itv;
+    endBossAttackItv;
 
 
     constructor(canvas, keyboard) {
@@ -101,6 +102,7 @@ class World {
             this.checkThrowObjects();
             this.checkCoinCollisions();
             this.operations();
+
         }, 100);
     }
 
@@ -109,16 +111,18 @@ class World {
         setInterval(() => {
             this.checkSmallEnemyDead();
             this.checkEnemyDead();
+            // this.throwBottleOnTheGround()
 
         }, 20);
     }
 
 
     run3() {
+
         this.run3Itv = setInterval(() => {
+            this.endBossAttack();
             this.checkThrowObjectCollision();
-            console.log('headhit', headHit);
-        }, 300);
+        }, 250);
     }
 
 
@@ -161,11 +165,24 @@ class World {
     }
 
 
+    throwBottleOnTheGround() {  // nem kell
+        if (this.throwableObjects.length > 0) {
+            for (let index = 0; index < this.throwableObjects.length; index++) {
+                const bottle = this.throwableObjects[index];
+                if (bottle.y < 200) {
+                    return true;
+                }
+
+
+            }
+        }
+    }
+
+
     // Is there still a bottle available ? If so than to throw it, if not and
     // not hit, endBoss starts to walk left
     checkThrowObjects() {
         if (this.characterThrowingBottleAllowed()) {
-
             if (this.character.otherDirection == false) {
                 this.throwableBottlesThrow();
             } else if (this.character.otherDirection == true) {
@@ -198,7 +215,9 @@ class World {
 
     // Checking collision between character end endBoss
     checkCollisionEndBoss() {
-        if (this.character.isColliding(this.endBoss)) {
+        if (this.character.isColliding(this.endBoss) ||
+            (this.character.isColliding(this.endBoss)) && this.character.x > this.endBoss.x &&
+            this.character.x + this.character.width < this.endBoss.x + this.endBoss.width) {
             clearInterval(this.endBoss.endBossComesItv);
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
@@ -212,6 +231,7 @@ class World {
         if (headHit >= 3) {
             clearInterval(this.headHitItv);
             clearInterval(this.run3Itv);
+            clearInterval(this.endBossAttackItv);
             setTimeout(() => {
                 document.getElementById('gameOverContainer').style.display = "flex";
                 document.getElementById('gameOverContainer').classList.add('game-over');
@@ -220,9 +240,33 @@ class World {
                 this.character.energy = 100;
                 clearInterval(this.runItv);
                 clearInterval(this.endBoss.endbossWalkingItv);
-            }, 1000);
+
+            }, 2000);
         }
         gameStarted = false;
+    }
+
+
+    endBossAttack() {
+        if ((this.endBoss.x) - (this.character.x + this.character.width) < 400) {
+            this.endBossAttackItv = setInterval(() => {
+                this.endBoss.playAnimation(this.endBoss.IMAGES_ENDBOSS_ATTACK);
+            }, 250);
+
+            this.endBoss.x -= 5;
+            clearInterval(this.endBoss.endbossWalkingItv);
+        }
+    }
+
+
+    // EndBoss is dead, statusbar to 100%, intervals cleared
+    characterKillsEndboss() {
+        this.character.energy = 100;
+        this.statusBar.setPercentage(this.character.energy);
+        clearInterval(this.headHitItv);
+        clearInterval(this.endBoss.endbossWalkingItv);
+        this.endBoss.animateBoss();
+        this.checkEndBossDead();
     }
 
 
@@ -316,15 +360,7 @@ class World {
     }
 
 
-    // EndBoss is dead, statusbar to 100%, intervals cleared
-    characterKillsEndboss() {
-        this.character.energy = 100;
-        this.statusBar.setPercentage(this.character.energy);
-        clearInterval(this.headHitItv);
-        clearInterval(this.endBoss.endbossWalkingItv);
-        this.endBoss.animateBoss();
-        this.checkEndBossDead();
-    }
+
 
 
     // Checking collision between endBoss and throwable bottle
@@ -334,6 +370,7 @@ class World {
             if (this.isBottleColliding(throwBottle)) {
                 headHit++;
                 if (headHit < 4) {
+                    this.endBoss.playAnimation(this.endBoss.IMAGES_ENDBOSS_HURT);
                     this.endBossDeadSet(throwBottle);
                 }
                 else {
@@ -447,6 +484,7 @@ class World {
             this.ctx.fillText("Key D : throw", 500, 80);
             this.ctx.fillStyle = "rgb(168, 43, 43)";
         }
+
     }
 
 
@@ -456,7 +494,7 @@ class World {
         this.addObjectsToMap(this.level.enemies);
     }
 
-    
+
     // Adding bottles to canvas
     bottles() {
         this.addObjectsToMap(this.throwableObjects);
@@ -471,7 +509,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0); // Back
         this.status();
-        this.operations();
+        //this.operations();
         this.ctx.translate(this.camera_x, 0); // Forwards
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
@@ -502,7 +540,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        //mo.drawFrame(this.ctx);
 
 
         if (mo.otherDirection) {

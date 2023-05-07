@@ -23,7 +23,7 @@ function startGame() {
     soundMariachi();
     initLevel();
     setTimeout(() => {
-        if (checkFullscreenStart) {
+        if (checkFullscreenStart || checkFullscreenGame || checkFullscreenGameOver) {
             fullScreenGame();
             init();
             startStyle();

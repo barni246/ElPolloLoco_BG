@@ -55,7 +55,8 @@ function fullScreenStart() {
     enterFullscreen(startContainer);
     headlineGameHide();
     document.getElementById('startContainer').style.borderRadius = "0px";
-    document.getElementById('canvas').style.width = "100%";
+    startContainer.style.width = "100%";
+    startContainer.style.height = "100%";
     wrapperBorderHide();
     fullScreenIconHide();
     exitFullScrenIconVisible();
@@ -68,18 +69,22 @@ function exitFullScreenStart() {
     headlineGameVisible();
     wrapperBorderVisible();
     document.getElementById('startContainer').style.borderRadius = "7px";
+    document.getElementById('wrapper').style.width = "720px";
+    document.getElementById('wrapper').style.height = "480px";
     exitFullScrenIconHide();
     fullScreenIconVisible();
 }
 
 
 function fullScreenGame() {
-    let wrapper = document.getElementById('wrapper');
+    let wrapper = document.getElementById('wrapper'); // wrapper
     enterFullscreen(wrapper);
     checkFullscreenGame = true;
     headlineGameHide();
     document.getElementById('canvas').style.width = "100%";
     document.getElementById('canvas').style.borderRadius = "0px";
+    wrapper.style.width = "100%";
+    wrapper.style.height = "100%";
     wrapperBorderHide();
     fullScreenIconHide();
     exitFullScrenIconVisible();
@@ -93,6 +98,8 @@ function exitFullScreenGame() {
     wrapperBorderVisible();
     document.getElementById('canvas').style.borderRadius = "7px";
     document.getElementById('wrapper').style.borderRadius = "13px";
+    document.getElementById('wrapper').style.width = "720px";
+    document.getElementById('wrapper').style.height = "480px";
     exitFullScrenIconHide();
     fullScreenIconVisible();
 }
@@ -106,6 +113,8 @@ function fullScreenGameOver() {
     document.getElementById('canvas').style.width = "100%";
     document.getElementById('wrapper').style.borderRadius = "0px";
     document.getElementById('gameOverContainer').style.borderRadius = "0px";
+    gameOverContainer.style.width = "100%";
+    gameOverContainer.style.height = "100%";
     wrapperBorderHide();
     fullScreenIconHide();
     exitFullScrenIconVisible();
@@ -120,6 +129,8 @@ function exitFullScreenGameOver() {
     document.getElementById('canvas').style.borderRadius = "7px";
     document.getElementById('wrapper').style.borderRadius = "13px";
     document.getElementById('gameOverContainer').style.borderRadius = "7px";
+    document.getElementById('wrapper').style.width = "720px";
+    document.getElementById('wrapper').style.height = "480px";
     exitFullScrenIconHide();
     fullScreenIconVisible();
 }
@@ -128,9 +139,9 @@ function exitFullScreenGameOver() {
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
-    } else if (element.msRequestFullscreen) {      
+    } else if (element.msRequestFullscreen) {
         element.msRequestFullscreen();
-    } else if (element.webkitRequestFullscreen) {  
+    } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
     }
 }
@@ -146,31 +157,31 @@ function exitFullscreen() {
 
 
 window.matchMedia("(orientation: portrait)").addEventListener("change", screen => {
-        const landscapeAlert = document.getElementById('landscapeAlert')
-        portrait = screen.matches;
-        if (portrait) {
-            if (checkFullscreenStart) {
-                exitFullScreenStart();
-                landscapeAlert.style.display = "flex";
-            } else if (checkFullscreenGame) {
-                exitFullScreenGame();
-            } else if (checkFullscreenGameOver) {
-                exitFullScreenGameOver();
-            }
+    const landscapeAlert = document.getElementById('landscapeAlert')
+    portrait = screen.matches;
+    if (portrait) {
+        if (checkFullscreenStart) {
+            exitFullScreenStart();
             landscapeAlert.style.display = "flex";
-        } else {
-            landscapeAlert.style.display = "none";
+        } else if (checkFullscreenGame) {
+            exitFullScreenGame();
+        } else if (checkFullscreenGameOver) {
+            exitFullScreenGameOver();
         }
-    });  
-
-
-    function portraitChecker() {
-        const portrait = window.matchMedia("(orientation: portrait)").matches;
-        if(portrait) {
-            document.getElementById('landscapeAlert').style.display ="flex";
-        }else {
-            document.getElementById('landscapeAlert').style.display ="none";
-        }
+        landscapeAlert.style.display = "flex";
+    } else {
+        landscapeAlert.style.display = "none";
     }
+});
+
+
+function portraitChecker() {
+    const portrait = window.matchMedia("(orientation: portrait)").matches;
+    if (portrait) {
+        document.getElementById('landscapeAlert').style.display = "flex";
+    } else {
+        document.getElementById('landscapeAlert').style.display = "none";
+    }
+}
 
 

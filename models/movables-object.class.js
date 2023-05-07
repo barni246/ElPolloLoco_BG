@@ -37,7 +37,7 @@ class MovableObject extends DrawableObject {
 
     }
 
-    //character.isColliding(chicken);
+    
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
