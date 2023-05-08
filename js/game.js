@@ -9,7 +9,7 @@ mariachi = new Audio('audio/mariachi.mp3');
 mariachi.volume = 0.1;
 mariachi.loop = true;
 mariachi.currentTime = 0;
-
+let barni;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -107,10 +107,12 @@ function doSoundOn() {
 window.addEventListener('keydown', (e) => {
     if (e.code == 'ArrowRight') {
         keyboard.RIGHT = true;
+        barni = true;
     }
 
     if (e.code == 'ArrowLeft') {
         keyboard.LEFT = true;
+        barni = true;
     }
 
     if (e.code == 'ArrowUp') {
@@ -127,6 +129,7 @@ window.addEventListener('keydown', (e) => {
 
     if (e.code == 'KeyD') {
         keyboard.KEYD = true;
+       
     }
     // console.log(e);
 });
@@ -135,10 +138,12 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     if (e.code == 'ArrowRight') {
         keyboard.RIGHT = false;
+        barni = false;
     }
 
     if (e.code == 'ArrowLeft') {
         keyboard.LEFT = false;
+        barni = false;
     }
 
     if (e.code == 'ArrowUp') {
@@ -156,6 +161,7 @@ window.addEventListener('keyup', (e) => {
 
     if (e.code == 'KeyD') {
         keyboard.KEYD = false;
+        
     }
 });
 

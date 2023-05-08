@@ -36,13 +36,16 @@ class ThrowableObject extends MovableObject {
 
 
     throw() {
-        this.soundCheckerThrowBottle();
+        
+            this.soundCheckerThrowBottle();
         this.speedY = 35;
         this.applayGravity();
         this.throwItv = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE);
-            this.x += 15;
-        }, 60);
+            this.x += 18;
+        }, 60); 
+            
+       
     }
 
 
@@ -52,7 +55,7 @@ class ThrowableObject extends MovableObject {
         this.applayGravity();
         this.throwItv = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE);
-            this.x -= 15;
+            this.x -= 18;
         }, 60);
     }
 
