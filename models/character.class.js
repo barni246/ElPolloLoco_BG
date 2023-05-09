@@ -2,8 +2,8 @@ class Character extends MovableObject {
   y = 77.5;
   height = 210;
   width = 110;
-  speed = 4;
-  interval = 40;
+  speed = 5;
+  interval = 50;
   world;
   deadItv;
 
@@ -11,9 +11,14 @@ class Character extends MovableObject {
 
   IMAGES_WALKING = [
     'img/2_character_pepe/2_walk/W-21.png',
+    'img/2_character_pepe/2_walk/W-21.png',
+    'img/2_character_pepe/2_walk/W-22.png',
     'img/2_character_pepe/2_walk/W-22.png',
     'img/2_character_pepe/2_walk/W-23.png',
+    'img/2_character_pepe/2_walk/W-23.png',
     'img/2_character_pepe/2_walk/W-24.png',
+    'img/2_character_pepe/2_walk/W-24.png',
+    'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-26.png'
     
@@ -98,7 +103,8 @@ class Character extends MovableObject {
 
 
   characterMovingRight() {
-    setInterval(() => {
+   
+   this.rightItv = setInterval(() => {
       if (this.world.keyboard.RIGHT &&
         this.x < this.world.level.level_end_x &&
         !this.isDead()) {
@@ -111,13 +117,18 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
-
+idleItv;
   characterIdle() {
-    setInterval(() => {
-      if (!this.world.keyboard.LEFT && !this.world.keyboard.RIGHT) {
+   
+        
+      if (!barni) {
+        this.idleItv = setInterval(() => {
         this.playAnimation(this.IMAGES_IDLE);
+         }, 200);
       }
-    }, 200);
+   
+  
+   
   }
 
 
@@ -157,6 +168,7 @@ class Character extends MovableObject {
     gameStarted = false;
     this.playAnimation(this.IMAGES_DEAD);
     document.getElementById('gameOverContainer').style.display = "flex";
+    this.world.collectedBottles = 0;
     mariachi.pause();
     clearInterval(this.deadItv);
     this.energy = 100;
@@ -182,11 +194,11 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
-      } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      }else {
+       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
-        }
-      }
+       }
+     }
     }, this.interval);
   }
 
