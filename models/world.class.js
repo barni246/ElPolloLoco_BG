@@ -21,6 +21,7 @@ class World {
     collectedBottles = 0;
     helpIndex = 0;
     isPossibleThrowing = true;
+    endBossDead = false;
 
 
     constructor(canvas, keyboard) {
@@ -39,10 +40,8 @@ class World {
     }
 
 
-    /** 
-     * Sorting the salsa bottles with the help of array:
-     * arrayBottle
-     */
+
+    // Sorting the salsa bottles with the help of array: arrayBottle
     sortBottles() {
         for (let index = 0; index < this.level.bottles.length; index++) {
             const bottle = this.level.bottles[index];
@@ -50,10 +49,8 @@ class World {
         }
     }
 
-    /** 
-     * Sorting the coins with the help of array:
-     * arrayCoins
-     */
+
+    // Sorting the coins with the help of array: arrayCoins
     sortCoins() {
         for (let index = 0; index < this.level.coins.length; index++) {
             const coin = this.level.coins[index];
@@ -61,9 +58,9 @@ class World {
         }
     }
 
-    /**
-     * It does distance between clouds
-     */
+
+
+    //It does distance between clouds
     setClouds() {
         this.level.clouds.forEach((cloud, i) => {
             cloud.x = i * 900;
@@ -72,9 +69,8 @@ class World {
         this.cloudsRepeat();
     }
 
-    /**
-     * Repiting the clouds
-     */
+
+    //Repiting the clouds
     cloudsRepeat() {
         setInterval(() => {
             for (let index = 0; index < this.level.clouds.length; index++) {
@@ -120,11 +116,11 @@ class World {
 
 
     run3() {
-
         this.run3Itv = setInterval(() => {
             this.endBossAttack();
         }, 250);
     }
+
 
     run4() {
         setInterval(() => {
@@ -132,7 +128,6 @@ class World {
 
         }, 500);
     }
-
 
 
     // Validation throwing bottle
@@ -152,16 +147,16 @@ class World {
             } else if (this.character.otherDirection == true) {
                 this.throwableBottlesThrowLeft();
             }
-           // this.percentageOfBottles();
         }
     }
 
 
+    //Bottle flying right
     throwRight() {
         this.throwableObjects[this.helpIndex - 1].x = this.character.x + 50;
         this.throwableObjects[this.helpIndex - 1].y = this.character.y + 50;
         this.throwableObjects[this.helpIndex - 1].throw();
-       
+
     }
 
 
@@ -175,11 +170,12 @@ class World {
             this.isPossibleThrowing = false;
             setTimeout(() => { this.isPossibleThrowing = true; }, 500);
             this.collectedBottles--;
-             this.percentageOfBottles();
+            this.percentageOfBottles();
         }
     }
 
 
+    //Bottle flying left
     throwLeft() {
         this.throwableObjects[this.helpIndex - 1].x = this.character.x + 10;
         this.throwableObjects[this.helpIndex - 1].y = this.character.y + 30;
@@ -203,15 +199,10 @@ class World {
 
 
     // Statusbar reduces thrown bottle
-     percentageOfBottles() {
-       
-        
-             this.character.percentageOfBottle -= 20;
-             this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
-        
-
-     }
-
+    percentageOfBottles() {
+        this.character.percentageOfBottle -= 20;
+        this.statusBarBottles.setPercentage(this.character.percentageOfBottle);
+    }
 
 
     // Validation throwing bottle empty or not
@@ -219,19 +210,17 @@ class World {
         return this.level.bottles.length == 0 && this.collectedBottles == 0 && headHit < 3;
     }
 
-endBossDead = false;
+
     // Checking collision between character end endBoss
     checkCollisionEndBoss() {
         if (this.character.isColliding(this.endBoss) ||
             (this.character.isColliding(this.endBoss)) && this.character.x > this.endBoss.x &&
             this.character.x + this.character.width < this.endBoss.x + this.endBoss.width) {
-           clearInterval(this.endBoss.endBossComesItv);
+            clearInterval(this.endBoss.endBossComesItv);
             this.character.hit();
-               this.endBossDead = true;
+            this.endBossDead = true;
             setTimeout(() => {
-                 this.character.characterDead(); 
-            
-                
+                this.character.characterDead();
             }, 1500);
             this.statusBar.setPercentage(this.character.energy);
             gameStarted = false;
@@ -248,7 +237,7 @@ endBossDead = false;
     }
 
 
-
+    // Bottle and hurt - animation
     endBossHurt(throwBottle) {
         this.endBoss.playAnimation(this.endBoss.IMAGES_ENDBOSS_HURT);
         this.headHitItv = setInterval(() => {
@@ -286,6 +275,7 @@ endBossDead = false;
     }
 
 
+    // Clear interval for endBoss
     stopIntervalEndBoss() {
         clearInterval(this.headHitItv);
         clearInterval(this.run3Itv);
@@ -295,6 +285,7 @@ endBossDead = false;
     }
 
 
+    //Game over set
     gameOver() {
         document.getElementById('gameOverContainer').style.display = "flex";
         document.getElementById('gameOverContainer').classList.add('game-over');
@@ -318,6 +309,7 @@ endBossDead = false;
     }
 
 
+    // If endBoss no hit, he will be faster
     endBossRun() {
         if (this.collectedBottles == 0) {
             this.endBoss.x -= 24;
@@ -325,34 +317,18 @@ endBossDead = false;
     }
 
 
+    //if character close to endBoss, endBoss starts to move left
     endBossAttack() {
         if ((this.endBoss.x) - (this.character.x + this.character.width) < 400) {
             this.endBoss.playAnimation(this.endBoss.IMAGES_ENDBOSS_ATTACK);
             this.endBoss.x -= 8;
             if (soundOn && !this.endBossDead) {
-
                 this.endBoss.endBossBattleSound.play();
-                
                 this.endBossRun();
             }
             clearInterval(this.endBoss.endbossWalkingItv);
         }
     }
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     // Checking collision between character and enemies (chicken)  
@@ -386,14 +362,12 @@ endBossDead = false;
     }
 
 
+    // if bottle hit enemy or not => enemy is dead
     enemyCollidingBottle() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const bottle = this.throwableObjects[index];
             this.level.enemies.forEach((enemy, i) => {
-                if (bottle.x > enemy.x &&
-                    bottle.x < (enemy.x + enemy.width) &&
-                    bottle.y > enemy.y && bottle.y < (enemy.y + enemy.height) &&
-                    i < (this.level.enemies.length - 1)) {
+                if (this.isBottleAndEnemyColliding(bottle, enemy)) {
                     this.stopEnemiesMovingInterval(enemy);
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKEN);
                     if (soundOn) { enemy.chickenDeadSound.play(); }
@@ -404,6 +378,15 @@ endBossDead = false;
             });
 
         }
+    }
+
+
+    // colliding validation from bottle and enemy
+    isBottleAndEnemyColliding(bottle, enemy) {
+        return bottle.x > enemy.x &&
+            bottle.x < (enemy.x + enemy.width) &&
+            bottle.y > enemy.y && bottle.y < (enemy.y + enemy.height) &&
+            i < (this.level.enemies.length - 1);
     }
 
 
@@ -465,15 +448,6 @@ endBossDead = false;
     }
 
 
-
-
-
-
-
-
-
-
-
     // Checking collision between character and small enemies (small chicken)      
     checkCollisionsSmallChicken() {
         this.level.smallEnemies.forEach((smallEnemy) => {
@@ -487,15 +461,13 @@ endBossDead = false;
         });
     }
 
-
+    
+    // if bottle hit small enemy or not => small enemy is dead
     smallEnemyCollidingBottle() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const bottle = this.throwableObjects[index];
             this.level.smallEnemies.forEach((smallEnemy, i) => {
-                if (bottle.x > smallEnemy.x &&
-                    bottle.x < (smallEnemy.x + smallEnemy.width) &&
-                    bottle.y > smallEnemy.y && bottle.y < (smallEnemy.y + smallEnemy.height)) {
-                    //this.stopEnemiesMovingInterval(smallEnemy);
+                if (this.isBottleAndSmallEnemyColliding(bottle, smallEnemy)) {
                     clearInterval(smallEnemy.walkingSmallChickenItv);
                     smallEnemy.playAnimation(smallEnemy.IMAGES_DEAD_SMALL_CHICKEN);
                     if (soundOn) { smallEnemy.smallChickenDeadSound.play(); }
@@ -508,6 +480,13 @@ endBossDead = false;
         }
     }
 
+
+    // colliding validation from bottle and small enemy
+    isBottleAndSmallEnemyColliding(bottle, smallEnemy) {
+        return bottle.x > smallEnemy.x &&
+            bottle.x < (smallEnemy.x + smallEnemy.width) &&
+            bottle.y > smallEnemy.y && bottle.y < (smallEnemy.y + smallEnemy.height);
+    }
 
 
     //  Colliding checker (character and smallEnemy)
