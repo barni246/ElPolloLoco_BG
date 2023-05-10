@@ -367,7 +367,7 @@ class World {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const bottle = this.throwableObjects[index];
             this.level.enemies.forEach((enemy, i) => {
-                if (this.isBottleAndEnemyColliding(bottle, enemy)) {
+                if (this.isBottleAndEnemyColliding(bottle, enemy,i)) {
                     this.stopEnemiesMovingInterval(enemy);
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKEN);
                     if (soundOn) { enemy.chickenDeadSound.play(); }
@@ -382,7 +382,7 @@ class World {
 
 
     // colliding validation from bottle and enemy
-    isBottleAndEnemyColliding(bottle, enemy) {
+    isBottleAndEnemyColliding(bottle, enemy, i) {
         return bottle.x > enemy.x &&
             bottle.x < (enemy.x + enemy.width) &&
             bottle.y > enemy.y && bottle.y < (enemy.y + enemy.height) &&
@@ -461,7 +461,7 @@ class World {
         });
     }
 
-    
+
     // if bottle hit small enemy or not => small enemy is dead
     smallEnemyCollidingBottle() {
         for (let index = 0; index < this.throwableObjects.length; index++) {
