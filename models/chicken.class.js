@@ -19,7 +19,6 @@ class Chicken extends MovableObject {
 
     chickenDeadSound = new Audio('audio/chicken_1.mp3');
 
-    arrayEnemies = [350, 750, 1500, 2260, 3500];
 
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
@@ -32,6 +31,7 @@ class Chicken extends MovableObject {
     }
 
 
+    // Chickens move left, playing "IMAGES_WALKING" animation
     animate() {
         this.chickenMoveLeftItv = setInterval(() => {
             this.moveLeft();

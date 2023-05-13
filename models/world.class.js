@@ -59,7 +59,6 @@ class World {
     }
 
 
-
     //It does distance between clouds
     setClouds() {
         this.level.clouds.forEach((cloud, i) => {
@@ -126,7 +125,7 @@ class World {
         setInterval(() => {
             this.checkThrowObjectCollision();
 
-        }, 500);
+        }, 450);
     }
 
 
@@ -264,7 +263,6 @@ class World {
     }
 
 
-
     // EndBoss is dead, statusbar to 100%, intervals cleared
     characterKillsEndboss() {
         this.character.energy = 100;
@@ -285,7 +283,7 @@ class World {
     }
 
 
-    //Game over set
+    //Game over set, sound off, game over container is visible
     gameOver() {
         document.getElementById('gameOverContainer').style.display = "flex";
         document.getElementById('gameOverContainer').classList.add('game-over');
@@ -321,7 +319,7 @@ class World {
     endBossAttack() {
         if ((this.endBoss.x) - (this.character.x + this.character.width) < 400) {
             this.endBoss.playAnimation(this.endBoss.IMAGES_ENDBOSS_ATTACK);
-            this.endBoss.x -= 8;
+            this.endBoss.x -= 10;
             if (soundOn && !this.endBossDead) {
                 this.endBoss.endBossBattleSound.play();
                 this.endBossRun();
@@ -367,7 +365,7 @@ class World {
         for (let index = 0; index < this.throwableObjects.length; index++) {
             const bottle = this.throwableObjects[index];
             this.level.enemies.forEach((enemy, i) => {
-                if (this.isBottleAndEnemyColliding(bottle, enemy,i)) {
+                if (this.isBottleAndEnemyColliding(bottle, enemy, i)) {
                     this.stopEnemiesMovingInterval(enemy);
                     enemy.playAnimation(enemy.IMAGES_DEAD_CHICKEN);
                     if (soundOn) { enemy.chickenDeadSound.play(); }

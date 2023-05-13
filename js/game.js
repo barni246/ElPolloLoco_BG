@@ -17,9 +17,9 @@ function init() {
 }
 
 
+// Starting the game: sound, animation of figure, screen checked
 function startGame() {
     gameStarted = true;
-    soundCheck();
     soundMariachi();
     initLevel();
     setTimeout(() => {
@@ -35,9 +35,9 @@ function startGame() {
 }
 
 
+// The start page doesn't load again, just the game
 function startAgain() {
     gameStarted = true;
-    soundCheck();
     soundMariachi();
     headHit = 0;
     checkFullscreenStart = false;
@@ -49,6 +49,7 @@ function startAgain() {
 }
 
 
+// The time for loadig of start page is covered
 function startStyle() {
     let startContainer = document.getElementById('startContainer');
     startContainer.classList.add('startOpacity');
@@ -56,6 +57,7 @@ function startStyle() {
 }
 
 
+// When sound of game paused, satr it playing
 function soundMariachi() {
     if (soundOn) {
         if (mariachi.paused) {
@@ -68,11 +70,13 @@ function soundMariachi() {
 }
 
 
+// Load the start page again
 function finish() {
     window.location.href = "index.html"
 }
 
 
+// Show information container
 function gameInformation() {
     document.getElementById('popUpContainer').classList.toggle('d-none');
     document.getElementById('gameInformation').classList.toggle('d-none');
@@ -80,13 +84,7 @@ function gameInformation() {
 }
 
 
-function soundCheck() {
-    setInterval(() => {
-        soundOn;
-    }, 50);
-}
-
-
+// It makes sound off and changes sound icon for off
 function doSoundOff() {
     soundOn = false;
     document.getElementById('soundOnIcon').classList.add('d-none');
@@ -94,6 +92,8 @@ function doSoundOff() {
     mariachi.pause();
 }
 
+
+// It makes sound on and changes sound icon for on
 function doSoundOn() {
     soundOn = true;
     document.getElementById('soundOnIcon').classList.remove('d-none');
@@ -104,6 +104,7 @@ function doSoundOn() {
 }
 
 
+// Keydown registration for applied keys
 window.addEventListener('keydown', (e) => {
     if (e.code == 'ArrowRight') {
         keyboard.RIGHT = true;
@@ -135,6 +136,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 
+// Keyup registration for applied keys
 window.addEventListener('keyup', (e) => {
     if (e.code == 'ArrowRight') {
         keyboard.RIGHT = false;
@@ -166,6 +168,7 @@ window.addEventListener('keyup', (e) => {
 });
 
 
+// Touchstart registration for applied keys
 document.addEventListener('touchstart', e => {
     [...e.changedTouches].forEach(touch => {
         const button = touch.target.id;
@@ -185,6 +188,7 @@ document.addEventListener('touchstart', e => {
 });
 
 
+// Touchend registration for applied keys
 document.addEventListener('touchend', e => {
     [...e.changedTouches].forEach(touch => {
         const button = touch.target.id;

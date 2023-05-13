@@ -1,9 +1,6 @@
 class MovableObject extends DrawableObject {
 
 
-
-
-
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -12,11 +9,9 @@ class MovableObject extends DrawableObject {
     percentageOfBottle = 0;
     percentageOfCoins = 0;
     lastHit = 0;
-    // headHit = 0;
 
 
-
-
+    // It moves object down
     applayGravity() {
 
         setInterval(() => {
@@ -28,6 +23,8 @@ class MovableObject extends DrawableObject {
 
     }
 
+
+    // It checks whether object is over the ground
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
@@ -37,7 +34,8 @@ class MovableObject extends DrawableObject {
 
     }
 
-    
+
+    // It checks whether two objects have collided
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
@@ -46,6 +44,7 @@ class MovableObject extends DrawableObject {
     }
 
 
+    // It reduces the energy from character
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -55,36 +54,50 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
+    /**
+     * let timepassed;
+     * The value of this variable is the time for hurt
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;// Difference in ms
         timepassed = timepassed / 1000;  // Difference in sekunden
         return timepassed < 0.5;
     }
 
+
+    // If the energy like null, character is dead
     isDead() {
         return this.energy == 0;
     }
 
 
-
-
+    /**
+     * With the help of modulo,
+     * the animation repeats itself again and again
+     * @param {*} images 
+     */
     playAnimation(images) {
-        let i = this.currentImage % images.length;  // let i = 0 % 6; Rest 0
-        // i = 0,1,2,3,4,5,0,1,2,3,4,5,0...∞
+        let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
     }
 
 
+    // The object moves right, x coordinate is increased
     moveRight() {
         this.x += this.speed;
     }
 
+
+    // The object moves left, x coordinate is reduced
     moveLeft() {
         this.x -= this.speed;
     }
 
+
+    // The object is jumping, y coordinate changes with value speedY
     jump() {
         this.speedY = 30;
     }

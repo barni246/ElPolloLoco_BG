@@ -344,9 +344,6 @@ canvas {
   animation: spin 1s linear forwards;
 }
 
-.babi {
-  color: #ffd000;
-}
 
 @-moz-keyframes spin {
 

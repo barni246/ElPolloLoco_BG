@@ -2,10 +2,11 @@ class Character extends MovableObject {
   y = 77.5;
   height = 210;
   width = 110;
-  speed = 5;
+  speed = 4;
   interval = 50;
   world;
   deadItv;
+  idleItv;
 
   characterWalking = new Audio('audio/character_walking.mp3');
 
@@ -21,7 +22,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-25.png',
     'img/2_character_pepe/2_walk/W-26.png'
-    
+
   ];
 
 
@@ -95,6 +96,7 @@ class Character extends MovableObject {
   }
 
 
+  // Settig sound of walking
   setWalkingSound() {
     this.characterWalking.volume = 0.1;
     this.characterWalking.playbackRate = 6;
@@ -102,9 +104,9 @@ class Character extends MovableObject {
   }
 
 
+  // Character moves right width sound
   characterMovingRight() {
-   
-   this.rightItv = setInterval(() => {
+    this.rightItv = setInterval(() => {
       if (this.world.keyboard.RIGHT &&
         this.x < this.world.level.level_end_x &&
         !this.isDead()) {
@@ -117,21 +119,18 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
-idleItv;
+
+  // If character doesn't move, playing "IMAGES_IDLE" animation
   characterIdle() {
-   
-        
-      if (!barni) {
-        this.idleItv = setInterval(() => {
+    if (!barni) {
+      this.idleItv = setInterval(() => {
         this.playAnimation(this.IMAGES_IDLE);
-         }, 200);
-      }
-   
-  
-   
+      }, 200);
+    }
   }
 
 
+  // Character moves right width sound
   characterMovingLeft() {
     setInterval(() => {
       if (this.world.keyboard.LEFT && this.x > 0 && !this.isDead()) {
@@ -145,6 +144,7 @@ idleItv;
   }
 
 
+  // Character jumps
   characterJumping() {
     setInterval(() => {
       if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()
@@ -155,6 +155,7 @@ idleItv;
   }
 
 
+  // Character moves left and right width camera
   keyboardDown() {
     setInterval(() => {
       if (this.world.keyboard.DOWN) {
@@ -164,6 +165,7 @@ idleItv;
   }
 
 
+  // Character is dead, playing "IMAGES_DEAD" animation, sound off
   characterDead() {
     gameStarted = false;
     this.playAnimation(this.IMAGES_DEAD);
@@ -186,6 +188,7 @@ idleItv;
   }
 
 
+  // 
   animatePlus() {
     this.deadItv = setInterval(() => {
       if (this.isDead()) {
@@ -194,11 +197,11 @@ idleItv;
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
-      }else {
-       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      } else {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
-       }
-     }
+        }
+      }
     }, this.interval);
   }
 

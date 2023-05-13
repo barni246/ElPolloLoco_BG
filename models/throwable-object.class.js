@@ -34,21 +34,19 @@ class ThrowableObject extends MovableObject {
         this.width = 50;
     }
 
-
+    // It throws bottle right, values from variable speedY and x
     throw() {
-        
-            this.soundCheckerThrowBottle();
+        this.soundCheckerThrowBottle();
         this.speedY = 35;
         this.applayGravity();
         this.throwItv = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE);
             this.x += 18;
-        }, 60); 
-            
-       
+        }, 60);
     }
 
 
+    // It throws bottle left, values from variable speedY and x
     throwLeft() {
         this.soundCheckerThrowBottle();
         this.speedY = 35;
@@ -59,7 +57,8 @@ class ThrowableObject extends MovableObject {
         }, 60);
     }
 
-    
+
+    // It plays sound of throwable object
     soundCheckerThrowBottle() {
         if (soundOn) {
             this.throwBottleSound.volume = 0.2;
